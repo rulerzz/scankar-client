@@ -1,0 +1,165 @@
+<div class="col-12 order-2 order-xxl-1">
+  <!--begin::Advance Table Widget 2-->
+  <div class="card card-custom gutter-b example example-compact">
+    <!--begin::Header-->
+    <div class="card-header">
+      <h3 class="card-title">
+        <span class="card-label font-weight-bolder text-dark">Categories & Items</span>
+        <span class="text-muted mt-3 font-weight-bold font-size-sm"></span>
+      </h3>
+      <div class="card-toolbar">
+        <button
+          type="button"
+          (click)="createCategory()"
+          class="btn btn-primary font-weight-bolder"
+          style="margin-right: 15px"
+        >
+          <i class="la la-arrows-alt"></i>Create Category
+        </button>
+
+        <button
+          type="button"
+          (click)="addItem()"
+          class="btn btn-primary font-weight-bolder"
+        >
+          <i class="la la-braille"></i>Add Item To Category
+        </button>
+      </div>
+    </div>
+
+    <!--end::Header-->
+    <!--begin::Body-->
+    <div class="card-body pt-2 pb-20 mt-n3 nell">
+      <div class="tab-content mt-5" id="myTabTables11">
+        <div class="row">
+          <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12" *ngFor="let category of categories">
+            <div
+              class="card"
+              style=" background-size: cover;background-repeat: no-repeat;"
+              [ngStyle]="{ 'background-image': 'url(' + category.image + ')' }"
+              
+            >
+            <button (click)="deleteCategory(category)" class="del btn btn-warn" style="position: absolute;
+    top: 0px;
+    right: 0px;
+    height: 40px;
+    width: 40px;
+    color: #fff;
+    padding: 10px;
+    z-index: 10;"><i class="fas fa-trash"></i></button>
+              <div
+              (click)="toggle(category)"
+                class="overlay"
+                style="
+                  transition: 1s;
+                  background-color: black;
+                  opacity: 0.8;
+                  height: 100%;
+                  width: 100%;
+                  z-index:5;
+                "
+              >
+                <span
+                  style="
+                    color: #fff;
+                    font-weight: 600;
+                    font-size: 25px;
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                  "
+                  >{{ category.name }}</span
+                >
+                
+              </div>
+            </div>
+          </div>
+          <ng-lottie *ngIf="categories.length == 0" height="100%" width="100%" [options]="options2" (animationCreated)="animationCreated($event)" style="width:100%"></ng-lottie>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div
+  id="kt_quick_cart"
+  class="offcanvas offcanvas-right p-10 offcanvas-on"
+  *ngIf="itemtoggle"
+>
+  <!--begin::Header-->
+  <div
+    class="offcanvas-header d-flex align-items-center justify-content-between pb-7"
+    kt-hidden-height="46"
+  >
+    <h4 class="font-weight-bold m-0">Items for {{ selected.name }}</h4>
+    <a
+      (click)="close()"
+      class="btn btn-xs btn-icon btn-light btn-hover-primary"
+      id="kt_quick_cart_close"
+    >
+      <i class="ki ki-close icon-xs text-muted"></i>
+    </a>
+  </div>
+  <!--end::Header-->
+  <!--begin::Content-->
+  <div class="offcanvas-content">
+    <!--begin::Wrapper-->
+    <div
+      class="offcanvas-wrapper mb-5 scroll-pull scroll ps ps--active-y"
+      style="height: 500px; overflow: auto !important"
+    >
+      <div
+        class="d-flex align-items-center justify-content-between"
+        *ngFor="let item of selected.items"
+      >
+        <div class="d-flex flex-column mr-2 py-8">
+          <a
+            class="font-weight-bold text-dark-75 font-size-lg text-hover-primary"
+            >{{ item.name }}</a
+          >
+          <span class="text-muted">{{item.createdAt | date:'medium'}}</span>
+          <div class="d-flex align-items-center mt-2">
+            <span class="font-weight-bold mr-1 text-dark-75 font-size-lg"
+              ><i class="fas fa-inr"></i>{{ item.price }}</span
+            >
+            <span class="text-muted mr-1">initial price</span>
+            </div>
+            <div class="container-fluid p-0" style="margin-top:10px;" >
+              <div *ngFor="let con of item.config" >
+               <span class="text-muted mr-1">Configuration</span>
+              <span class="font-weight-bold mr-1 text-dark-75 font-size-lg"
+                >{{ con.name }}</span
+              >
+              <span class="text-muted mr-1">for</span>
+              <span class="font-weight-bold mr-2 text-dark-75 font-size-lg"
+                > <i class="fas fa-inr"></i>{{con.price}}</span
+              >
+            </div>
+            </div>
+             <div class="container-fluid p-0" style="margin-top:10px;">
+              <div  *ngFor="let con of item.addons">
+                <span class="text-muted mr-1">Addons</span>
+              <span class="font-weight-bold mr-1 text-dark-75 font-size-lg"
+                >{{ con.name }}</span
+              >
+              <span class="text-muted mr-1">for</span>
+              <span class="font-weight-bold mr-2 text-dark-75 font-size-lg"
+                > <i class="fas fa-inr"></i>{{con.price}}</span
+              >
+            </div>
+            </div>
+            <div class="container-fluid p-0" style="margin-top:10px;">
+             <button class="btn btn-primary btn-xs" style="width:50px;" (click)="updateItem(item)"><i class="fas fa-pen"></i></button>
+         <button class="btn btn-warning btn-xs" style="margin-left:15px;width:50px;" (click)="delete(item)"><i class="fa fa-trash"></i></button>
+         </div>
+        </div>
+        <a class="symbol symbol-70 flex-shrink-0">
+          <img [src]="item.image" title="" alt="" />
+        </a>
+       
+      </div>
+      <ng-lottie *ngIf="showaimation" height="500" width="100%" [options]="options" (animationCreated)="animationCreated($event)"></ng-lottie>
+    </div>
+    <!--end::Content-->
+  </div>
+</div>

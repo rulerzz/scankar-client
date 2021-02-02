@@ -1,0 +1,19 @@
+.tables button{
+    width: 100%;
+    height: 50px;
+    margin-bottom: 20px;
+}
+.open{
+    background:green;
+}
+.close{
+    background: red;
+}
+.anchor{
+    text-decoration: underline;
+    font-style: italic;
+    color:blue;
+}
+.anchor:hover{
+    cursor: pointer;
+}

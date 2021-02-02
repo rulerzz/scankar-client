@@ -1,0 +1,10 @@
+<span class="font-weight-bolder text-dark" style="font-size: 20px;
+    margin-bottom: 20px;
+    display: block;">Addons List</span>
+<div class="flex-grow-1 mt-1 mr-2" *ngFor="let item of data">
+  <!--begin::Title-->
+  <div class="mr-2">Item : {{item.name}} | Price : <i class="fas fa-inr"></i> &nbsp;<span class="font-weight-bolder">{{item.price}}</span></div>
+</div>
+<div class="card-footer p-0" style="margin-top:10px;" >
+  <button type="reset" class="btn btn-secondary"style="display:block;width:100%;" (click)="onNoClick()">Close</button>
+ </div>

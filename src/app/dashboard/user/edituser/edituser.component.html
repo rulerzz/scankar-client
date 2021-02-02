@@ -1,0 +1,413 @@
+<div class="form p-0" id="form">
+  <span class="font-weight-bolder text-dark" style="font-size: 20px;
+    margin-bottom: 20px;
+    display: block;">Edit User</span>
+ <div class="card-body p-0">
+  <div class="form-group">
+   <label>First Name:</label>
+   <input type="text" [(ngModel)]="data.firstName" class="form-control form-control-solid" placeholder="Enter first name" name="firstname"/>
+   <span class="form-text text-muted">Please enter your first name</span>
+  </div>
+   <div class="form-group">
+   <label>Last Name:</label>
+   <input type="text" [(ngModel)]="data.lastName" class="form-control form-control-solid" placeholder="Enter last name" name="lastname"/>
+   <span class="form-text text-muted">Please enter your last name</span>
+  </div>
+  <div class="form-group">
+   <label>Email address:</label>
+   <input type="email" [(ngModel)]="data.email" class="form-control form-control-solid" placeholder="Enter email" name="email"/>
+   <span class="form-text text-muted">We'll never share your email with anyone else</span>
+  </div>
+    <div class="form-group">
+   <label>Mobile:</label>
+   <input type="text" [(ngModel)]="data.mobileNumber" class="form-control form-control-solid" placeholder="Enter your mobile number" name="phone"/>
+   <span class="form-text text-muted">Please enter your mobile number</span>
+  </div>
+   <div class="form-group">
+   <label>Company Name:</label>
+   <input type="text" [(ngModel)]="data.companyName" class="form-control form-control-solid" placeholder="Enter company name" name="companyname"/>
+   <span class="form-text text-muted">Please enter company name</span>
+  </div>
+   <div class="form-group">
+   <label>Password:</label>
+   <input type="password" [(ngModel)]="data.password" class="form-control form-control-solid" placeholder="Passwords aren't displayed by default" name="password"/>
+   <span class="form-text text-muted">If you enter password it will be updated, if you don't it will not!</span>
+  </div>
+  <div class="form-group">
+   <label>GSTIN:</label>
+   <input required type="text" [(ngModel)]="data.gstin" class="form-control form-control-solid" placeholder="Enter GSTIN no" name="gstin"/>
+   <span class="form-text text-muted">Please enter GSTIN no</span>
+  </div>  
+  <div class="form-group">
+   <label>CGST %:</label>
+   <input required type="number" [(ngModel)]="data.cgst" class="form-control form-control-solid" placeholder="Enter CGST Charge %" name="cgst"/>
+   <span class="form-text text-muted">Please enter CGST %</span>
+  </div>
+  <div class="form-group">
+   <label>SGST %:</label>
+   <input required type="number" [(ngModel)]="data.sgst" class="form-control form-control-solid" placeholder="Enter SGST Charge %" name="sgst"/>
+   <span class="form-text text-muted">Please enter SGST %</span>
+  </div>
+  <div class="form-group">
+   <label>Service Charge %:</label>
+   <input required type="number" [(ngModel)]="data.servicecharge" class="form-control form-control-solid" placeholder="Enter service charge %" name="servicecharge"/>
+   <span class="form-text text-muted">Please enter service charge %</span>
+  </div>
+  <div class="form-group">
+  <label>Enable CGST</label>
+   <span class="switch switch-outline switch-icon switch-info">
+    <label>
+     <input required type="checkbox" name="enablecgst" [(ngModel)]="data.enablecgst"/>
+     <span></span>
+    </label>
+   </span>
+  </div>
+  <div class="form-group">
+  <label>Enable SGST</label>
+   <span class="switch switch-outline switch-icon switch-info">
+    <label>
+     <input required type="checkbox" name="enablesgst" [(ngModel)]="data.enablesgst"/>
+     <span></span>
+    </label>
+   </span>
+  </div>
+  <div class="form-group">
+  <label>Add Service Charge</label>
+   <span class="switch switch-outline switch-icon switch-info">
+    <label>
+     <input required type="checkbox" name="servicechargeenable" [(ngModel)]="data.servicechargeenable"/>
+     <span></span>
+    </label>
+   </span>
+  </div>
+   <div class="form-group">
+   <label>Country:</label>
+   <select class="form-control" name="country" [(ngModel)]="data.country">
+																	<option [selected]="data.country === 'AF'" value="AF">Afghanistan</option>
+																	<option [selected]="data.country === 'AX'" value="AX">Åland Islands</option>
+																	<option [selected]="data.country === 'AL'" value="AL">Albania</option>
+																	<option [selected]="data.country === 'DZ'" value="DZ">Algeria</option>
+																	<option [selected]="data.country === 'AS'" value="AS">American Samoa</option>
+																	<option [selected]="data.country === 'AD'" value="AD">Andorra</option>
+																	<option [selected]="data.country === 'AO'" value="AO">Angola</option>
+																	<option [selected]="data.country === 'AI'" value="AI">Anguilla</option>
+																	<option [selected]="data.country === 'AQ'" value="AQ">Antarctica</option>
+																	<option [selected]="data.country === 'AG'" value="AG">Antigua and Barbuda</option>
+																	<option [selected]="data.country === 'AR'" value="AR">Argentina</option>
+																	<option [selected]="data.country === 'AM'" value="AM">Armenia</option>
+																	<option [selected]="data.country === 'AW'" value="AW">Aruba</option>
+																	<option [selected]="data.country === 'AU'" value="AU">Australia</option>
+																	<option [selected]="data.country === 'AT'" value="AT">Austria</option>
+																	<option [selected]="data.country === 'AZ'" value="AZ">Azerbaijan</option>
+																	<option [selected]="data.country === 'BS'" value="BS">Bahamas</option>
+																	<option [selected]="data.country === 'BH'" value="BH">Bahrain</option>
+																	<option [selected]="data.country === 'BD'" value="BD">Bangladesh</option>
+																	<option [selected]="data.country === 'BB'" value="BB">Barbados</option>
+																	<option [selected]="data.country === 'BY'" value="BY">Belarus</option>
+																	<option [selected]="data.country === 'BE'" value="BE">Belgium</option>
+																	<option [selected]="data.country === 'BZ'" value="BZ">Belize</option>
+																	<option [selected]="data.country === 'BJ'" value="BJ">Benin</option>
+																	<option [selected]="data.country === 'BM'" value="BM">Bermuda</option>
+																	<option [selected]="data.country === 'BT'" value="BT">Bhutan</option>
+																	<option [selected]="data.country === 'BO'" value="BO">Bolivia, Plurinational State of</option>
+																	<option [selected]="data.country === 'BQ'" value="BQ">Bonaire, Sint Eustatius and Saba</option>
+																	<option [selected]="data.country === 'BA'" value="BA">Bosnia and Herzegovina</option>
+																	<option [selected]="data.country === 'BW'" value="BW">Botswana</option>
+																	<option [selected]="data.country === 'BV'" value="BV">Bouvet Island</option>
+																	<option [selected]="data.country === 'BR'" value="BR">Brazil</option>
+																	<option [selected]="data.country === 'IO'" value="IO">British Indian Ocean Territory</option>
+																	<option [selected]="data.country === 'BN'" value="BN">Brunei Darussalam</option>
+																	<option [selected]="data.country === 'BG'" value="BG">Bulgaria</option>
+																	<option [selected]="data.country === 'BF'" value="BF">Burkina Faso</option>
+																	<option [selected]="data.country === 'BI'" value="BI">Burundi</option>
+																	<option [selected]="data.country === 'KH'" value="KH">Cambodia</option>
+																	<option [selected]="data.country === 'CM'" value="CM">Cameroon</option>
+																	<option [selected]="data.country === 'CA'" value="CA">Canada</option>
+																	<option [selected]="data.country === 'CV'" value="CV">Cape Verde</option>
+																	<option [selected]="data.country === 'KY'" value="KY">Cayman Islands</option>
+																	<option [selected]="data.country === 'CF'" value="CF">Central African Republic</option>
+																	<option [selected]="data.country === 'TD'" value="TD">Chad</option>
+																	<option [selected]="data.country === 'CL'" value="CL">Chile</option>
+																	<option [selected]="data.country === 'CN'" value="CN">China</option>
+																	<option [selected]="data.country === 'CX'" value="CX">Christmas Island</option>
+																	<option [selected]="data.country === 'CC'" value="CC">Cocos (Keeling) Islands</option>
+																	<option [selected]="data.country === 'CO'" value="CO">Colombia</option>
+																	<option [selected]="data.country === 'KM'" value="KM">Comoros</option>
+																	<option [selected]="data.country === 'CG'" value="CG">Congo</option>
+																	<option [selected]="data.country === 'CD'" value="CD">Congo, the Democratic Republic of the</option>
+																	<option [selected]="data.country === 'CK'" value="CK">Cook Islands</option>
+																	<option [selected]="data.country === 'CR'" value="CR">Costa Rica</option>
+																	<option [selected]="data.country === 'CI'" value="CI">Côte d'Ivoire</option>
+																	<option [selected]="data.country === 'HR'" value="HR">Croatia</option>
+																	<option [selected]="data.country === 'CU'" value="CU">Cuba</option>
+																	<option [selected]="data.country === 'CW'" value="CW">Curaçao</option>
+																	<option [selected]="data.country === 'CY'" value="CY">Cyprus</option>
+																	<option [selected]="data.country === 'CZ'" value="CZ">Czech Republic</option>
+																	<option [selected]="data.country === 'DK'" value="DK">Denmark</option>
+																	<option [selected]="data.country === 'DJ'" value="DJ">Djibouti</option>
+																	<option [selected]="data.country === 'DM'" value="DM">Dominica</option>
+																	<option [selected]="data.country === 'DO'" value="DO">Dominican Republic</option>
+																	<option [selected]="data.country === 'EC'" value="EC">Ecuador</option>
+																	<option [selected]="data.country === 'EG'" value="EG">Egypt</option>
+																	<option [selected]="data.country === 'SV'" value="SV">El Salvador</option>
+																	<option [selected]="data.country === 'GQ'" value="GQ">Equatorial Guinea</option>
+																	<option [selected]="data.country === 'ER'" value="ER">Eritrea</option>
+																	<option [selected]="data.country === 'EE'" value="EE">Estonia</option>
+																	<option [selected]="data.country === 'ET'" value="ET">Ethiopia</option>
+																	<option [selected]="data.country === 'FK'" value="FK">Falkland Islands (Malvinas)</option>
+																	<option [selected]="data.country === 'FO'" value="FO">Faroe Islands</option>
+																	<option [selected]="data.country === 'FJ'" value="FJ">Fiji</option>
+																	<option [selected]="data.country === 'FI'" value="FI">Finland</option>
+																	<option [selected]="data.country === 'FR'" value="FR">France</option>
+																	<option [selected]="data.country === 'GF'" value="GF">French Guiana</option>
+																	<option [selected]="data.country === 'PF'" value="PF">French Polynesia</option>
+																	<option [selected]="data.country === 'TF'" value="TF">French Southern Territories</option>
+																	<option [selected]="data.country === 'GA'" value="GA">Gabon</option>
+																	<option [selected]="data.country === 'GM'" value="GM">Gambia</option>
+																	<option [selected]="data.country === 'GE'" value="GE">Georgia</option>
+																	<option [selected]="data.country === 'DE'" value="DE">Germany</option>
+																	<option [selected]="data.country === 'GH'" value="GH">Ghana</option>
+																	<option [selected]="data.country === 'GI'" value="GI">Gibraltar</option>
+																	<option [selected]="data.country === 'GR'" value="GR">Greece</option>
+																	<option [selected]="data.country === 'GL'" value="GL">Greenland</option>
+																	<option [selected]="data.country === 'GD'" value="GD">Grenada</option>
+																	<option [selected]="data.country === 'GP'" value="GP">Guadeloupe</option>
+																	<option [selected]="data.country === 'GU'" value="GU">Guam</option>
+																	<option [selected]="data.country === 'GT'" value="GT">Guatemala</option>
+																	<option [selected]="data.country === 'GG'" value="GG">Guernsey</option>
+																	<option [selected]="data.country === 'GN'" value="GN">Guinea</option>
+																	<option [selected]="data.country === 'GW'" value="GW">Guinea-Bissau</option>
+																	<option [selected]="data.country === 'GY'" value="GY">Guyana</option>
+																	<option [selected]="data.country === 'HT'" value="HT">Haiti</option>
+																	<option [selected]="data.country === 'HM'" value="HM">Heard Island and McDonald Islands</option>
+																	<option [selected]="data.country === 'VA'" value="VA">Holy See (Vatican City State)</option>
+																	<option [selected]="data.country === 'HN'" value="HN">Honduras</option>
+																	<option [selected]="data.country === 'HK'" value="HK">Hong Kong</option>
+																	<option [selected]="data.country === 'HU'" value="HU">Hungary</option>
+																	<option [selected]="data.country === 'IS'" value="IS">Iceland</option>
+																	<option [selected]="data.country === 'IN'" value="IN">India</option>
+																	<option [selected]="data.country === 'ID'" value="ID">Indonesia</option>
+																	<option [selected]="data.country === 'IR'" value="IR">Iran, Islamic Republic of</option>
+																	<option [selected]="data.country === 'IQ'" value="IQ">Iraq</option>
+																	<option [selected]="data.country === 'IE'" value="IE">Ireland</option>
+																	<option [selected]="data.country === 'IM'" value="IM">Isle of Man</option>
+																	<option [selected]="data.country === 'IL'" value="IL">Israel</option>
+																	<option [selected]="data.country === 'IT'" value="IT">Italy</option>
+																	<option [selected]="data.country === 'JM'" value="JM">Jamaica</option>
+																	<option [selected]="data.country === 'JP'" value="JP">Japan</option>
+																	<option [selected]="data.country === 'JE'" value="JE">Jersey</option>
+																	<option [selected]="data.country === 'JO'" value="JO">Jordan</option>
+																	<option [selected]="data.country === 'KZ'" value="KZ">Kazakhstan</option>
+																	<option [selected]="data.country === 'KE'" value="KE">Kenya</option>
+																	<option [selected]="data.country === 'KI'" value="KI">Kiribati</option>
+																	<option [selected]="data.country === 'KP'" value="KP">Korea, Democratic People's Republic of</option>
+																	<option [selected]="data.country === 'KR'" value="KR">Korea, Republic of</option>
+																	<option [selected]="data.country === 'KW'" value="KW">Kuwait</option>
+																	<option [selected]="data.country === 'KG'" value="KG">Kyrgyzstan</option>
+																	<option [selected]="data.country === 'LA'" value="LA">Lao People's Democratic Republic</option>
+																	<option [selected]="data.country === 'LV'" value="LV">Latvia</option>
+																	<option [selected]="data.country === 'LB'" value="LB">Lebanon</option>
+																	<option [selected]="data.country === 'LS'" value="LS">Lesotho</option>
+																	<option [selected]="data.country === 'LR'" value="LR">Liberia</option>
+																	<option [selected]="data.country === 'LY'" value="LY">Libya</option>
+																	<option [selected]="data.country === 'LI'" value="LI">Liechtenstein</option>
+																	<option [selected]="data.country === 'LT'" value="LT">Lithuania</option>
+																	<option [selected]="data.country === 'LU'" value="LU">Luxembourg</option>
+																	<option [selected]="data.country === 'MO'" value="MO">Macao</option>
+																	<option [selected]="data.country === 'MK'" value="MK">Macedonia, the former Yugoslav Republic of</option>
+																	<option [selected]="data.country === 'MG'" value="MG">Madagascar</option>
+																	<option [selected]="data.country === 'MW'" value="MW">Malawi</option>
+																	<option [selected]="data.country === 'MY'" value="MY">Malaysia</option>
+																	<option [selected]="data.country === 'MV'" value="MV">Maldives</option>
+																	<option [selected]="data.country === 'ML'" value="ML">Mali</option>
+																	<option [selected]="data.country === 'MT'" value="MT">Malta</option>
+																	<option [selected]="data.country === 'MH'" value="MH">Marshall Islands</option>
+																	<option [selected]="data.country === 'MQ'" value="MQ">Martinique</option>
+																	<option [selected]="data.country === 'MR'" value="MR">Mauritania</option>
+																	<option [selected]="data.country === 'MU'" value="MU">Mauritius</option>
+																	<option [selected]="data.country === 'YT'" value="YT">Mayotte</option>
+																	<option [selected]="data.country === 'MX'" value="MX">Mexico</option>
+																	<option [selected]="data.country === 'FM'" value="FM">Micronesia, Federated States of</option>
+																	<option [selected]="data.country === 'MD'" value="MD">Moldova, Republic of</option>
+																	<option [selected]="data.country === 'MC'" value="MC">Monaco</option>
+																	<option [selected]="data.country === 'MN'" value="MN">Mongolia</option>
+																	<option [selected]="data.country === 'ME'" value="ME">Montenegro</option>
+																	<option [selected]="data.country === 'MS'" value="MS">Montserrat</option>
+																	<option [selected]="data.country === 'MA'" value="MA">Morocco</option>
+																	<option [selected]="data.country === 'MZ'" value="MZ">Mozambique</option>
+																	<option [selected]="data.country === 'MM'" value="MM">Myanmar</option>
+																	<option [selected]="data.country === 'NA'" value="NA">Namibia</option>
+																	<option [selected]="data.country === 'NR'" value="NR">Nauru</option>
+																	<option [selected]="data.country === 'NP'" value="NP">Nepal</option>
+																	<option [selected]="data.country === 'NL'" value="NL">Netherlands</option>
+																	<option [selected]="data.country === 'NC'" value="NC">New Caledonia</option>
+																	<option [selected]="data.country === 'NZ'" value="NZ">New Zealand</option>
+																	<option [selected]="data.country === 'NI'" value="NI">Nicaragua</option>
+																	<option [selected]="data.country === 'NE'" value="NE">Niger</option>
+																	<option [selected]="data.country === 'NG'" value="NG">Nigeria</option>
+																	<option [selected]="data.country === 'NU'" value="NU">Niue</option>
+																	<option [selected]="data.country === 'NF'" value="NF">Norfolk Island</option>
+																	<option [selected]="data.country === 'MP'" value="MP">Northern Mariana Islands</option>
+																	<option [selected]="data.country === 'NO'" value="NO">Norway</option>
+																	<option [selected]="data.country === 'OM'" value="OM">Oman</option>
+																	<option [selected]="data.country === 'PK'" value="PK">Pakistan</option>
+																	<option [selected]="data.country === 'PW'" value="PW">Palau</option>
+																	<option [selected]="data.country === 'PS'" value="PS">Palestinian Territory, Occupied</option>
+																	<option [selected]="data.country === 'PA'" value="PA">Panama</option>
+																	<option [selected]="data.country === 'PG'" value="PG">Papua New Guinea</option>
+																	<option [selected]="data.country === 'PY'" value="PY">Paraguay</option>
+																	<option [selected]="data.country === 'PE'" value="PE">Peru</option>
+																	<option [selected]="data.country === 'PH'" value="PH">Philippines</option>
+																	<option [selected]="data.country === 'PN'" value="PN">Pitcairn</option>
+																	<option [selected]="data.country === 'PO'" value="PL">Poland</option>
+																	<option [selected]="data.country === 'PT'" value="PT">Portugal</option>
+																	<option [selected]="data.country === 'PR'" value="PR">Puerto Rico</option>
+																	<option [selected]="data.country === 'QA'" value="QA">Qatar</option>
+																	<option [selected]="data.country === 'RE'" value="RE">Réunion</option>
+																	<option [selected]="data.country === 'RO'" value="RO">Romania</option>
+																	<option [selected]="data.country === 'RU'" value="RU">Russian Federation</option>
+																	<option [selected]="data.country === 'RW'" value="RW">Rwanda</option>
+																	<option [selected]="data.country === 'BL'" value="BL">Saint Barthélemy</option>
+																	<option [selected]="data.country === 'SH'" value="SH">Saint Helena, Ascension and Tristan da Cunha</option>
+																	<option [selected]="data.country === 'KN'" value="KN">Saint Kitts and Nevis</option>
+																	<option [selected]="data.country === 'LC'" value="LC">Saint Lucia</option>
+																	<option [selected]="data.country === 'MF'" value="MF">Saint Martin (French part)</option>
+																	<option [selected]="data.country === 'PM'" value="PM">Saint Pierre and Miquelon</option>
+																	<option [selected]="data.country === 'VC'" value="VC">Saint Vincent and the Grenadines</option>
+																	<option [selected]="data.country === 'WS'" value="WS">Samoa</option>
+																	<option [selected]="data.country === 'SM'" value="SM">San Marino</option>
+																	<option [selected]="data.country === 'ST'" value="ST">Sao Tome and Principe</option>
+																	<option [selected]="data.country === 'SA'" value="SA">Saudi Arabia</option>
+																	<option [selected]="data.country === 'SN'" value="SN">Senegal</option>
+																	<option [selected]="data.country === 'RS'" value="RS">Serbia</option>
+																	<option [selected]="data.country === 'SC'" value="SC">Seychelles</option>
+																	<option [selected]="data.country === 'SL'" value="SL">Sierra Leone</option>
+																	<option [selected]="data.country === 'SG'" value="SG">Singapore</option>
+																	<option [selected]="data.country === 'SX'" value="SX">Sint Maarten (Dutch part)</option>
+																	<option [selected]="data.country === 'SK'" value="SK">Slovakia</option>
+																	<option [selected]="data.country === 'SI'" value="SI">Slovenia</option>
+																	<option [selected]="data.country === 'SB'" value="SB">Solomon Islands</option>
+																	<option [selected]="data.country === 'SO'" value="SO">Somalia</option>
+																	<option [selected]="data.country === 'ZA'" value="ZA">South Africa</option>
+																	<option [selected]="data.country === 'GS'" value="GS">South Georgia and the South Sandwich Islands</option>
+																	<option [selected]="data.country === 'SS'" value="SS">South Sudan</option>
+																	<option [selected]="data.country === 'ES'" value="ES">Spain</option>
+																	<option [selected]="data.country === 'LK'" value="LK">Sri Lanka</option>
+																	<option [selected]="data.country === 'SD'" value="SD">Sudan</option>
+																	<option [selected]="data.country === 'SR'" value="SR">Suriname</option>
+																	<option [selected]="data.country === 'SJ'" value="SJ">Svalbard and Jan Mayen</option>
+																	<option [selected]="data.country === 'SZ'" value="SZ">Swaziland</option>
+																	<option [selected]="data.country === 'SE'" value="SE">Sweden</option>
+																	<option [selected]="data.country === 'CH'" value="CH">Switzerland</option>
+																	<option [selected]="data.country === 'SY'" value="SY">Syrian Arab Republic</option>
+																	<option [selected]="data.country === 'TW'" value="TW">Taiwan, Province of China</option>
+																	<option [selected]="data.country === 'TJ'" value="TJ">Tajikistan</option>
+																	<option [selected]="data.country === 'TZ'" value="TZ">Tanzania, United Republic of</option>
+																	<option [selected]="data.country === 'TH'" value="TH">Thailand</option>
+																	<option [selected]="data.country === 'TL'" value="TL">Timor-Leste</option>
+																	<option [selected]="data.country === 'TG'" value="TG">Togo</option>
+																	<option [selected]="data.country === 'TK'" value="TK">Tokelau</option>
+																	<option [selected]="data.country === 'TO'" value="TO">Tonga</option>
+																	<option [selected]="data.country === 'TT'" value="TT">Trinidad and Tobago</option>
+																	<option [selected]="data.country === 'TN'" value="TN">Tunisia</option>
+																	<option [selected]="data.country === 'TR'" value="TR">Turkey</option>
+																	<option [selected]="data.country === 'TM'" value="TM">Turkmenistan</option>
+																	<option [selected]="data.country === 'TC'" value="TC">Turks and Caicos Islands</option>
+																	<option [selected]="data.country === 'TV'" value="TV">Tuvalu</option>
+																	<option [selected]="data.country === 'UG'" value="UG">Uganda</option>
+																	<option [selected]="data.country === 'UA'" value="UA">Ukraine</option>
+																	<option [selected]="data.country === 'AE'" value="AE">United Arab Emirates</option>
+																	<option [selected]="data.country === 'GB'" value="GB">United Kingdom</option>
+																	<option [selected]="data.country === 'US'" value="US" selected="selected">United States</option>
+																	<option [selected]="data.country === 'UM'" value="UM">United States Minor Outlying Islands</option>
+																	<option [selected]="data.country === 'UY'" value="UY">Uruguay</option>
+																	<option [selected]="data.country === 'UZ'" value="UZ">Uzbekistan</option>
+																	<option [selected]="data.country === 'VU'" value="VU">Vanuatu</option>
+																	<option [selected]="data.country === 'VE'" value="VE">Venezuela, Bolivarian Republic of</option>
+																	<option [selected]="data.country === 'VN'" value="VN">Viet Nam</option>
+																	<option [selected]="data.country === 'VG'" value="VG">Virgin Islands, British</option>
+																	<option [selected]="data.country === 'VI'" value="VI">Virgin Islands, U.S.</option>
+																	<option [selected]="data.country === 'WF'" value="WF">Wallis and Futuna</option>
+																	<option [selected]="data.country === 'EH'" value="EH">Western Sahara</option>
+																	<option [selected]="data.country === 'YE'" value="YE">Yemen</option>
+																	<option [selected]="data.country === 'ZM'" value="ZM">Zambia</option>
+																	<option [selected]="data.country === 'ZW'" value="ZW">Zimbabwe</option>
+																</select>
+   <span class="form-text text-muted">Please select your country</span>
+  </div>
+   <div class="form-group">
+   <label>Address 1:</label>
+   <input required type="text" [(ngModel)]="data.address1" class="form-control form-control-solid" placeholder="Address Line 1"  name="address1"/>
+   <span class="form-text text-muted">Please enter address line 1</span>
+  </div>
+   <div class="form-group">
+   <label>Address 2:</label>
+   <input required type="text" [(ngModel)]="data.address2" class="form-control form-control-solid" placeholder="Address Line 2"  name="address2"/>
+   <span class="form-text text-muted">Please enter address line 2</span>
+  </div>
+   <div class="form-group">
+   <label>State:</label>
+   <input required type="text" [(ngModel)]="data.state" class="form-control form-control-solid" placeholder="State / Province"   name="state"/>
+   <span class="form-text text-muted">Please enter state / province</span>
+  </div>
+   <div class="form-group">
+   <label>City:</label>
+   <input required type="text" [(ngModel)]="data.city" class="form-control form-control-solid" placeholder="City"  name="city"/>
+   <span class="form-text text-muted">Please enter city name</span>
+  </div>
+   <div class="form-group">
+   <label>Zip:</label>
+   <input required type="text" [(ngModel)]="data.zip" class="form-control form-control-solid" placeholder="PIN / ZIP Code" name="zip"/>
+   <span class="form-text text-muted">Please enter PIN / ZIP Code</span>
+  </div>
+  <div class="form-group">
+   <label>Owner Type:</label>
+   <div class="checkbox-inline">
+    <label class="radio">
+     <input type="radio" name="type" value="returantowner" [(ngModel)]="data.ownerType"/>
+     <span></span>
+      &nbsp;Restaurant owner
+    </label>&nbsp;&nbsp;
+    <label class="radio">
+     <input type="radio" name="type" value="hotelowner" [(ngModel)]="data.ownerType"/>
+     <span></span>
+      &nbsp;Hotel owner
+    </label>
+   </div>
+  </div>
+  <div class="form-group">
+   <label>Status:</label>
+   <div class="checkbox-inline">
+    <label class="radio">
+     <input type="radio" name="status" value="Active" [(ngModel)]="data.status"/>
+     <span></span>
+      &nbsp;Active
+    </label>&nbsp;&nbsp;
+    <label class="radio">
+     <input type="radio" name="status" value="InActive"[(ngModel)]="data.status" />
+     <span></span>
+      &nbsp;Inactive
+    </label>
+   </div>
+  </div>
+   <div class="form-group">
+   <label>Role:</label>
+   <div class="radio-inline">
+    <label class="radio">
+     <input type="radio" name="role" value="admin" [(ngModel)]="data.role"/>
+     <span></span>
+     Admin
+    </label>
+    <label class="radio">
+     <input type="radio" name="role" value="user" [(ngModel)]="data.role"/>
+     <span></span>
+     User
+    </label>
+   </div>
+  </div>
+ </div>
+ <div class="card-footer p-0" >
+  <button type="reset" class="btn btn-primary mr-2" style="display:block;width:100%;margin-bottom:15px" (click)="update()">Update</button>
+  <button type="reset" class="btn btn-secondary"style="display:block;width:100%;" (click)="onNoClick()">Revert</button>
+ </div>
+</div>

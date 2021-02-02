@@ -1,0 +1,107 @@
+<div
+  class="offcanvas-header d-flex align-items-center justify-content-between pb-7"
+  kt-hidden-height="46"
+>
+  <h4 class="font-weight-bold m-0">Items for {{ data.category.name }}</h4>
+  <a
+    (click)="close()"
+    class="btn btn-xs btn-icon btn-light btn-hover-primary"
+    id="kt_quick_cart_close"
+  >
+    <i class="ki ki-close icon-xs text-muted"></i>
+  </a>
+</div>
+<!--end::Header-->
+<!--begin::Content-->
+<div class="offcanvas-content">
+  <!--begin::Wrapper-->
+  <div class="offcanvas-wrapper mb-5 scroll-pull scroll ps ps--active-y">
+    <div
+      class="d-flex align-items-center justify-content-between"
+      *ngFor="let item of data.category.items; let i = index"
+    >
+      <div
+        class="d-flex flex-column py-8"
+        style="width:100%"
+      >
+        <a
+          class="font-weight-bold text-dark-75 font-size-lg text-hover-primary"
+          >{{ item.name }}</a
+        >
+        <div class="quantity">
+          <a
+            (click)="decrease(item)"
+            class="btn btn-xs btn-light-success btn-icon mr-2"
+          >
+            <i class="ki ki-minus icon-xs"></i>
+          </a>
+          <span class="mr-2 font-weight-bolder"
+            ><input
+              type="number"
+              class="form-control"
+              style="width: 66px; display: inline; margin-right: 5px"
+              name="quantity{{ i }}"
+              [(ngModel)]="item.quantity"
+          /></span>
+          <a
+            (click)="increase(item)"
+            class="btn btn-xs btn-light-success btn-icon mr-2"
+          >
+            <i class="ki ki-plus icon-xs"></i>
+          </a>
+        </div>
+        <div class="d-flex align-items-center mt-2">
+          <span class="font-weight-bold mr-1 text-dark-75 font-size-lg"
+            ><i class="fas fa-inr"></i>{{ item.price }}</span
+          >
+          <span class="text-muted mr-1">initial price</span>
+        </div>
+        <div class="container p-0" style="margin-top:10px;">
+          <div class="row">
+            <div class="col-6">
+              <span class="text-muted mr-1">Configuration</span>
+              <div *ngFor="let con of item.config;let e = index">
+                <input type="checkbox" class="check" name="config{{e}}" [(ngModel)]="con.selected"/>
+                <span class="font-weight-bold mr-1 text-dark-75 font-size-lg">{{
+                  con.name
+                }}</span>
+                <span class="font-weight-bold mr-2 text-dark-75 font-size-lg">
+                  <i class="fas fa-inr"></i>{{ con.price }}</span
+                >
+              </div>
+            </div>
+            <div class="col-6">
+              <span class="text-muted mr-1">Addons</span>
+
+              <div *ngFor="let con of item.addons;let f = index">
+                <input type="checkbox" class="check" name="addon{{f}}" [(ngModel)]="con.selected" />
+                <span class="font-weight-bold mr-1 text-dark-75 font-size-lg">{{
+                  con.name
+                }}</span>
+                <span class="font-weight-bold mr-2 text-dark-75 font-size-lg">
+                  <i class="fas fa-inr"></i>{{ con.price }}</span
+                >
+              </div>
+            </div>
+          </div>
+          <button
+          class="btn btn-primary"
+          style="width: 100%;margin-top:10px;"
+          [disabled]="item.quantity == 0"
+          (click)="additemtocart(item)"
+        >
+          Add Item
+        </button>
+        </div>
+      </div>
+    </div>
+    <ng-lottie
+      *ngIf="data.category.items == 0"
+      height="500"
+      width="100%"
+      [options]="options"
+      (animationCreated)="animationCreated($event)"
+    ></ng-lottie>
+  </div>
+  <!--end::Content-->
+</div>

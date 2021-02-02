@@ -1,0 +1,158 @@
+<div class="row">
+  <div class="col-md-6">
+    <!--begin::Card-->
+    <div class="card card-custom">
+      <!--begin::Header-->
+      <div class="card-header flex-wrap border-0 pt-6 pb-0">
+        <h3 class="card-title align-items-start flex-column">
+          <span class="card-label font-weight-bolder font-size-h3 text-dark"
+            >Add Items</span
+          >
+        </h3>
+      </div>
+      <!--end::Header-->
+      <!--begin::Body-->
+      <div class="card-body">
+        <!--begin: Search Form-->
+        <!--begin::Search Form-->
+        <div class="mb-10">
+          <div class="row align-items-center">
+            <div class="col-lg-12 col-xl-12">
+              <div class="row align-items-center">
+                <div class="col-md-12 my-2 my-md-0">
+                  <div class="input-icon">
+                    <input
+                      type="text"
+                      class="form-control form-control-solid"
+                      placeholder="Search..."
+                      id="kt_datatable_search_query"
+                    />
+                    <span>
+                      <i class="flaticon2-search-1 text-muted"></i>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--end::Search Form-->
+        <!--end: Search Form-->
+        <div class="row nell">
+          <div
+            class="col-lg-3 col-md-3 col-sm-12 col-xs-12"
+            *ngFor="let category of user.categories"
+          >
+            <button class="btn btn-primary" (click)="selectItem(category)" style="width:100%;margin-bottom: 10px;">
+              {{ category.name }}
+            </button>
+          </div>
+          <ng-lottie
+            *ngIf="user.categories === undefined"
+            height="100%"
+            width="100%"
+            [options]="options2"
+            (animationCreated)="animationCreated($event)"
+            style="width: 100%"
+          ></ng-lottie>
+        </div>
+      </div>
+      <!--end::Body-->
+    </div>
+    <!--end::Card-->
+  </div>
+  <div class="col-md-6">
+    <!--begin::Section-->
+    <div class="card card-custom gutter-b">
+      <!--begin::Header-->
+      <div class="card-header flex-wrap border-0 pt-6 pb-0">
+        <h3 class="card-title align-items-start flex-column">
+          <span class="card-label font-weight-bolder font-size-h3 text-dark"
+            >Cart</span
+          >
+        </h3>
+      </div>
+      <!--end::Header-->
+      <div class="card-body">
+        <!--begin::Shopping Cart-->
+        <div class="table-responsive">
+          <table class="table">
+            <!--begin::Cart Header-->
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th class="text-center">Qty</th>
+                <th class="text-right">Price</th>
+                <th></th>
+              </tr>
+            </thead>
+            <!--end::Cart Header-->
+            <tbody>
+              <!--begin::Cart Content-->
+              <tr *ngFor="let item of cart; let i = index">
+                <td class="d-flex align-items-center font-weight-bolder">
+                  <!--
+																	<div class="symbol symbol-60 flex-shrink-0 mr-4 bg-light">
+																		<div class="symbol-label" style="background-image: url('assets/media/products/11.png')"></div>
+																	</div>-->
+                  <a class="text-dark text-hover-primary">{{ item.name }}</a>
+                </td>
+                <td class="text-center align-middle">
+                  <a
+                    (click)="decrease(item)"
+                    class="btn btn-xs btn-light-success btn-icon mr-2"
+                  >
+                    <i class="ki ki-minus icon-xs"></i>
+                  </a>
+                  <input
+                    type="number"
+                    class="form-control"
+                    style="width: 66px; display: inline; margin-right: 5px"
+                    name="quantity{{ i }}"
+                    [(ngModel)]="item.quantity"
+                  />
+                  <a
+                    (click)="increase(item)"
+                    class="btn btn-xs btn-light-success btn-icon"
+                  >
+                    <i class="ki ki-plus icon-xs"></i>
+                  </a>
+                </td>
+                <td
+                  class="text-right align-middle font-weight-bolder font-size-h5"
+                >
+                  <i class="fas fa-inr"></i>&nbsp;{{
+                    getFinalPrice(item)
+                  }}
+                </td>
+                <td class="text-right align-middle">
+                  <a
+                    (click)="remove(item)"
+                    class="btn btn-danger font-weight-bolder font-size-sm"
+                    ><i class="fas fa-trash"></i
+                  ></a>
+                </td>
+              </tr>
+
+              <tr>
+                <td colspan="4" class="border-0 pt-10">
+                  <button
+                    [disabled]="cart.length == 0"
+                    style="width: 100%"
+                    class="btn btn-success font-weight-bolder px-8"
+                    (click)="showBreakup()"
+                  >
+                    Proceed to Checkout
+                  </button>
+                </td>
+              </tr>
+              <!--end::Cart Footer-->
+            </tbody>
+          </table>
+        </div>
+        <!--end::Shopping Cart-->
+      </div>
+    </div>
+    <!--end::Section-->
+  </div>
+</div>

@@ -1,0 +1,170 @@
+<div class="card">
+  <div class="card-header flex-wrap border-0 pt-6 pb-0">
+    <h3 class="card-title align-items-start flex-column">
+      <span class="card-label font-weight-bolder font-size-h3 text-dark"
+        >Biller</span
+      >
+    </h3>
+  </div>
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>Item</th>
+      <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+      <td mat-footer-cell *matFooterCellDef>Total</td>
+    </ng-container>
+    <ng-container matColumnDef="quantity">
+      <th mat-header-cell *matHeaderCellDef>Quantity</th>
+      <td mat-cell *matCellDef="let element">{{ element.quantity }}</td>
+      <td mat-footer-cell *matFooterCellDef></td>
+    </ng-container>
+    <ng-container matColumnDef="price">
+      <th mat-header-cell *matHeaderCellDef>Default Price</th>
+      <td mat-cell *matCellDef="let element">
+        <i class="fas fa-inr"></i>&nbsp;{{ getPrice(element) }}
+      </td>
+      <td mat-footer-cell *matFooterCellDef></td>
+    </ng-container>
+    <ng-container matColumnDef="addonamount">
+      <th mat-header-cell *matHeaderCellDef>Addon Amount</th>
+      <td mat-cell *matCellDef="let element">
+        <i class="fas fa-inr"></i>&nbsp;{{ getAddonAmount(element) }}
+      </td>
+      <td mat-footer-cell *matFooterCellDef></td>
+    </ng-container>
+    <ng-container matColumnDef="cgst">
+      <th mat-header-cell *matHeaderCellDef>CGST</th>
+      <td mat-cell *matCellDef="let element">
+        <i class="fas fa-inr"></i>&nbsp;{{ getCgst(element) }}
+      </td>
+      <td mat-footer-cell *matFooterCellDef></td>
+    </ng-container>
+    <ng-container matColumnDef="sgst">
+      <th mat-header-cell *matHeaderCellDef>SGST</th>
+      <td mat-cell *matCellDef="let element">
+        <i class="fas fa-inr"></i>&nbsp;{{ getSgst(element) }}
+      </td>
+      <td mat-footer-cell *matFooterCellDef></td>
+    </ng-container>
+    <ng-container matColumnDef="servicecharges">
+      <th mat-header-cell *matHeaderCellDef>Service Charges</th>
+      <td mat-cell *matCellDef="let element">
+        <i class="fas fa-inr"></i>&nbsp;{{ getServiceCharges(element) }}
+      </td>
+      <td mat-footer-cell *matFooterCellDef></td>
+    </ng-container>
+    <ng-container matColumnDef="calculatedprice">
+      <th mat-header-cell *matHeaderCellDef>Final Price</th>
+      <td mat-cell *matCellDef="let element">
+        <i class="fas fa-inr"></i>&nbsp;{{ getFinalPrice(element) }}
+      </td>
+      <td mat-footer-cell *matFooterCellDef>
+        <i class="fas fa-inr"></i>&nbsp;{{ total }}
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
+  </table>
+  <div class="row" style="margin-top: 10px">
+    <div class="col-5 p-0">
+      <select
+        class="form-control"
+        style="width: 48%;display: inline-block"
+        [(ngModel)]="orderType"
+        [disabled]="data.mode == 'edit'"
+      >
+        <option value="" selected disabled>Select Order Type</option>
+        <option value="Dine In">Dine - In</option>
+        <option value="Take Home">Take Home</option>
+        <option value="Delivery">Delivery</option>
+      </select>
+      <select
+        class="form-control"
+        style="width: 48%;margin-left:5px;display: inline-block;"
+        [(ngModel)]="tableNo"
+        [disabled]="orderType !== 'Dine In' || data.mode == 'edit'"
+      >
+      <option value="0" selected disabled>Select Table Number</option>
+        <option value="{{ i + 1 }}" *ngFor="let num of numbers; let i = index">
+          T - {{ i + 1 }}
+        </option>
+      </select>
+    </div>
+    <div class="col-5 p-0">
+      <input
+        type="text"
+        style="width: 48%; display: inline-block"
+        class="form-control"
+        placeholder="User Name"
+        name="username"
+        [(ngModel)]="username"
+      />
+      <input
+        type="text"
+        style="width: 48%; margin-left:5px;display: inline-block"
+        class="form-control"
+        placeholder="Address (for delivery and take home only)"
+        name="address"
+        [(ngModel)]="address"
+        [disabled]="orderType == 'Dine In'"
+      />
+    </div>
+    <div class="col-2 p-0">
+        <input
+        type="text"
+        style="width: 100%; display: inline-block"
+        class="form-control"
+        placeholder="Instructions for KOT"
+        name="instruction"
+        [(ngModel)]="instruction"
+      />
+    </div>
+  </div>
+  <div class="row" style="margin-top: 10px">
+    <div class="col-6">
+      <input
+        type="number"
+        style="width: 48%; display: inline-block"
+        class="form-control"
+        placeholder="Discount"
+        name="discount"
+        [(ngModel)]="discount"
+        [disabled]="addedDiscount"
+      />
+      <button
+        class="btn btn-warning"
+        style="width: 48%; display: inline-block; margin-left: 10px"
+        (click)="applydiscount()"
+        [disabled]="addedDiscount"
+      >
+        Apply Discount!
+      </button>
+    </div>
+    <div class="col-6">
+      <button
+        class="btn btn-success"
+        style="width: 48%; display: inline-block"
+        (click)="reset()"
+      >
+        Reset!
+      </button>
+      <button
+        class="btn btn-primary"
+        style="width: 48%; margin-left: 10px"
+        (click)="complete()"
+        *ngIf="data.mode == 'create'"
+      >
+        Complete Order
+      </button>
+      <button
+        class="btn btn-primary"
+        style="width: 48%; margin-left: 10px"
+        (click)="update()"
+        *ngIf="data.mode == 'edit'"
+      >
+        Update Order
+      </button>
+    </div>
+  </div>
+</div>

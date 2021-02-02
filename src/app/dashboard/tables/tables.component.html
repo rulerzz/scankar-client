@@ -1,0 +1,73 @@
+<div class="col-12">
+  <!--begin::Advance Table Widget 2-->
+  <div class="card card-custom card-stretch gutter-b">
+    <!--begin::Header-->
+    <div class="card-header border-0 pt-5">
+      <h3 class="card-title align-items-start flex-column">
+        <span class="card-label font-weight-bolder text-dark">Table Status</span>
+        <span class="text-muted mt-3 font-weight-bold font-size-sm"></span>
+      </h3>
+    </div>
+    <!--end::Header-->
+    <!--begin::Body-->
+    <div class="card-body pt-2 pb-20 mt-n3">
+      <div class="tab-content mt-5" id="myTabTables11">
+        <div class="container">
+          <ng-lottie *ngIf="user.tableCount == 0"  height="500" width="500" [options]="options" (animationCreated)="animationCreated($event)"></ng-lottie>
+          <div class="row">
+              <div class="col-2 tables" *ngFor="let table of numbers;let i = index">
+                  <button type="button" class="btn" [ngClass]="check(i) ? 'btn-warning' : 'btn-primary'" (click)="start(i)">{{i+1}}</button>
+              </div>
+              <div class="col-12 " *ngIf="checkOrder()">
+                    <div class="table-responsive">
+													<table class="table">
+														<thead>
+															<tr>
+                                <th class="pl-0 font-weight-bold text-muted text-uppercase">Item</th>
+                                <th class="text-right font-weight-bold text-muted text-uppercase">Config</th>
+                                <th class="text-right font-weight-bold text-muted text-uppercase">Addons</th>
+																<th class="text-right font-weight-bold text-muted text-uppercase">Quantity</th>
+                                <th class="text-right font-weight-bold text-muted text-uppercase">Price</th>
+                                <th class="text-right font-weight-bold text-muted text-uppercase">CGST</th>
+                                <th class="text-right font-weight-bold text-muted text-uppercase">SGST</th>
+                                <th class="text-right font-weight-bold text-muted text-uppercase">Service Charge</th>
+																<th class="text-right pr-0 font-weight-bold text-muted text-uppercase">Final</th>
+															</tr>
+														</thead>
+														<tbody>
+															<tr class="font-weight-boldest font-size-lg" *ngFor="let item of selectedOder.items">
+                                <td class="pl-0 pt-7">{{item.name}}</td>
+                                <td class="text-right pt-7">{{item.config.name? item.config.name : "N/A"}}</td>
+                                <td class="text-right pt-7"><a class="anchor" (click)="showaddons(item)">View</a>&nbsp;<i class="fas fa-inr"></i>&nbsp;{{getAddonAmount(item)}}</td>
+                                <td class="text-right pt-7">{{item.quantity}}</td>
+																<td class="text-right pt-7"><i class="fas fa-inr"></i>&nbsp;{{item.config.price}}</td>
+                                <td class="text-danger pr-0 pt-7 text-right"><i class="fas fa-inr"></i>&nbsp;{{getCgst(item)}}</td>
+                                <td class="text-danger pr-0 pt-7 text-right"><i class="fas fa-inr"></i>&nbsp;{{getSgst(item)}}</td>
+                                <td class="text-danger pr-0 pt-7 text-right"><i class="fas fa-inr"></i>&nbsp;{{getServiceCharges(item)}}</td>
+                                <td class="text-danger pr-0 pt-7 text-right"><i class="fas fa-inr"></i>&nbsp;{{getFinalPrice(item)}}</td>
+                              </tr>
+                              	<tr class="font-weight-boldest font-size-lg">
+																<td class="pl-0 pt-7">Total</td>
+                                <td class="text-right pt-7"></td>
+                                <td class="text-right pt-7"></td>
+                                <td class="text-right pt-7"></td>
+                                <td class="text-right pt-7"></td>
+                                <td class="text-right pt-7"></td>
+                                <td class="text-right pt-7"></td>
+                                <td class="text-right pt-7"></td>
+																<td class="text-danger pr-0 pt-7 text-right"><i class="fas fa-inr"></i>&nbsp;{{totalAmount}}</td>
+                              </tr>
+														</tbody>
+													</table>
+                        </div>
+                         <button class="btn btn-secondary" style="float:right;margin-left:15px;" (click)="edit()">Edit</button><button class="btn btn-secondary" style="float:right;margin-left:15px;" (click)="closetable()">Close Table</button><button class="btn btn-primary" style="float:right;" (click)="generateBill()">View Bill</button>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--end::Body-->
+  </div>
+  <!--end::Advance Table Widget 2-->
+</div>
+

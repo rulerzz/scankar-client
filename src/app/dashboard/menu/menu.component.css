@@ -1,0 +1,45 @@
+.card:hover >  div.overlay {
+    display:block;
+    cursor: pointer;
+}
+.overlay{
+  display:none;
+}
+.del:hover{
+  color:#fff;
+  opacity: 1;
+}
+@media screen and (max-width: 1024px) {
+.nell .card{
+    height: 150px;
+}
+}
+@media screen and (min-width: 1024px) {
+.nell .card{
+  height:220px;
+}
+}@media screen and (min-width: 1600px) {
+.nell .card{
+  height:475px;
+}
+}
+@media screen and (max-width: 425px) {
+.nell .card{
+  height:300px;
+}
+.card-toolbar button{
+  width:100%;
+  margin-bottom:5px;
+  margin-right:0px !important;
+}
+}
+@media screen and (max-width: 375px) {
+.nell .card{
+  height:245px;
+}
+}
+@media screen and (max-width: 325px) {
+.nell .card{
+  height:190px;
+}
+}

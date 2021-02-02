@@ -1,0 +1,34 @@
+<div class="card card-custom">
+ <div class="card-header">
+  <h3 class="card-title">
+    Change Process Status
+  </h3>
+ </div>
+ <!--begin::Form-->
+ <form class="form">
+  <div class="card-body">
+   <div class="form-group form-group-last">
+    <div class="alert alert-custom alert-default" role="alert">
+     <div class="alert-icon"><i class="flaticon-warning text-primary"></i></div>
+     <div class="alert-text">
+      Change in <code>status</code> of <code>process</code>may take a few seconds to update.
+     </div>
+    </div>
+   </div>
+   <div class="form-group">
+    <label>Select Status</label>
+    <select class="form-control form-control-solid" [(ngModel)]="status" name="status">
+     <option value="Pending" [selected]="status == 'Pending'">Pending</option>
+     <option value="Running" [selected]="status == 'Running'">Running</option>
+     <option value="Completed" [selected]="status == 'Completed'">Completed</option>
+     <option value="Rejected" [selected]="status == 'Rejected'">Rejected</option>
+    </select>
+   </div>
+  </div>
+  <div class="card-footer">
+   <button type="reset" class="btn btn-primary mr-2" style="width:48%" (click)="update()">Update</button>
+   <button type="reset" class="btn btn-secondary" style="width:48%" (click)="cancel()">Cancel</button>
+  </div>
+ </form>
+ <!--end::Form-->
+</div>

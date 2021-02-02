@@ -1,0 +1,414 @@
+<div class="form p-0" id="form">
+  <span class="font-weight-bolder text-dark" style="font-size: 20px;
+    margin-bottom: 20px;
+    display: block;">Create User</span>
+ <div class="card-body p-0">
+  <div class="form-group">
+   <label>First Name:</label>
+   <input required type="text" [(ngModel)]="firstName" class="form-control form-control-solid" placeholder="Enter first name" name="firstname"/>
+   <span class="form-text text-muted">Please enter your first name</span>
+  </div>
+   <div class="form-group">
+   <label>Last Name:</label>
+   <input required type="text" [(ngModel)]="lastName" class="form-control form-control-solid" placeholder="Enter last name" name="lastname"/>
+   <span class="form-text text-muted">Please enter your last name</span>
+  </div>
+  <div class="form-group">
+   <label>Email address:</label>
+   <input required type="email" [(ngModel)]="email" class="form-control form-control-solid" placeholder="Enter email" name="email"/>
+   <span class="form-text text-muted">We'll never share your email with anyone else</span>
+  </div>
+    <div class="form-group">
+   <label>Mobile:</label>
+   <input required type="text" [(ngModel)]="mobileNumber" class="form-control form-control-solid" placeholder="Enter your mobile number" name="phone"/>
+   <span class="form-text text-muted">Please enter your mobile number</span>
+  </div>
+   <div class="form-group">
+   <label>Company Name:</label>
+   <input required type="text" [(ngModel)]="companyName" class="form-control form-control-solid" placeholder="Enter company name" name="companyName"/>
+   <span class="form-text text-muted">Please enter company name</span>
+  </div>
+   <div class="form-group">
+   <label>Password:</label>
+   <input required type="password" [(ngModel)]="password" class="form-control form-control-solid" placeholder="Enter your password" name="password"/>
+   <span class="form-text text-muted">Note! Passwords will be automatically hashed!</span>
+  </div>
+ <div class="form-group">
+   <label>GSTIN:</label>
+   <input required type="text" [(ngModel)]="gstin" class="form-control form-control-solid" placeholder="Enter CGST GSTIN no" name="gstin"/>
+   <span class="form-text text-muted">Please enter GSTIN number</span>
+  </div> 
+  <div class="form-group">
+   <label>CGST %:</label>
+   <input required type="number" [(ngModel)]="cgst" class="form-control form-control-solid" placeholder="Enter CGST Charge %" name="gst"/>
+   <span class="form-text text-muted">Please enter CGST %</span>
+  </div>
+  <div class="form-group">
+   <label>SGST %:</label>
+   <input required type="number" [(ngModel)]="sgst" class="form-control form-control-solid" placeholder="Enter SGST Charge %" name="gst"/>
+   <span class="form-text text-muted">Please enter SGST %</span>
+  </div>
+  <div class="form-group">
+   <label>Service Charge %:</label>
+   <input required type="number" [(ngModel)]="servicecharge" class="form-control form-control-solid" placeholder="Enter service charge %" name="servicecharge"/>
+   <span class="form-text text-muted">Please enter service charge %</span>
+  </div>
+  <div class="form-group">
+  <label>Enable CGST</label>
+   <span class="switch switch-outline switch-icon switch-info">
+    <label>
+     <input required type="checkbox" name="enablecgst" [(ngModel)]="enablecgst"/>
+     <span></span>
+    </label>
+   </span>
+  </div>
+   <div class="form-group">
+  <label>Enable SGST</label>
+   <span class="switch switch-outline switch-icon switch-info">
+    <label>
+     <input required type="checkbox" name="enablesgst" [(ngModel)]="enablesgst"/>
+     <span></span>
+    </label>
+   </span>
+  </div>
+   <div class="form-group">
+  <label>Add Service Charge</label>
+   <span class="switch switch-outline switch-icon switch-info">
+    <label>
+     <input required type="checkbox" name="servicechargeenable" [(ngModel)]="servicechargeenable"/>
+     <span></span>
+    </label>
+   </span>
+  </div>
+   <div class="form-group">
+   <label>Country:</label>
+   <select class="form-control" name="country" [(ngModel)]="country">
+																	<option [selected]="country === 'AF'" value="AF">Afghanistan</option>
+																	<option [selected]="country === 'AX'" value="AX">Åland Islands</option>
+																	<option [selected]="country === 'AL'" value="AL">Albania</option>
+																	<option [selected]="country === 'DZ'" value="DZ">Algeria</option>
+																	<option [selected]="country === 'AS'" value="AS">American Samoa</option>
+																	<option [selected]="country === 'AD'" value="AD">Andorra</option>
+																	<option [selected]="country === 'AO'" value="AO">Angola</option>
+																	<option [selected]="country === 'AI'" value="AI">Anguilla</option>
+																	<option [selected]="country === 'AQ'" value="AQ">Antarctica</option>
+																	<option [selected]="country === 'AG'" value="AG">Antigua and Barbuda</option>
+																	<option [selected]="country === 'AR'" value="AR">Argentina</option>
+																	<option [selected]="country === 'AM'" value="AM">Armenia</option>
+																	<option [selected]="country === 'AW'" value="AW">Aruba</option>
+																	<option [selected]="country === 'AU'" value="AU">Australia</option>
+																	<option [selected]="country === 'AT'" value="AT">Austria</option>
+																	<option [selected]="country === 'AZ'" value="AZ">Azerbaijan</option>
+																	<option [selected]="country === 'BS'" value="BS">Bahamas</option>
+																	<option [selected]="country === 'BH'" value="BH">Bahrain</option>
+																	<option [selected]="country === 'BD'" value="BD">Bangladesh</option>
+																	<option [selected]="country === 'BB'" value="BB">Barbados</option>
+																	<option [selected]="country === 'BY'" value="BY">Belarus</option>
+																	<option [selected]="country === 'BE'" value="BE">Belgium</option>
+																	<option [selected]="country === 'BZ'" value="BZ">Belize</option>
+																	<option [selected]="country === 'BJ'" value="BJ">Benin</option>
+																	<option [selected]="country === 'BM'" value="BM">Bermuda</option>
+																	<option [selected]="country === 'BT'" value="BT">Bhutan</option>
+																	<option [selected]="country === 'BO'" value="BO">Bolivia, Plurinational State of</option>
+																	<option [selected]="country === 'BQ'" value="BQ">Bonaire, Sint Eustatius and Saba</option>
+																	<option [selected]="country === 'BA'" value="BA">Bosnia and Herzegovina</option>
+																	<option [selected]="country === 'BW'" value="BW">Botswana</option>
+																	<option [selected]="country === 'BV'" value="BV">Bouvet Island</option>
+																	<option [selected]="country === 'BR'" value="BR">Brazil</option>
+																	<option [selected]="country === 'IO'" value="IO">British Indian Ocean Territory</option>
+																	<option [selected]="country === 'BN'" value="BN">Brunei Darussalam</option>
+																	<option [selected]="country === 'BG'" value="BG">Bulgaria</option>
+																	<option [selected]="country === 'BF'" value="BF">Burkina Faso</option>
+																	<option [selected]="country === 'BI'" value="BI">Burundi</option>
+																	<option [selected]="country === 'KH'" value="KH">Cambodia</option>
+																	<option [selected]="country === 'CM'" value="CM">Cameroon</option>
+																	<option [selected]="country === 'CA'" value="CA">Canada</option>
+																	<option [selected]="country === 'CV'" value="CV">Cape Verde</option>
+																	<option [selected]="country === 'KY'" value="KY">Cayman Islands</option>
+																	<option [selected]="country === 'CF'" value="CF">Central African Republic</option>
+																	<option [selected]="country === 'TD'" value="TD">Chad</option>
+																	<option [selected]="country === 'CL'" value="CL">Chile</option>
+																	<option [selected]="country === 'CN'" value="CN">China</option>
+																	<option [selected]="country === 'CX'" value="CX">Christmas Island</option>
+																	<option [selected]="country === 'CC'" value="CC">Cocos (Keeling) Islands</option>
+																	<option [selected]="country === 'CO'" value="CO">Colombia</option>
+																	<option [selected]="country === 'KM'" value="KM">Comoros</option>
+																	<option [selected]="country === 'CG'" value="CG">Congo</option>
+																	<option [selected]="country === 'CD'" value="CD">Congo, the Democratic Republic of the</option>
+																	<option [selected]="country === 'CK'" value="CK">Cook Islands</option>
+																	<option [selected]="country === 'CR'" value="CR">Costa Rica</option>
+																	<option [selected]="country === 'CI'" value="CI">Côte d'Ivoire</option>
+																	<option [selected]="country === 'HR'" value="HR">Croatia</option>
+																	<option [selected]="country === 'CU'" value="CU">Cuba</option>
+																	<option [selected]="country === 'CW'" value="CW">Curaçao</option>
+																	<option [selected]="country === 'CY'" value="CY">Cyprus</option>
+																	<option [selected]="country === 'CZ'" value="CZ">Czech Republic</option>
+																	<option [selected]="country === 'DK'" value="DK">Denmark</option>
+																	<option [selected]="country === 'DJ'" value="DJ">Djibouti</option>
+																	<option [selected]="country === 'DM'" value="DM">Dominica</option>
+																	<option [selected]="country === 'DO'" value="DO">Dominican Republic</option>
+																	<option [selected]="country === 'EC'" value="EC">Ecuador</option>
+																	<option [selected]="country === 'EG'" value="EG">Egypt</option>
+																	<option [selected]="country === 'SV'" value="SV">El Salvador</option>
+																	<option [selected]="country === 'GQ'" value="GQ">Equatorial Guinea</option>
+																	<option [selected]="country === 'ER'" value="ER">Eritrea</option>
+																	<option [selected]="country === 'EE'" value="EE">Estonia</option>
+																	<option [selected]="country === 'ET'" value="ET">Ethiopia</option>
+																	<option [selected]="country === 'FK'" value="FK">Falkland Islands (Malvinas)</option>
+																	<option [selected]="country === 'FO'" value="FO">Faroe Islands</option>
+																	<option [selected]="country === 'FJ'" value="FJ">Fiji</option>
+																	<option [selected]="country === 'FI'" value="FI">Finland</option>
+																	<option [selected]="country === 'FR'" value="FR">France</option>
+																	<option [selected]="country === 'GF'" value="GF">French Guiana</option>
+																	<option [selected]="country === 'PF'" value="PF">French Polynesia</option>
+																	<option [selected]="country === 'TF'" value="TF">French Southern Territories</option>
+																	<option [selected]="country === 'GA'" value="GA">Gabon</option>
+																	<option [selected]="country === 'GM'" value="GM">Gambia</option>
+																	<option [selected]="country === 'GE'" value="GE">Georgia</option>
+																	<option [selected]="country === 'DE'" value="DE">Germany</option>
+																	<option [selected]="country === 'GH'" value="GH">Ghana</option>
+																	<option [selected]="country === 'GI'" value="GI">Gibraltar</option>
+																	<option [selected]="country === 'GR'" value="GR">Greece</option>
+																	<option [selected]="country === 'GL'" value="GL">Greenland</option>
+																	<option [selected]="country === 'GD'" value="GD">Grenada</option>
+																	<option [selected]="country === 'GP'" value="GP">Guadeloupe</option>
+																	<option [selected]="country === 'GU'" value="GU">Guam</option>
+																	<option [selected]="country === 'GT'" value="GT">Guatemala</option>
+																	<option [selected]="country === 'GG'" value="GG">Guernsey</option>
+																	<option [selected]="country === 'GN'" value="GN">Guinea</option>
+																	<option [selected]="country === 'GW'" value="GW">Guinea-Bissau</option>
+																	<option [selected]="country === 'GY'" value="GY">Guyana</option>
+																	<option [selected]="country === 'HT'" value="HT">Haiti</option>
+																	<option [selected]="country === 'HM'" value="HM">Heard Island and McDonald Islands</option>
+																	<option [selected]="country === 'VA'" value="VA">Holy See (Vatican City State)</option>
+																	<option [selected]="country === 'HN'" value="HN">Honduras</option>
+																	<option [selected]="country === 'HK'" value="HK">Hong Kong</option>
+																	<option [selected]="country === 'HU'" value="HU">Hungary</option>
+																	<option [selected]="country === 'IS'" value="IS">Iceland</option>
+																	<option [selected]="country === 'IN'" value="IN">India</option>
+																	<option [selected]="country === 'ID'" value="ID">Indonesia</option>
+																	<option [selected]="country === 'IR'" value="IR">Iran, Islamic Republic of</option>
+																	<option [selected]="country === 'IQ'" value="IQ">Iraq</option>
+																	<option [selected]="country === 'IE'" value="IE">Ireland</option>
+																	<option [selected]="country === 'IM'" value="IM">Isle of Man</option>
+																	<option [selected]="country === 'IL'" value="IL">Israel</option>
+																	<option [selected]="country === 'IT'" value="IT">Italy</option>
+																	<option [selected]="country === 'JM'" value="JM">Jamaica</option>
+																	<option [selected]="country === 'JP'" value="JP">Japan</option>
+																	<option [selected]="country === 'JE'" value="JE">Jersey</option>
+																	<option [selected]="country === 'JO'" value="JO">Jordan</option>
+																	<option [selected]="country === 'KZ'" value="KZ">Kazakhstan</option>
+																	<option [selected]="country === 'KE'" value="KE">Kenya</option>
+																	<option [selected]="country === 'KI'" value="KI">Kiribati</option>
+																	<option [selected]="country === 'KP'" value="KP">Korea, Democratic People's Republic of</option>
+																	<option [selected]="country === 'KR'" value="KR">Korea, Republic of</option>
+																	<option [selected]="country === 'KW'" value="KW">Kuwait</option>
+																	<option [selected]="country === 'KG'" value="KG">Kyrgyzstan</option>
+																	<option [selected]="country === 'LA'" value="LA">Lao People's Democratic Republic</option>
+																	<option [selected]="country === 'LV'" value="LV">Latvia</option>
+																	<option [selected]="country === 'LB'" value="LB">Lebanon</option>
+																	<option [selected]="country === 'LS'" value="LS">Lesotho</option>
+																	<option [selected]="country === 'LR'" value="LR">Liberia</option>
+																	<option [selected]="country === 'LY'" value="LY">Libya</option>
+																	<option [selected]="country === 'LI'" value="LI">Liechtenstein</option>
+																	<option [selected]="country === 'LT'" value="LT">Lithuania</option>
+																	<option [selected]="country === 'LU'" value="LU">Luxembourg</option>
+																	<option [selected]="country === 'MO'" value="MO">Macao</option>
+																	<option [selected]="country === 'MK'" value="MK">Macedonia, the former Yugoslav Republic of</option>
+																	<option [selected]="country === 'MG'" value="MG">Madagascar</option>
+																	<option [selected]="country === 'MW'" value="MW">Malawi</option>
+																	<option [selected]="country === 'MY'" value="MY">Malaysia</option>
+																	<option [selected]="country === 'MV'" value="MV">Maldives</option>
+																	<option [selected]="country === 'ML'" value="ML">Mali</option>
+																	<option [selected]="country === 'MT'" value="MT">Malta</option>
+																	<option [selected]="country === 'MH'" value="MH">Marshall Islands</option>
+																	<option [selected]="country === 'MQ'" value="MQ">Martinique</option>
+																	<option [selected]="country === 'MR'" value="MR">Mauritania</option>
+																	<option [selected]="country === 'MU'" value="MU">Mauritius</option>
+																	<option [selected]="country === 'YT'" value="YT">Mayotte</option>
+																	<option [selected]="country === 'MX'" value="MX">Mexico</option>
+																	<option [selected]="country === 'FM'" value="FM">Micronesia, Federated States of</option>
+																	<option [selected]="country === 'MD'" value="MD">Moldova, Republic of</option>
+																	<option [selected]="country === 'MC'" value="MC">Monaco</option>
+																	<option [selected]="country === 'MN'" value="MN">Mongolia</option>
+																	<option [selected]="country === 'ME'" value="ME">Montenegro</option>
+																	<option [selected]="country === 'MS'" value="MS">Montserrat</option>
+																	<option [selected]="country === 'MA'" value="MA">Morocco</option>
+																	<option [selected]="country === 'MZ'" value="MZ">Mozambique</option>
+																	<option [selected]="country === 'MM'" value="MM">Myanmar</option>
+																	<option [selected]="country === 'NA'" value="NA">Namibia</option>
+																	<option [selected]="country === 'NR'" value="NR">Nauru</option>
+																	<option [selected]="country === 'NP'" value="NP">Nepal</option>
+																	<option [selected]="country === 'NL'" value="NL">Netherlands</option>
+																	<option [selected]="country === 'NC'" value="NC">New Caledonia</option>
+																	<option [selected]="country === 'NZ'" value="NZ">New Zealand</option>
+																	<option [selected]="country === 'NI'" value="NI">Nicaragua</option>
+																	<option [selected]="country === 'NE'" value="NE">Niger</option>
+																	<option [selected]="country === 'NG'" value="NG">Nigeria</option>
+																	<option [selected]="country === 'NU'" value="NU">Niue</option>
+																	<option [selected]="country === 'NF'" value="NF">Norfolk Island</option>
+																	<option [selected]="country === 'MP'" value="MP">Northern Mariana Islands</option>
+																	<option [selected]="country === 'NO'" value="NO">Norway</option>
+																	<option [selected]="country === 'OM'" value="OM">Oman</option>
+																	<option [selected]="country === 'PK'" value="PK">Pakistan</option>
+																	<option [selected]="country === 'PW'" value="PW">Palau</option>
+																	<option [selected]="country === 'PS'" value="PS">Palestinian Territory, Occupied</option>
+																	<option [selected]="country === 'PA'" value="PA">Panama</option>
+																	<option [selected]="country === 'PG'" value="PG">Papua New Guinea</option>
+																	<option [selected]="country === 'PY'" value="PY">Paraguay</option>
+																	<option [selected]="country === 'PE'" value="PE">Peru</option>
+																	<option [selected]="country === 'PH'" value="PH">Philippines</option>
+																	<option [selected]="country === 'PN'" value="PN">Pitcairn</option>
+																	<option [selected]="country === 'PO'" value="PL">Poland</option>
+																	<option [selected]="country === 'PT'" value="PT">Portugal</option>
+																	<option [selected]="country === 'PR'" value="PR">Puerto Rico</option>
+																	<option [selected]="country === 'QA'" value="QA">Qatar</option>
+																	<option [selected]="country === 'RE'" value="RE">Réunion</option>
+																	<option [selected]="country === 'RO'" value="RO">Romania</option>
+																	<option [selected]="country === 'RU'" value="RU">Russian Federation</option>
+																	<option [selected]="country === 'RW'" value="RW">Rwanda</option>
+																	<option [selected]="country === 'BL'" value="BL">Saint Barthélemy</option>
+																	<option [selected]="country === 'SH'" value="SH">Saint Helena, Ascension and Tristan da Cunha</option>
+																	<option [selected]="country === 'KN'" value="KN">Saint Kitts and Nevis</option>
+																	<option [selected]="country === 'LC'" value="LC">Saint Lucia</option>
+																	<option [selected]="country === 'MF'" value="MF">Saint Martin (French part)</option>
+																	<option [selected]="country === 'PM'" value="PM">Saint Pierre and Miquelon</option>
+																	<option [selected]="country === 'VC'" value="VC">Saint Vincent and the Grenadines</option>
+																	<option [selected]="country === 'WS'" value="WS">Samoa</option>
+																	<option [selected]="country === 'SM'" value="SM">San Marino</option>
+																	<option [selected]="country === 'ST'" value="ST">Sao Tome and Principe</option>
+																	<option [selected]="country === 'SA'" value="SA">Saudi Arabia</option>
+																	<option [selected]="country === 'SN'" value="SN">Senegal</option>
+																	<option [selected]="country === 'RS'" value="RS">Serbia</option>
+																	<option [selected]="country === 'SC'" value="SC">Seychelles</option>
+																	<option [selected]="country === 'SL'" value="SL">Sierra Leone</option>
+																	<option [selected]="country === 'SG'" value="SG">Singapore</option>
+																	<option [selected]="country === 'SX'" value="SX">Sint Maarten (Dutch part)</option>
+																	<option [selected]="country === 'SK'" value="SK">Slovakia</option>
+																	<option [selected]="country === 'SI'" value="SI">Slovenia</option>
+																	<option [selected]="country === 'SB'" value="SB">Solomon Islands</option>
+																	<option [selected]="country === 'SO'" value="SO">Somalia</option>
+																	<option [selected]="country === 'ZA'" value="ZA">South Africa</option>
+																	<option [selected]="country === 'GS'" value="GS">South Georgia and the South Sandwich Islands</option>
+																	<option [selected]="country === 'SS'" value="SS">South Sudan</option>
+																	<option [selected]="country === 'ES'" value="ES">Spain</option>
+																	<option [selected]="country === 'LK'" value="LK">Sri Lanka</option>
+																	<option [selected]="country === 'SD'" value="SD">Sudan</option>
+																	<option [selected]="country === 'SR'" value="SR">Suriname</option>
+																	<option [selected]="country === 'SJ'" value="SJ">Svalbard and Jan Mayen</option>
+																	<option [selected]="country === 'SZ'" value="SZ">Swaziland</option>
+																	<option [selected]="country === 'SE'" value="SE">Sweden</option>
+																	<option [selected]="country === 'CH'" value="CH">Switzerland</option>
+																	<option [selected]="country === 'SY'" value="SY">Syrian Arab Republic</option>
+																	<option [selected]="country === 'TW'" value="TW">Taiwan, Province of China</option>
+																	<option [selected]="country === 'TJ'" value="TJ">Tajikistan</option>
+																	<option [selected]="country === 'TZ'" value="TZ">Tanzania, United Republic of</option>
+																	<option [selected]="country === 'TH'" value="TH">Thailand</option>
+																	<option [selected]="country === 'TL'" value="TL">Timor-Leste</option>
+																	<option [selected]="country === 'TG'" value="TG">Togo</option>
+																	<option [selected]="country === 'TK'" value="TK">Tokelau</option>
+																	<option [selected]="country === 'TO'" value="TO">Tonga</option>
+																	<option [selected]="country === 'TT'" value="TT">Trinidad and Tobago</option>
+																	<option [selected]="country === 'TN'" value="TN">Tunisia</option>
+																	<option [selected]="country === 'TR'" value="TR">Turkey</option>
+																	<option [selected]="country === 'TM'" value="TM">Turkmenistan</option>
+																	<option [selected]="country === 'TC'" value="TC">Turks and Caicos Islands</option>
+																	<option [selected]="country === 'TV'" value="TV">Tuvalu</option>
+																	<option [selected]="country === 'UG'" value="UG">Uganda</option>
+																	<option [selected]="country === 'UA'" value="UA">Ukraine</option>
+																	<option [selected]="country === 'AE'" value="AE">United Arab Emirates</option>
+																	<option [selected]="country === 'GB'" value="GB">United Kingdom</option>
+																	<option [selected]="country === 'US'" value="US" selected="selected">United States</option>
+																	<option [selected]="country === 'UM'" value="UM">United States Minor Outlying Islands</option>
+																	<option [selected]="country === 'UY'" value="UY">Uruguay</option>
+																	<option [selected]="country === 'UZ'" value="UZ">Uzbekistan</option>
+																	<option [selected]="country === 'VU'" value="VU">Vanuatu</option>
+																	<option [selected]="country === 'VE'" value="VE">Venezuela, Bolivarian Republic of</option>
+																	<option [selected]="country === 'VN'" value="VN">Viet Nam</option>
+																	<option [selected]="country === 'VG'" value="VG">Virgin Islands, British</option>
+																	<option [selected]="country === 'VI'" value="VI">Virgin Islands, U.S.</option>
+																	<option [selected]="country === 'WF'" value="WF">Wallis and Futuna</option>
+																	<option [selected]="country === 'EH'" value="EH">Western Sahara</option>
+																	<option [selected]="country === 'YE'" value="YE">Yemen</option>
+																	<option [selected]="country === 'ZM'" value="ZM">Zambia</option>
+																	<option [selected]="country === 'ZW'" value="ZW">Zimbabwe</option>
+																</select>
+   <span class="form-text text-muted">Please select your country</span>
+  </div>
+   <div class="form-group">
+   <label>Address 1:</label>
+   <input required type="text" [(ngModel)]="address1" class="form-control form-control-solid" placeholder="Address Line 1"  name="address1"/>
+   <span class="form-text text-muted">Please enter address line 1</span>
+  </div>
+   <div class="form-group">
+   <label>Address 2:</label>
+   <input required type="text" [(ngModel)]="address2" class="form-control form-control-solid" placeholder="Address Line 2"  name="address2"/>
+   <span class="form-text text-muted">Please enter address line 2</span>
+  </div>
+   <div class="form-group">
+   <label>State:</label>
+   <input required type="text" [(ngModel)]="state" class="form-control form-control-solid" placeholder="State / Province"   name="state"/>
+   <span class="form-text text-muted">Please enter state / province</span>
+  </div>
+   <div class="form-group">
+   <label>City:</label>
+   <input required type="text" [(ngModel)]="city" class="form-control form-control-solid" placeholder="City"  name="city"/>
+   <span class="form-text text-muted">Please enter city name</span>
+  </div>
+   <div class="form-group">
+   <label>Zip:</label>
+   <input required type="text" [(ngModel)]="zip" class="form-control form-control-solid" placeholder="PIN / ZIP Code" name="zip"/>
+   <span class="form-text text-muted">Please enter PIN / ZIP Code</span>
+  </div>
+  <div class="form-group">
+   <label>Owner Type:</label>
+   <div class="checkbox-inline">
+    <label class="radio">
+     <input required type="radio" name="type" value="returantowner" [(ngModel)]="ownerType"/>
+     <span></span>
+      &nbsp;Returant owner
+    </label>&nbsp;&nbsp;
+    <label class="radio">
+     <input required type="radio" name="type" value="hotelowner" [(ngModel)]="ownerType"/>
+     <span></span>
+      &nbsp;Hotelowner
+    </label>
+   </div>
+  </div>
+  <div class="form-group">
+   <label>Status:</label>
+   <div class="checkbox-inline">
+    <label class="radio">
+     <input required type="radio" name="status" value="Active" [(ngModel)]="status"/>
+     <span></span>
+      &nbsp;Active
+    </label>&nbsp;&nbsp;
+    <label class="radio">
+     <input required type="radio" name="status" value="InActive"[(ngModel)]="status" />
+     <span></span>
+      &nbsp;Inactive
+    </label>
+   </div>
+  </div>
+   <div class="form-group">
+   <label>Role:</label>
+   <div class="radio-inline">
+    <label class="radio">
+     <input required type="radio" name="role" value="admin" [(ngModel)]="role"/>
+     <span></span>
+     Admin
+    </label>
+    <label class="radio">
+     <input required type="radio" name="role" value="user" [(ngModel)]="role"/>
+     <span></span>
+     User
+    </label>
+   </div>
+  </div>
+ </div>
+ <div class="card-footer p-0" >
+  <button type="reset" class="btn btn-primary mr-2" style="display:block;width:100%;margin-bottom:15px" (click)="create()">Create</button>
+  <button type="reset" class="btn btn-secondary"style="display:block;width:100%;" (click)="onNoClick()">Revert</button>
+ </div>
+</div>
+

@@ -1,0 +1,169 @@
+<div class="container">
+  <h3 class="card-title">Create Category</h3>
+  <div class="form-group row">
+    <div class="col-lg-12">
+      <label>Name:</label>
+      <input
+        type="text"
+        class="form-control"
+        name="name"
+        placeholder="Enter item name"
+        [formControl]="name"
+      />
+    </div>
+    <div class="col-lg-12">
+      <label>Price:</label>
+      <input
+        type="number"
+        class="form-control"
+        name="price"
+        placeholder="Enter item price"
+        [formControl]="price"
+      />
+    </div>
+    <div class="col-lg-12">
+      <div class="form-group">
+        <label>Category:</label>
+        <div></div>
+        <select class="form-control" [formControl]="category">
+          <option value="{{ item._id }}" *ngFor="let item of categories">
+            {{ item.name }}
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="col-lg-12">
+      <div class="form-group">
+        <label>Configuration:</label>
+        <div class="row">
+          <div class="col-8">
+            <div class="row p-0" *ngFor="let item of config; let i = index">
+              <div class="col-6">
+                <label>Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="config{{ i }}"
+                  [(ngModel)]="item.name"
+                />
+              </div>
+              <div class="col-6">
+                <label>Price</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  name="price{{ i }}"
+                  [(ngModel)]="item.price"
+                />
+                <button
+                  class="btn btn-warning"
+                  style="position: relative; top: -38px; right: -92px;z-index:10"
+                  (click)="remove(item)"
+                >
+                  <i class="fas fa-trash-alt"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="col-4">
+            <button
+              class="btn btn-primary"
+              style="margin-top: -55px"
+              (click)="pushone()"
+            >
+              Add
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-12" style="margin-top: 5px">
+      <div class="form-group">
+        <label>Image:</label>
+        <div></div>
+        <div class="custom-file">
+          <input
+            type="file"
+            class="custom-file-input"
+            id="customFile"
+            (change)="changed($event)"
+          />
+          <label class="custom-file-label" for="customFile">Choose file</label>
+        </div>
+      </div>
+    </div>
+    <div class="col-12" *ngIf="image !== undefined">
+      <div class="form-group">
+        <label>Preview:</label>
+      </div>
+      <img
+        [src]="image"
+        class="text-center"
+        style="height: 150px; width: 150px"
+      />
+    </div>
+    <div class="col-lg-12">
+      <div class="form-group">
+        <label>Addon:</label>
+        <div class="row">
+          <div class="col-8">
+            <div class="row p-0" *ngFor="let item of addon; let i = index">
+              <div class="col-6">
+                <label>Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="addonn{{ i }}"
+                  [(ngModel)]="item.name"
+                />
+              </div>
+              <div class="col-6">
+                <label>Price</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  name="addonp{{ i }}"
+                  [(ngModel)]="item.price"
+                />
+                <button
+                  class="btn btn-warning"
+                  style="position: relative; top: -38px; right: -92px;z-index:10"
+                  (click)="removeaddon(item)"
+                >
+                  <i class="fas fa-trash-alt"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="col-4">
+            <button
+              class="btn btn-primary"
+              style="margin-top: -55px"
+              (click)="pushoneaddon()"
+            >
+              Add
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <button
+      type="reset"
+      class="btn btn-success mr-2 col-12"
+      (click)="createCategory()"
+      [disabled]="name.invalid || price.invalid || category.invalid || upload === undefined"
+    >
+      Add Item
+    </button>
+    <button
+      type="reset"
+      class="btn btn-primary mr-2 col-12"
+      style="margin-top: 15px"
+      (click)="close()"
+    >
+      Revert
+    </button>
+  </div>
+</div>
