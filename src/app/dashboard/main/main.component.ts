@@ -78,7 +78,6 @@ export class MainComponent implements OnInit {
   }
 
   getServerData(e: any) {
-    console.log(e);
     let offset = 0;
     this.appservice.load();
     if (e.pageIndex !== undefined) {

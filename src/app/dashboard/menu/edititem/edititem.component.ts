@@ -19,6 +19,7 @@ export class EdititemComponent implements OnInit {
   config: any;
   categories: any;
   addon: any;
+  description: any;
   constructor(
     public dialogRef: MatDialogRef<EdititemComponent>,
     private dashboardservice: DashboardService,
@@ -32,6 +33,7 @@ export class EdititemComponent implements OnInit {
     this.price = this.data.item.price;
     this.category = this.data.item.category;
     this.image = this.data.item.image;
+    this.description = this.data.item.description;
   }
 
   ngOnInit(): void {}
@@ -46,6 +48,7 @@ export class EdititemComponent implements OnInit {
   updateItem() {
     if (this.addon === null || this.addon === undefined) this.addon = [];
     if (this.name === null || this.name === undefined) this.name = '';
+    if (this.description === null || this.description === undefined) this.description = '';
     if (this.price === null || this.price === undefined) this.price = 0;
     if (this.category === null || this.category === undefined) this.category = '';
     if (this.config === null || this.config === undefined) this.config = [];
@@ -59,12 +62,13 @@ export class EdititemComponent implements OnInit {
           category: this.category,
           config: this.config,
           addons: this.addon,
+          description: this.description
         })
         .subscribe(
           (data) => {
             this.appservice.unload();
             this.appservice.alert('Success!', '');
-            this.dialogRef.close();
+            this.dialogRef.close(true);
           },
           (err) => {
             this.appservice.unload();
@@ -80,13 +84,14 @@ export class EdititemComponent implements OnInit {
           this.category,
           this.config,
           this.addon,
-          this.upload
+          this.upload,
+          this.description
         )
         .subscribe(
           (data) => {
             this.appservice.unload();
             this.appservice.alert('Success!', '');
-            this.dialogRef.close();
+            this.dialogRef.close(true);
           },
           (err) => {
             this.appservice.unload();

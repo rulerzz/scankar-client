@@ -34,14 +34,20 @@
   width:70px;
 }
 .show{
-  left:0px;
+  width:265px;
 }
 .hide{
-  left:-295px;
+  width:70px;
 }
 .showbrand{
   display: flex;
 }
 .hidebrand{
   display:none;
+}
+.display{
+  display:flex !important;
+}
+.none{
+  display:none !important;
 }

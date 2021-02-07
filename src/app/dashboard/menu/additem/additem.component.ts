@@ -20,6 +20,7 @@ export class AdditemComponent implements OnInit {
   config: any;
   categories: any;
   addon: any;
+  description: any;
   constructor(
     public dialogRef: MatDialogRef<AdditemComponent>,
     private dashboardservice: DashboardService,
@@ -32,10 +33,10 @@ export class AdditemComponent implements OnInit {
     this.name = new FormControl('', Validators.required);
     this.price = new FormControl('', Validators.required);
     this.category = new FormControl('', Validators.required);
+    this.description = new FormControl('', Validators.required);
   }
 
   ngOnInit(): void {
-    console.log(this.data);
     this.categories = this.data.categories;
   }
   changed(event: any) {
@@ -56,12 +57,12 @@ export class AdditemComponent implements OnInit {
       this.appservice.unload();
     } else {
       this.dashboardservice
-        .createItem(localStorage.getItem('id'), this.name.value, this.price.value,this.category.value,this.config, this.upload, this.addon)
+        .createItem(localStorage.getItem('id'), this.name.value, this.price.value,this.category.value,this.config, this.upload, this.addon, this.description.value)
         .subscribe(
           (data) => {
             this.appservice.unload();
             this.appservice.alert('Success!', '');
-            this.dialogRef.close();
+            this.dialogRef.close(true);
           },
           (err) => {
             this.appservice.unload();

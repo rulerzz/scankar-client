@@ -114,7 +114,13 @@ export class BillingComponent implements OnInit {
     }
   }
   getPrice(item: any) {
-    return item.config.price;
+    if (item.hasOwnProperty('config') && item.config.hasOwnProperty('price'))
+      return item.config.price;
+    else return item.price;
+  }
+  getName(item: any) {
+    if (item.hasOwnProperty('config')) return item.config.name;
+    else return 'Initial';
   }
   getAddonAmount(item: any) {
     let price = 0;
@@ -173,7 +179,7 @@ export class BillingComponent implements OnInit {
         width: '100%',
         data: {
           user: this.user,
-          mode: 'create'
+          mode: 'create',
         },
       });
     } else {
@@ -182,7 +188,7 @@ export class BillingComponent implements OnInit {
         data: {
           user: this.user,
           order: this.temp,
-          mode: 'edit'
+          mode: 'edit',
         },
       });
     }

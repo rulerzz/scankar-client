@@ -30,6 +30,7 @@ import { AdditemComponent } from './menu/additem/additem.component';
 import { AdditemComponentt } from './billing/additem/additem.component';
 import { BreakupComponent } from './billing/breakup/breakup.component';
 import { ShowaddonsComponent } from './tables/showaddons/showaddons.component';
+import { OtherordersComponent } from './otherorders/otherorders.component';
 // Note we need a separate function as it's required
 // by the AOT compiler.
 export function playerFactory() {
@@ -81,6 +82,10 @@ const routes: Routes = [
         component: TablesComponent,
       },
       {
+        path: 'otherorders',
+        component: OtherordersComponent,
+      },
+      {
         path: 'bill',
         component: BillComponent,
       },
@@ -114,6 +119,7 @@ const routes: Routes = [
     AdditemComponentt,
     BreakupComponent,
     ShowaddonsComponent,
+    OtherordersComponent,
   ],
   imports: [
     CommonModule,

@@ -32,7 +32,8 @@ export class BillComponent implements OnInit {
     this.dashboardservice.setCurrentBill(undefined);
   }
   getPrice(item: any) {
-    return item.config.price;
+    if (item.hasOwnProperty('config')) return item.config.price;
+    else return item.price;
   }
   getAddonAmount(item: any) {
     let price = 0;

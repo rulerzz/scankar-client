@@ -120,6 +120,28 @@ export class DashboardService {
       }
     );
   }
+  updateCategory(category: any, image: any): Observable<any> {
+    const formData = new FormData();
+    if (image !== null || image !== undefined) {
+      formData.append('photo', image);
+    }
+    formData.append('category', JSON.stringify(category));
+    return this.http.put<any>(
+      config.serverUrl +
+        'users/category/' +
+        category._id +
+        '/' +
+        category.name +
+        '/' +
+        category.description +
+        '/' +
+        category.cuisine,
+      formData,
+      {
+        observe: 'response',
+      }
+    );
+  }
   deleteCategory(userid: any, categoryid: any): Observable<any> {
     return this.http.get<any>(
       config.serverUrl + 'users/deletecategory/' + userid + '/' + categoryid,
@@ -135,7 +157,8 @@ export class DashboardService {
     category: any,
     configuration: any,
     image: any,
-    addon: any
+    addon: any,
+    description: any
   ): Observable<any> {
     const formData = new FormData();
     formData.append('photo', image);
@@ -145,6 +168,7 @@ export class DashboardService {
     formData.append('category', category);
     formData.append('config', JSON.stringify(configuration));
     formData.append('addon', JSON.stringify(addon));
+    formData.append('description', description);
     return this.http.post<any>(
       config.serverUrl + 'users/insertuseritem/' + id,
       formData,
@@ -160,7 +184,8 @@ export class DashboardService {
     category: any,
     configg: any,
     addons: any,
-    upload: any
+    upload: any,
+    description: any
   ): Observable<any> {
     const formData = new FormData();
     formData.append('photo', upload);
@@ -168,6 +193,7 @@ export class DashboardService {
     formData.append('name', name);
     formData.append('price', price);
     formData.append('category', category);
+    formData.append('description', description);
     formData.append('config', JSON.stringify(configg));
     formData.append('addons', JSON.stringify(addons));
     return this.http.post<any>(
@@ -208,6 +234,14 @@ export class DashboardService {
   getOrdersById(id: any): Observable<any> {
     return this.http.get<any>(
       config.serverUrl + 'customer-order/orderinfo/' + id,
+      {
+        observe: 'response',
+      }
+    );
+  }
+  getOtherOrdersById(id: any): Observable<any> {
+    return this.http.get<any>(
+      config.serverUrl + 'customer-order/otherorders/' + id,
       {
         observe: 'response',
       }

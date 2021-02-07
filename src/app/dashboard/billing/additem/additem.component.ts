@@ -62,30 +62,45 @@ export class AdditemComponentt implements OnInit {
     });
     if (configcount > 1) {
       this.appservice.alert(
-        'You can only select one configuration at a time!',
+        'You cannot select more than one configuration!',
         ''
       );
-    } else if (configcount == 0) {
-      this.appservice.alert('You must select one configuration at least!', '');
     } else {
       // SEND TO CART
       let config: any,
         addons: any = [];
-      item.config.forEach((element: any) => {
-        if(element.selected)
-        config = { id: element._id , name : element.name, price : element.price };
-      });
-      item.addons.forEach((element: any) => {
-        if (element.selected)
-          addons.push({ id: element._id, name: element.name, price: element.price });
-      });
-      this.dashboardservice.addToCart({
+      let data = {
         itemid: item._id,
         quantity: item.quantity,
-        config: config,
-        addons: addons,
         name: item.name,
-      });
+        config: {},
+        addons: [],
+        price: item.price,
+      };
+      if (configcount > 0) {
+        item.config.forEach((element: any) => {
+          if (element.selected)
+            config = {
+              id: element._id,
+              name: element.name,
+              price: element.price,
+            };
+        });
+        data.config = config;
+      }
+      if (item.addons.length > 0) {
+        item.addons.forEach((element: any) => {
+          if (element.selected)
+            addons.push({
+              id: element._id,
+              name: element.name,
+              price: element.price,
+            });
+        });
+        data.addons = addons;
+      }
+      this.dashboardservice.addToCart(data);
+      console.log(data);
     }
   }
 }

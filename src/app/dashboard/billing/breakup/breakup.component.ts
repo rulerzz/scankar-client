@@ -70,7 +70,13 @@ export class BreakupComponent implements OnInit {
     this.getTotalCost();
   }
   getPrice(item: any) {
-    return item.config.price;
+    if (item.hasOwnProperty('config') && item.config.hasOwnProperty('price'))
+      return item.config.price;
+    else return item.price;
+  }
+  getName(item: any) {
+    if (item.hasOwnProperty('config')) return item.config.name;
+    else return 'Initial';
   }
   getAddonAmount(item: any) {
     let price = 0;
@@ -129,7 +135,6 @@ export class BreakupComponent implements OnInit {
     });
     total -= this.discount;
     this.total = total.toFixed(2);
-    
   }
   update() {
     if (
@@ -141,34 +146,34 @@ export class BreakupComponent implements OnInit {
     }
     if (this.orderType == 'Dine In') {
       // DINE IN
-          if (this.username == '') {
-            this.appservice.alert('Please enter user name!', '');
-          } else if (this.tableNo == 0) {
-            this.appservice.alert('Please select a table!', '');
-          } else {
-            this.appservice.load();
-            let order = {
-              discount: this.discount,
-              items: this.cart,
-              price: this.total,
-              booker: this.username,
-              instruction: this.instruction,
-              orderType: this.orderType,
-              address: this.address,
-              _id: this.data.order._id,
-            };
-            this.dashboardservice.UpdateOrder(order).subscribe(
-              (data) => {
-                this.appservice.unload();
-                this.appservice.alert('Completed an order!', '');
-                this.dialogRef.close(true);
-              },
-              (err) => {
-                this.appservice.unload();
-                this.appservice.alert('Error completing order!', '');
-              }
-            );
+      if (this.username == '') {
+        this.appservice.alert('Please enter user name!', '');
+      } else if (this.tableNo == 0) {
+        this.appservice.alert('Please select a table!', '');
+      } else {
+        this.appservice.load();
+        let order = {
+          discount: this.discount,
+          items: this.cart,
+          price: this.total,
+          booker: this.username,
+          instruction: this.instruction,
+          orderType: this.orderType,
+          address: this.address,
+          _id: this.data.order._id,
+        };
+        this.dashboardservice.UpdateOrder(order).subscribe(
+          (data) => {
+            this.appservice.unload();
+            this.appservice.alert('Completed an order!', '');
+            this.dialogRef.close(true);
+          },
+          (err) => {
+            this.appservice.unload();
+            this.appservice.alert('Error completing order!', '');
           }
+        );
+      }
     } else if (this.orderType == 'Delivery') {
       // TAKE AWAY / DELIVERY
       this.tableNo = 0;

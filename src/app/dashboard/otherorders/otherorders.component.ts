@@ -1,19 +1,36 @@
+import { AnimationOptions } from 'ngx-lottie';
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { AnimationItem } from 'lottie-web';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { AppService } from 'src/app/app.service';
 import { DashboardService } from '../dashboard.service';
-import { AnimationOptions } from 'ngx-lottie';
-import { MatDialog } from '@angular/material/dialog';
-import { ShowaddonsComponent } from './showaddons/showaddons.component';
-
+import { ShowaddonsComponent } from '../tables/showaddons/showaddons.component';
+import { MatTableDataSource } from '@angular/material/table';
+import {
+  animate,
+  state,
+  style,
+  transition,
+  trigger,
+} from '@angular/animations';
 @Component({
-  selector: 'app-tables',
-  templateUrl: './tables.component.html',
-  styleUrls: ['./tables.component.css'],
+  selector: 'app-otherorders',
+  templateUrl: './otherorders.component.html',
+  styleUrls: ['./otherorders.component.css'],
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({ height: '0px', minHeight: '0' })),
+      state('expanded', style({ height: '*' })),
+      transition(
+        'expanded <=> collapsed',
+        animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')
+      ),
+    ]),
+  ],
 })
-export class TablesComponent implements OnInit {
+export class OtherordersComponent implements OnInit {
   user: any = {};
   numbers: any;
   orders: any;
@@ -24,6 +41,18 @@ export class TablesComponent implements OnInit {
   cgst: number;
   sgst: number;
   servicecharge: number;
+  expandedElement: any | null;
+  displayedColumns: string[] = [
+    'userName',
+    'price',
+    'orderType',
+    'process',
+    'status',
+    'palced_time',
+    'action',
+    'star',
+  ];
+  dataSource: any;
   constructor(
     private router: Router,
     private deviceService: DeviceDetectorService,
@@ -31,7 +60,6 @@ export class TablesComponent implements OnInit {
     private appservice: AppService,
     public dialog: MatDialog
   ) {
-    this.numbers = [];
     this.orders = [];
     this.selectedOder = {};
     this.items = [];
@@ -62,11 +90,6 @@ export class TablesComponent implements OnInit {
     this.dashboardservice.getUser(localStorage.getItem('id')).subscribe(
       (data) => {
         this.user = data.body.data.user;
-        if (this.user.tableCount > 0) {
-          for (let i = 0; i < this.user.tableCount; i++) {
-            this.numbers.push(i + 1);
-          }
-        }
       },
       (err) => {
         this.appservice.alert('Could not get user!', '');
@@ -74,16 +97,19 @@ export class TablesComponent implements OnInit {
     );
   }
   async loadOrders() {
-    this.dashboardservice.getOrdersById(localStorage.getItem('id')).subscribe(
-      (data) => {
-        this.orders = data.body.data;
-        this.appservice.unload();
-      },
-      (err) => {
-        this.appservice.alert('Could not get table status!', '');
-        this.appservice.unload();
-      }
-    );
+    this.dashboardservice
+      .getOtherOrdersById(localStorage.getItem('id'))
+      .subscribe(
+        (data) => {
+          this.orders = data.body.data;
+          this.dataSource = new MatTableDataSource(this.orders);
+          this.appservice.unload();
+        },
+        (err) => {
+          this.appservice.alert('Could not get table status!', '');
+          this.appservice.unload();
+        }
+      );
   }
   options: AnimationOptions = {
     path: '../../../assets/empty1.json',
@@ -115,7 +141,7 @@ export class TablesComponent implements OnInit {
   }
   getName(item: any) {
     if (item.hasOwnProperty('config')) return item.config.name;
-    else return "Initial";
+    else return 'Initial';
   }
   getAddonAmount(item: any) {
     let price = 0;
@@ -167,29 +193,14 @@ export class TablesComponent implements OnInit {
     }
     return (finalPrice * Number(item.quantity)).toFixed(2);
   }
-  start(index: any) {
+  view(order: any) {
     this.totalAmount = 0;
-    this.cgst = 0;
-    this.sgst = 0;
-    this.servicecharge = 0;
-    this.additionalCharge = 0;
-    if (this.check(index)) {
-      // Order Exists
-      for (let i = 0; i < this.orders.length; i++) {
-        if (this.orders[i].tableNo == index + 1) {
-          this.selectedOder = this.orders[i];
-          this.selectedOder.items.forEach((element: any) => {
-            this.totalAmount += Number(this.getFinalPrice(element));
-          });
-        }
-      }
-      this.totalAmount -= this.selectedOder.discount;
-      this.totalAmount.toFixed(2);
-    } else {
-      // Order Does not exist
-      this.selectedOder = {};
-      this.firePOS();
-    }
+    this.selectedOder = order;
+    this.selectedOder.items.forEach((element: any) => {
+      this.totalAmount += Number(this.getFinalPrice(element));
+    });
+    this.totalAmount -= this.selectedOder.discount;
+    this.totalAmount.toFixed(2);
   }
   edit() {
     this.router.navigate(['dashboard/billing/' + this.selectedOder._id]);

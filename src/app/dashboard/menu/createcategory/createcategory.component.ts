@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AppService } from 'src/app/app.service';
 import { DashboardService } from '../../dashboard.service';
 
@@ -17,10 +17,18 @@ export class CreatecategoryComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<CreatecategoryComponent>,
     private dashboardservice: DashboardService,
-    private appservice: AppService
+    private appservice: AppService,
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    if (this.data.mode == 'edit') {
+      this.name = this.data.category.name;
+      this.description = this.data.category.description;
+      this.cuisine = this.data.category.cuisine;
+      this.image = this.data.category.image;
+    }
+  }
   changed(event: any) {
     this.upload = event.target.files.item(0);
     var reader = new FileReader();
@@ -34,20 +42,26 @@ export class CreatecategoryComponent implements OnInit {
     if (
       this.upload === undefined ||
       this.name === undefined ||
-      this.name == '' || 
-      this.description == '' || 
+      this.name == '' ||
+      this.description == '' ||
       this.cuisine == ''
     ) {
-      this.appservice.alert("Please enter required fields!","");
+      this.appservice.alert('Please enter required fields!', '');
       this.appservice.unload();
     } else {
       this.dashboardservice
-        .createCategory(localStorage.getItem('id'), this.name, this.upload, this.description, this.cuisine)
+        .createCategory(
+          localStorage.getItem('id'),
+          this.name,
+          this.upload,
+          this.description,
+          this.cuisine
+        )
         .subscribe(
           (data) => {
             this.appservice.unload();
-            this.appservice.alert("Success!","");
-            this.dialogRef.close();
+            this.appservice.alert('Success!', '');
+            this.dialogRef.close(true);
           },
           (err) => {
             this.appservice.unload();
@@ -56,7 +70,39 @@ export class CreatecategoryComponent implements OnInit {
         );
     }
   }
-  close(){
+  updateCategory() {
+    this.data.category.name = this.name;
+    this.data.category.description = this.description;
+    this.data.category.cuisine = this.cuisine;
+    this.appservice.load();
+    if (
+      this.name === undefined ||
+      this.name == '' ||
+      this.description == '' ||
+      this.cuisine == ''
+    ) {
+      this.appservice.alert('Please enter required fields!', '');
+      this.appservice.unload();
+    } else {
+      this.dashboardservice
+        .updateCategory(
+          this.data.category,
+          this.upload
+        )
+        .subscribe(
+          (data) => {
+            this.appservice.unload();
+            this.appservice.alert('Success!', '');
+            this.dialogRef.close(true);
+          },
+          (err) => {
+            this.appservice.unload();
+            this.appservice.alert('Could not update category!', '');
+          }
+        );
+    }
+  }
+  close() {
     this.dialogRef.close();
   }
 }

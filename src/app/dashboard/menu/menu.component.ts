@@ -60,10 +60,33 @@ export class MenuComponent implements OnInit {
     const dialogRef = this.dialog.open(CreatecategoryComponent, {
       width: '350px',
       height: '450px',
+      data: {
+        mode: 'create',
+      },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      this.ngOnInit();
+      if (result) {
+        this.ngOnInit();
+        this.close();
+      }
+    });
+  }
+  editCategory(category: any) {
+    const dialogRef = this.dialog.open(CreatecategoryComponent, {
+      width: '350px',
+      height: '450px',
+      data: {
+        category: category,
+        mode: 'edit',
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.ngOnInit();
+        this.close();
+      }
     });
   }
   addItem(): void {
@@ -74,22 +97,28 @@ export class MenuComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      this.ngOnInit();
+      if (result) {
+        this.ngOnInit();
+        this.close();
+      }
     });
   }
-  updateItem(item:any): void {
+  updateItem(item: any): void {
     const dialogRef = this.dialog.open(EdititemComponent, {
       width: '350px',
       height: '450px',
       data: {
         user: this.user,
         categories: this.categories,
-        item: item
+        item: item,
       },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      this.ngOnInit();
+      if (result) {
+        this.ngOnInit();
+        this.close();
+      }
     });
   }
   display: any = '';
@@ -101,15 +130,12 @@ export class MenuComponent implements OnInit {
   toggle(category: any) {
     this.itemtoggle = !this.itemtoggle;
     this.selected = category;
-    if(this.selected.items === undefined || this.selected.items === null)
-    {
+    if (this.selected.items === undefined || this.selected.items === null) {
       this.showaimation = true;
-    }
-    else{
-      if(this.selected.items.length > 0){
+    } else {
+      if (this.selected.items.length > 0) {
         this.showaimation = false;
-      }
-      else{
+      } else {
         this.showaimation = true;
       }
     }
@@ -120,22 +146,26 @@ export class MenuComponent implements OnInit {
   }
   delete(item: any) {
     this.appservice.load();
-    this.dashboardservice.deleteItem(item._id, item.category).subscribe((data) => {
-      this.appservice.alert('Successfully deleted item ' + item.name, '');
-      this.ngOnInit();
-      this.close();
-      this.appservice.unload();
-    });
+    this.dashboardservice
+      .deleteItem(item._id, item.category)
+      .subscribe((data) => {
+        this.appservice.alert('Successfully deleted item ' + item.name, '');
+        this.ngOnInit();
+        this.close();
+        this.appservice.unload();
+      });
   }
-  deleteCategory(category: any){
-     const dialogRef = this.dialog.open(DeleteCategoryComponent, {
-       width: '350px',
-       data: category,
-     });
+  deleteCategory(category: any) {
+    const dialogRef = this.dialog.open(DeleteCategoryComponent, {
+      width: '350px',
+      data: category,
+    });
 
-     dialogRef.afterClosed().subscribe((result) => {
-       if(result)
-       this.ngOnInit();
-     });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.ngOnInit();
+        this.close();
+      }
+    });
   }
 }

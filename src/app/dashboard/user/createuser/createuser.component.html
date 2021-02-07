@@ -83,6 +83,7 @@
    <div class="form-group">
    <label>Country:</label>
    <select class="form-control" name="country" [(ngModel)]="country">
+	   	<option value="" [selected]="country === ''">Select</option>
 																	<option [selected]="country === 'AF'" value="AF">Afghanistan</option>
 																	<option [selected]="country === 'AX'" value="AX">Åland Islands</option>
 																	<option [selected]="country === 'AL'" value="AL">Albania</option>
@@ -361,49 +362,30 @@
    <span class="form-text text-muted">Please enter PIN / ZIP Code</span>
   </div>
   <div class="form-group">
-   <label>Owner Type:</label>
-   <div class="checkbox-inline">
-    <label class="radio">
-     <input required type="radio" name="type" value="returantowner" [(ngModel)]="ownerType"/>
-     <span></span>
-      &nbsp;Returant owner
-    </label>&nbsp;&nbsp;
-    <label class="radio">
-     <input required type="radio" name="type" value="hotelowner" [(ngModel)]="ownerType"/>
-     <span></span>
-      &nbsp;Hotelowner
-    </label>
-   </div>
-  </div>
+   <label>Owner:</label>
+   <select class="form-control" name="ownerType" [(ngModel)]="ownerType">
+   <option value="" [selected]="ownerType === ''">Select</option>
+   <option [selected]="ownerType === 'returantowner'" value="returantowner">Restaurant</option>
+   <option [selected]="ownerType === 'hotelowner'" value="hotelowner">Hotel</option>
+   <option [selected]="ownerType === 'registered'" value="registered">Registered</option>
+   </select>
+  </div>															
   <div class="form-group">
    <label>Status:</label>
-   <div class="checkbox-inline">
-    <label class="radio">
-     <input required type="radio" name="status" value="Active" [(ngModel)]="status"/>
-     <span></span>
-      &nbsp;Active
-    </label>&nbsp;&nbsp;
-    <label class="radio">
-     <input required type="radio" name="status" value="InActive"[(ngModel)]="status" />
-     <span></span>
-      &nbsp;Inactive
-    </label>
-   </div>
+   <select class="form-control" name="status" [(ngModel)]="status">
+   <option value="" [selected]="status === ''">Select</option>
+   <option [selected]="status === 'Active'" value="Active">Active</option>
+   <option [selected]="status === 'InActive'" value="InActive">Inactive</option>
+   </select>
   </div>
    <div class="form-group">
    <label>Role:</label>
-   <div class="radio-inline">
-    <label class="radio">
-     <input required type="radio" name="role" value="admin" [(ngModel)]="role"/>
-     <span></span>
-     Admin
-    </label>
-    <label class="radio">
-     <input required type="radio" name="role" value="user" [(ngModel)]="role"/>
-     <span></span>
-     User
-    </label>
-   </div>
+   <select class="form-control" name="role" [(ngModel)]="role">
+   <option value="" [selected]="role === ''">Select</option>
+   <option [selected]="role === 'admin'" value="Admin">Admin</option>
+   <option [selected]="role === 'user'" value="user">User</option>
+   <option [selected]="role === 'accounts'" value="accounts">Accounts</option>
+   </select>
   </div>
  </div>
  <div class="card-footer p-0" >

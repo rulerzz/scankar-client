@@ -105,7 +105,7 @@
                 >
                   <td class="pl-0 pt-7">{{ item.name }}</td>
                   <td class="text-right pt-7">
-                    {{ item.config.name ? item.config.name : "N/A" }}
+                    {{ item.config?.name ? item.config?.name : "Initial" }}
                   </td>
                   <td class="text-right pt-7" style="max-width: 150px;">
 					  <span *ngFor="let addon of item.addons; let i = index">{{addon.name}} <span *ngIf="i < item.addons.length - 1">,</span></span>
@@ -115,7 +115,7 @@
                   </td>
                   <td class="text-right pt-7">{{ item.quantity }}</td>
                   <td class="text-right pt-7">
-                    <i class="fas fa-inr"></i>&nbsp;{{ item.config.price }}
+                    <i class="fas fa-inr"></i>&nbsp;{{ getPrice(item)  }}
                   </td>
                   <td class="text-danger pr-0 pt-7 text-right">
                     <i class="fas fa-inr"></i>&nbsp;{{ getCgst(item) }}

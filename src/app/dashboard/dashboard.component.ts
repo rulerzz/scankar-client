@@ -116,7 +116,6 @@ export class DashboardComponent implements OnInit {
     this.router.navigate(['login']);
   }
   toggleHeader() {
-    console.log(this.header);
     this.header = !this.header;
   }
   toggleNav() {
