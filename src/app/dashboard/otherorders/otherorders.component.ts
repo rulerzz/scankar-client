@@ -80,7 +80,16 @@ export class OtherordersComponent implements OnInit {
     this.cgst = 0;
     this.sgst = 0;
     this.servicecharge = 0;
+    this.dashboardservice.kevents$.forEach((event) => {
+      this.refresh();
+    });
     // LOAD USER
+    this.appservice.load();
+    this.loadUser().then((result) => {
+      this.loadOrders();
+    });
+  }
+  refresh(){
     this.appservice.load();
     this.loadUser().then((result) => {
       this.loadOrders();
@@ -219,7 +228,7 @@ export class OtherordersComponent implements OnInit {
   firePOS() {
     this.router.navigate(['dashboard/billing']);
   }
-  closetable() {
+  closeorder() {
     this.appservice.load();
     this.selectedOder.status = 'Billed';
     this.selectedOder.process = 'Completed';

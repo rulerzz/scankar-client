@@ -34,10 +34,10 @@
   width:70px;
 }
 .show{
-  width:265px;
+  left:0px;
 }
 .hide{
-  width:70px;
+  width:265px;
 }
 .showbrand{
   display: flex;

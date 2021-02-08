@@ -4,6 +4,36 @@ import { Component, OnInit } from '@angular/core';
 import { config } from '../../config/config';
 import { DashboardService } from './dashboard.service';
 import { DeviceDetectorService } from 'ngx-device-detector';
+import { Socket } from 'ngx-socket-io';
+import { Howl } from 'howler';
+
+export enum NgxNotificationStatusMsg {
+  SUCCESS = 'SUCCESS',
+  FAILURE = 'FAILURE',
+  INFO = 'INFO',
+  NONE = 'NONE',
+}
+
+export enum NgxNotificationDirection {
+  TOP = 'TOP',
+  TOP_RIGHT = 'TOP_RIGHT',
+  TOP_LEFT = 'TOP_LEFT',
+  BOTTOM = 'BOTTOM',
+  BOTTOM_RIGHT = 'BOTTOM_RIGHT',
+  BOTTOM_LEFT = 'BOTTOM_LEFT',
+}
+
+interface INgxNotificationMsgConfig {
+  status?: NgxNotificationStatusMsg;
+  direction?: NgxNotificationDirection;
+  header?: string;
+  messages: string[];
+  delay?: number;
+  displayIcon?: boolean;
+  displayProgressBar?: boolean;
+  closeable?: boolean;
+}
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -40,7 +70,8 @@ export class DashboardComponent implements OnInit {
     private router: Router,
     private deviceService: DeviceDetectorService,
     private dashboardservice: DashboardService,
-    private appservice: AppService
+    private appservice: AppService,
+    public socket: Socket,
   ) {
     this.user = {};
     this.user.firstName = '';
@@ -77,8 +108,23 @@ export class DashboardComponent implements OnInit {
       this.router.navigate(['dashboard/main']);
     }
     this.token = localStorage.getItem('id');
+    this.socket.on('emitcreateorderaction', (data: any) => {
+      if (data.user == localStorage.getItem('id')) {
+        console.log('emitted');
+        this.showOrderAlert(data);
+      }
+    });
   }
-
+  showOrderAlert(data: any) {
+    this.dashboardservice.showk(true);
+    this.dashboardservice.showt(true);
+    this.dashboardservice.showo(true);
+    this.appservice.alert("New " + data.orderType + " type order recieved!", "");
+    let sound = new Howl({
+      src: ['../../assets/definite-555.mp3'],
+    });
+    sound.play();
+  }
   ngOnInit(): void {
     this.detect();
   }
@@ -99,13 +145,13 @@ export class DashboardComponent implements OnInit {
     this.isMobile = this.deviceService.isMobile();
     this.isTablet = this.deviceService.isTablet();
     this.isDesktopDevice = this.deviceService.isDesktop();
-    if(this.isMobile){
+    if (this.isMobile) {
       this.header = false;
     }
     if (this.isTablet) {
       this.header = false;
     }
-    if(this.isDesktopDevice){
+    if (this.isDesktopDevice) {
       this.header = true;
     }
   }
@@ -116,7 +162,10 @@ export class DashboardComponent implements OnInit {
     this.router.navigate(['login']);
   }
   toggleHeader() {
-    this.header = !this.header;
+    if (this.isDesktopDevice) {
+    } else {
+      this.header = !this.header;
+    }
   }
   toggleNav() {
     this.nav = !this.nav;

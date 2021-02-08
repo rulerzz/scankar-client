@@ -56,14 +56,14 @@
       id="kt_aside" [ngClass]="header ? 'show' : 'hide'"
     >
       <!--begin::Brand-->
-      <div class="brand flex-column-auto" id="kt_brand" [ngClass]="header ? 'showbrand' : 'hidebrand'">
+      <div class="brand flex-column-auto" id="kt_brand">
         <!--begin::Logo-->
         <a [routerLink]="['']" class="brand-logo">
           <img alt="Logo" [src]="config.appLogo" style="max-width:100px" />
         </a>
         <!--end::Logo-->
         <!--begin::Toggle-->
-        <button class="brand-toggle btn btn-sm px-0" id="kt_aside_toggle">
+        <button class="brand-toggle btn btn-sm px-0" id="kt_aside_toggle" (click)="toggleHeader()">
           <span class="svg-icon svg-icon svg-icon-xl">
             <!--begin::Svg Icon | path:assets/media/svg/icons/Navigation/Angle-double-left.svg-->
             <svg

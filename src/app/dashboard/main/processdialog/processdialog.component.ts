@@ -27,9 +27,6 @@ export class ProcessdialogComponent implements OnInit {
   }
   update(){
     this.data.process = this.status;
-    if(this.data.process == 'Rejected'){
-      this.data.status = "Closed";
-    }
     this.appservice.load();
     this.dashboardservice.UpdateOrderStatus(this.data).subscribe(
       (data) => {

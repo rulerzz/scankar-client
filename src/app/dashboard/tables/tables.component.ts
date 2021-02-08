@@ -53,6 +53,15 @@ export class TablesComponent implements OnInit {
     this.sgst = 0;
     this.servicecharge = 0;
     // LOAD USER
+     this.dashboardservice.kevents$.forEach((event) => {
+       this.refresh();
+     });
+    this.appservice.load();
+    this.loadUser().then((result) => {
+      this.loadOrders();
+    });
+  }
+  refresh(){
     this.appservice.load();
     this.loadUser().then((result) => {
       this.loadOrders();

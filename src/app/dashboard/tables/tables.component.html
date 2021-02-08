@@ -46,6 +46,17 @@
                                 <td class="text-danger pr-0 pt-7 text-right"><i class="fas fa-inr"></i>&nbsp;{{getServiceCharges(item)}}</td>
                                 <td class="text-danger pr-0 pt-7 text-right"><i class="fas fa-inr"></i>&nbsp;{{getFinalPrice(item)}}</td>
                               </tr>
+                              <tr class="font-weight-boldest font-size-lg" *ngIf="selectedOder.discount > 0">
+																<td class="pl-0 pt-7">Discount</td>
+                                <td class="text-right pt-7"></td>
+                                <td class="text-right pt-7"></td>
+                                <td class="text-right pt-7"></td>
+                                <td class="text-right pt-7"></td>
+                                <td class="text-right pt-7"></td>
+                                <td class="text-right pt-7"></td>
+                                <td class="text-right pt-7"></td>
+																<td class="text-danger pr-0 pt-7 text-right">-&nbsp;<i class="fas fa-inr"></i>&nbsp;{{selectedOder.discount}}</td>
+                              </tr>	
                               	<tr class="font-weight-boldest font-size-lg">
 																<td class="pl-0 pt-7">Total</td>
                                 <td class="text-right pt-7"></td>

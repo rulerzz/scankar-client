@@ -1,6 +1,6 @@
 import { StatusdialogComponent } from './statusdialog/statusdialog.component';
 import { ProcessdialogComponent } from './processdialog/processdialog.component';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
@@ -46,7 +46,7 @@ export class MainComponent implements OnInit {
     'status',
     'palced_time',
     'action',
-    'star'
+    'star',
   ];
   dataSource: any;
   resultsLength: any;
@@ -59,7 +59,8 @@ export class MainComponent implements OnInit {
     private appservice: AppService,
     private router: Router,
     public dialog: MatDialog,
-    private deviceService: DeviceDetectorService
+    private deviceService: DeviceDetectorService,
+    private changeDetectorRefs: ChangeDetectorRef
   ) {
     this.dataSource = new MatTableDataSource([]);
     this.load();
@@ -72,9 +73,9 @@ export class MainComponent implements OnInit {
     this.isDesktopDevice = this.deviceService.isDesktop();
   }
   ngOnInit(): void {
-    this.interval = setInterval(() => {
-      this.refresh(); // api call
-    }, 5000);
+    this.dashboardservice.kevents$.forEach((event) => {
+      this.refresh();
+    });
   }
 
   getServerData(e: any) {
@@ -119,6 +120,7 @@ export class MainComponent implements OnInit {
         console.log(data.body.data);
         this.orders = data.body.data.orders;
         this.dataSource = new MatTableDataSource(this.orders);
+        this.changeDetectorRefs.detectChanges();
         this.resultsLength = data.body.count;
       },
       (err) => {

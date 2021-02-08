@@ -31,6 +31,10 @@ import { AdditemComponentt } from './billing/additem/additem.component';
 import { BreakupComponent } from './billing/breakup/breakup.component';
 import { ShowaddonsComponent } from './tables/showaddons/showaddons.component';
 import { OtherordersComponent } from './otherorders/otherorders.component';
+import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+import { config } from '../../config/config';
+import { BulkuploadComponent } from './menu/bulkupload/bulkupload.component';
+const configuration: SocketIoConfig = { url: config.socketUrl, options: {} };
 // Note we need a separate function as it's required
 // by the AOT compiler.
 export function playerFactory() {
@@ -120,10 +124,12 @@ const routes: Routes = [
     BreakupComponent,
     ShowaddonsComponent,
     OtherordersComponent,
+    BulkuploadComponent,
   ],
   imports: [
     CommonModule,
     SharedModule,
+    SocketIoModule.forRoot(configuration),
     RouterModule.forChild(routes),
     LottieModule.forRoot({ player: playerFactory }),
   ],

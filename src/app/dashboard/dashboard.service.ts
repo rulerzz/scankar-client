@@ -8,10 +8,34 @@ import { config } from 'src/config/config';
 })
 export class DashboardService {
   private usersubject = new Subject<boolean>();
+  private kotsubject = new Subject<boolean>();
+  private tablesubject = new Subject<boolean>();
+  private othersubject = new Subject<boolean>();
   bill: any;
   cart: any[];
   constructor(private http: HttpClient) {
     this.cart = [];
+  }
+  showk(event: any) {
+    this.kotsubject.next(event);
+  }
+
+  get kevents$() {
+    return this.kotsubject.asObservable();
+  }
+  showt(event: any) {
+    this.tablesubject.next(event);
+  }
+
+  get tevents$() {
+    return this.tablesubject.asObservable();
+  }
+  showo(event: any) {
+    this.othersubject.next(event);
+  }
+
+  get oevents$() {
+    return this.othersubject.asObservable();
   }
   setCart(cart: any) {
     this.cart = cart;
@@ -275,5 +299,19 @@ export class DashboardService {
   }
   setCurrentBill(bill: any) {
     this.bill = bill;
+  }
+  bulkUpload(
+    id: any,
+    file: any
+  ): Observable<any> {
+    const formData = new FormData();
+    formData.append('file', file);
+    return this.http.post<any>(
+      config.serverUrl + 'users/bulkupload/' + id,
+      formData,
+      {
+        observe: 'response',
+      }
+    );
   }
 }

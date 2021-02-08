@@ -9,6 +9,7 @@ import { AnimationItem } from 'lottie-web';
 import { AnimationOptions } from 'ngx-lottie';
 import { EdititemComponent } from './edititem/edititem.component';
 import { DeleteCategoryComponent } from './deletecategory/deletecategory.component';
+import { BulkuploadComponent } from './bulkupload/bulkupload.component';
 
 @Component({
   selector: 'app-menu',
@@ -68,7 +69,6 @@ export class MenuComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.ngOnInit();
-        this.close();
       }
     });
   }
@@ -85,7 +85,6 @@ export class MenuComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.ngOnInit();
-        this.close();
       }
     });
   }
@@ -99,7 +98,6 @@ export class MenuComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.ngOnInit();
-        this.close();
       }
     });
   }
@@ -165,6 +163,21 @@ export class MenuComponent implements OnInit {
       if (result) {
         this.ngOnInit();
         this.close();
+      }
+    });
+  }
+   bulkupload(): void {
+    const dialogRef = this.dialog.open(BulkuploadComponent, {
+      width: '350px',
+      data: {
+        user: this.user,
+        categories: this.categories,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.ngOnInit();
       }
     });
   }
