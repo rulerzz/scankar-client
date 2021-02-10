@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AppService } from 'src/app/app.service';
 import { DashboardService } from '../../dashboard.service';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-bulkupload',
@@ -33,7 +34,7 @@ export class BulkuploadComponent implements OnInit {
         (data) => {
           this.appservice.unload();
           this.appservice.alert('Success!', '');
-         // this.dialogRef.close(true);
+          this.dialogRef.close(true);
         },
         (err) => {
           this.appservice.unload();
@@ -41,5 +42,15 @@ export class BulkuploadComponent implements OnInit {
         }
       );
     }
+  }
+  downloadfile(){
+      var file = new File(['category,itemname,price,description\n\
+Pizza1,Pizza1,150,150 wala pizza\n\
+Pizza1,Pizza2,160,160 wala pizza\n\
+Pizza1,Pizza3,170,170 wala pizza\n\
+Pizza1,Pizza4,180,180 wala pizza'], 'sample.csv', {
+        type: 'text/plain;charset=utf-8',
+      });
+      saveAs(file);
   }
 }

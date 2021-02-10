@@ -74,6 +74,18 @@ export class DashboardService {
       observe: 'response',
     });
   }
+  getAll(offset: any, user: any): Observable<any> {
+    return this.http.get<any>(
+      config.serverUrl +
+        'customer-order/' +
+        offset +
+        '/' +
+        user,
+      {
+        observe: 'response',
+      }
+    );
+  }
   getAllOrders(offset: any, user: any): Observable<any> {
     return this.http.get<any>(
       config.serverUrl + 'customer-order?offset=' + offset + '&user=' + user,
@@ -300,10 +312,7 @@ export class DashboardService {
   setCurrentBill(bill: any) {
     this.bill = bill;
   }
-  bulkUpload(
-    id: any,
-    file: any
-  ): Observable<any> {
+  bulkUpload(id: any, file: any): Observable<any> {
     const formData = new FormData();
     formData.append('file', file);
     return this.http.post<any>(

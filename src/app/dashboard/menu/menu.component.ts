@@ -162,11 +162,10 @@ export class MenuComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.ngOnInit();
-        this.close();
       }
     });
   }
-   bulkupload(): void {
+  bulkupload(): void {
     const dialogRef = this.dialog.open(BulkuploadComponent, {
       width: '350px',
       data: {
@@ -180,5 +179,11 @@ export class MenuComponent implements OnInit {
         this.ngOnInit();
       }
     });
+  }
+  check(item:any){
+    if(item.hasOwnProperty('image')){
+      return true;
+    }
+    return false;
   }
 }

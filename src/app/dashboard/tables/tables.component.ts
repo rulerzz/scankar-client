@@ -62,6 +62,8 @@ export class TablesComponent implements OnInit {
     });
   }
   refresh(){
+    this.numbers = [];
+    this.orders = [];
     this.appservice.load();
     this.loadUser().then((result) => {
       this.loadOrders();
