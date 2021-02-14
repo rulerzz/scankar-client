@@ -165,12 +165,12 @@ export class BreakupComponent implements OnInit {
         this.dashboardservice.UpdateOrder(order).subscribe(
           (data) => {
             this.appservice.unload();
-            this.appservice.alert('Completed an order!', '');
+            this.appservice.alert('Updated an order!', '');
             this.dialogRef.close(true);
           },
           (err) => {
             this.appservice.unload();
-            this.appservice.alert('Error completing order!', '');
+            this.appservice.alert('Error updating order!', '');
           }
         );
       }
@@ -196,12 +196,12 @@ export class BreakupComponent implements OnInit {
         this.dashboardservice.UpdateOrder(order).subscribe(
           (data) => {
             this.appservice.unload();
-            this.appservice.alert('Completed an order!', '');
+            this.appservice.alert('Updated an order!', '');
             this.dialogRef.close(true);
           },
           (err) => {
             this.appservice.unload();
-            this.appservice.alert('Error completing order!', '');
+            this.appservice.alert('Error updating order!', '');
           }
         );
       }
@@ -224,12 +224,12 @@ export class BreakupComponent implements OnInit {
         this.dashboardservice.UpdateOrder(order).subscribe(
           (data) => {
             this.appservice.unload();
-            this.appservice.alert('Completed an order!', '');
+            this.appservice.alert('Updated an order!', '');
             this.dialogRef.close(true);
           },
           (err) => {
             this.appservice.unload();
-            this.appservice.alert('Error completing order!', '');
+            this.appservice.alert('Error updating order!', '');
           }
         );
       }

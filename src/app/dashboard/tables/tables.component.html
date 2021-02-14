@@ -38,7 +38,7 @@
 															<tr class="font-weight-boldest font-size-lg" *ngFor="let item of selectedOder.items">
                                 <td class="pl-0 pt-7">{{item.name}}</td>
                                 <td class="text-right pt-7">{{getName(item)}}</td>
-                                <td class="text-right pt-7"><a class="anchor" (click)="showaddons(item)">View</a>&nbsp;<i class="fas fa-inr"></i>&nbsp;{{getAddonAmount(item)}}</td>
+                                <td class="text-right pt-7"><a *ngIf="getAddonAmount(item) > 0" class="anchor" (click)="showaddons(item)">View</a>&nbsp;<i class="fas fa-inr"></i>&nbsp;{{getAddonAmount(item)}}</td>
                                 <td class="text-right pt-7">{{item.quantity}}</td>
 																<td class="text-right pt-7"><i class="fas fa-inr"></i>&nbsp;{{getPrice(item)}}</td>
                                 <td class="text-danger pr-0 pt-7 text-right"><i class="fas fa-inr"></i>&nbsp;{{getCgst(item)}}</td>
@@ -57,6 +57,10 @@
                                 <td class="text-right pt-7"></td>
 																<td class="text-danger pr-0 pt-7 text-right">-&nbsp;<i class="fas fa-inr"></i>&nbsp;{{selectedOder.discount}}</td>
                               </tr>	
+                               <!--tr class="font-weight-boldest font-size-lg">
+																<td class="pl-0 pt-7">Address</td>
+																<td colspan="8" class="text-danger pr-0 pt-7 text-right">{{selectedOder.address}}</td>
+                              </tr-->	
                               	<tr class="font-weight-boldest font-size-lg">
 																<td class="pl-0 pt-7">Total</td>
                                 <td class="text-right pt-7"></td>

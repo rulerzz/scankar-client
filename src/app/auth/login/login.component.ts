@@ -43,7 +43,7 @@ export class LoginComponent implements OnInit {
               this.appservice.alert('Your login has not been authorized!', '');
             }
             else{
-              let date = new Date();
+              
               this.appservice.alert(
                 'Hello ' +
                   data.body.user.firstName +
@@ -52,12 +52,9 @@ export class LoginComponent implements OnInit {
                   ' 🙋',
                 ''
               );
-              localStorage.setItem('token', data.body.token);
-              localStorage.setItem('role', data.body.user.role);
-              localStorage.setItem('email', data.body.user.email);
-              localStorage.setItem('id', data.body.user._id);
-              localStorage.setItem('time', date.toJSON());
-              this.router.navigate(['dashboard']);
+              this.adddata(data).then(() => {
+                this.router.navigate(['dashboard']);
+              });
             }
           },
           (err) => {
@@ -69,5 +66,16 @@ export class LoginComponent implements OnInit {
       this.appservice.unload();
       this.appservice.alert('Please enter a valid email!', '');
     }
+  }
+  async adddata(data: any){
+    let date = new Date();
+    return new Promise((resolve) => {
+       localStorage.setItem('token', data.body.token);
+       localStorage.setItem('role', data.body.user.role);
+       localStorage.setItem('email', data.body.user.email);
+       localStorage.setItem('id', data.body.user._id);
+       localStorage.setItem('time', date.toJSON());
+       resolve(data);
+    });
   }
 }

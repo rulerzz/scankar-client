@@ -54,6 +54,8 @@ export class MainComponent implements OnInit {
   isMobile: boolean = false;
   isTablet: boolean = false;
   isDesktopDevice: boolean = false;
+  role: any;
+  user: any;
   constructor(
     private dashboardservice: DashboardService,
     private appservice: AppService,
@@ -62,6 +64,10 @@ export class MainComponent implements OnInit {
     private deviceService: DeviceDetectorService,
     private changeDetectorRefs: ChangeDetectorRef
   ) {
+    this.role = localStorage.getItem('role');
+     if (this.role !== 'admin') {
+       this.router.navigate(['dashboard/users']);
+     }
     this.dataSource = new MatTableDataSource([]);
     this.load();
     this.detect();
@@ -76,6 +82,14 @@ export class MainComponent implements OnInit {
     this.dashboardservice.kevents$.forEach((event) => {
       this.refresh();
     });
+    this.dashboardservice.getUser(localStorage.getItem('id')).subscribe(
+      (data) => {
+        this.user = data.body.data.user;
+      },
+      (err) => {
+        this.appservice.alert('Could not get user!', '');
+      }
+    );
   }
 
   getServerData(e: any) {
@@ -148,5 +162,10 @@ export class MainComponent implements OnInit {
       width: '350px',
       data: row,
     });
+  }
+  print(row:any){
+    row.user = this.user;
+    this.dashboardservice.setCurrentBill(row);
+    this.router.navigate(['dashboard/bill']);
   }
 }

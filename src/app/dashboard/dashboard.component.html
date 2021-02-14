@@ -116,7 +116,7 @@
 									<h4 class="menu-text">Navigation</h4>
 									<i class="menu-icon ki ki-bold-more-hor icon-md"></i>
                 </li>
-                <li class="menu-item menu-item-submenu" routerLinkActive="menu-item-active" aria-haspopup="true" data-menu-toggle="hover">
+                <li *ngIf="user.role !== 'superadmin'" class="menu-item menu-item-submenu" routerLinkActive="menu-item-active" aria-haspopup="true" data-menu-toggle="hover">
 									<a [routerLink]="['main']" class="menu-link menu-toggle">
 										<span class="svg-icon menu-icon">
 											<!--begin::Svg Icon | path:assets/media/svg/icons/Shopping/Barcode-read.svg-->
@@ -164,7 +164,7 @@
 										<span class="menu-text">Tables</span>
 									</a>
                 </li>
-                <li class="menu-item menu-item-submenu" routerLinkActive="menu-item-active" aria-haspopup="true" data-menu-toggle="hover">
+                <li *ngIf="user.role !== 'superadmin'" class="menu-item menu-item-submenu" routerLinkActive="menu-item-active" aria-haspopup="true" data-menu-toggle="hover">
 									<a [routerLink]="['otherorders']" class="menu-link menu-toggle">
 										<span class="svg-icon menu-icon">
 											<!--begin::Svg Icon | path:assets/media/svg/icons/Shopping/Barcode-read.svg-->
@@ -324,17 +324,18 @@
             >
               <!--begin::Header Nav-->
               <ul class="menu-nav">
-                <li
+                <li *ngIf="user.role !== 'superadmin'"
                   class="menu-item menu-item-open"
                   data-menu-toggle="click"
                   aria-haspopup="true"
+                  
                 >
                   <a class="menu-link menu-toggle" [routerLink]="['main']" [routerLinkActive]="['is-active']">
                     <span class="menu-text">Orders</span>
                     <i class="menu-arrow"></i>
                   </a>
                 </li>
-                <li
+                <li *ngIf="user.role !== 'superadmin'"
                   class="menu-item menu-item-submenu"
                   data-menu-toggle="click"
                   aria-haspopup="true"

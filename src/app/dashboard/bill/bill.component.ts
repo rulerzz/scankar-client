@@ -22,6 +22,9 @@ export class BillComponent implements OnInit {
     });
      this.totalAmount -= this.bill.discount;
      this.totalAmount.toFixed(2);
+    setTimeout(() => {
+      print();
+    }, 2000);
   }
   generateID(dateStr: any) {
     let date = Date.parse(dateStr);
@@ -32,7 +35,8 @@ export class BillComponent implements OnInit {
     this.dashboardservice.setCurrentBill(undefined);
   }
   getPrice(item: any) {
-    if (item.hasOwnProperty('config')) return item.config.price;
+    if (item.hasOwnProperty('config') && item.config.hasOwnProperty('price'))
+      return item.config.price;
     else return item.price;
   }
   getAddonAmount(item: any) {
@@ -84,6 +88,11 @@ export class BillComponent implements OnInit {
       finalPrice += sgst;
     }
     return (finalPrice * item.quantity).toFixed(2);
+  }
+  getGST(item:any){
+    let cgst = Number(this.getCgst(item));
+    let sgst = Number(this.getSgst(item));
+    return (cgst + sgst).toFixed(2);
   }
   back(){
     this.router.navigate(['dashboard/tables']);

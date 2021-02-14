@@ -20,6 +20,7 @@ export class BillingComponent implements OnInit {
   carttotal: any;
   paramid: any;
   temp: {};
+  role: any;
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -28,6 +29,10 @@ export class BillingComponent implements OnInit {
     private appservice: AppService,
     public dialog: MatDialog
   ) {
+    this.role = localStorage.getItem('role');
+    if (this.role !== 'admin') {
+      this.router.navigate(['dashboard/users']);
+    }
     this.carttotal = 0;
     this.user = {};
     this.mode = 'create';

@@ -289,6 +289,7 @@ export class DashboardService {
     });
   }
   completeorder(order: any): Observable<any> {
+   // order.socketid = localStorage.getItem('socketid');
     return this.http.post<any>(
       config.serverUrl + 'customer-order/completeorder',
       order,

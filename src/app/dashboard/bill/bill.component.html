@@ -1,7 +1,7 @@
 <div class="container" id="section-to-print">
   <!-- begin::Card-->
   <div class="card card-custom overflow-hidden">
-    <div class="card-body p-0">
+    <div class="card-body p-0" *ngIf="false">
       <!-- begin: Invoice-->
       <!-- begin: Invoice header-->
       <div class="row justify-content-center py-8 px-8 py-md-27 px-md-0">
@@ -107,15 +107,18 @@
                   <td class="text-right pt-7">
                     {{ item.config?.name ? item.config?.name : "Initial" }}
                   </td>
-                  <td class="text-right pt-7" style="max-width: 150px;">
-					  <span *ngFor="let addon of item.addons; let i = index">{{addon.name}} <span *ngIf="i < item.addons.length - 1">,</span></span>
+                  <td class="text-right pt-7" style="max-width: 150px">
+                    <span *ngFor="let addon of item.addons; let i = index"
+                      >{{ addon.name }}
+                      <span *ngIf="i < item.addons.length - 1">,</span></span
+                    >
                     &nbsp;<i class="fas fa-inr"></i>&nbsp;{{
                       getAddonAmount(item)
                     }}
                   </td>
                   <td class="text-right pt-7">{{ item.quantity }}</td>
                   <td class="text-right pt-7">
-                    <i class="fas fa-inr"></i>&nbsp;{{ getPrice(item)  }}
+                    <i class="fas fa-inr"></i>&nbsp;{{ getPrice(item) }}
                   </td>
                   <td class="text-danger pr-0 pt-7 text-right">
                     <i class="fas fa-inr"></i>&nbsp;{{ getCgst(item) }}
@@ -187,11 +190,11 @@
               onclick="window.print();"
             >
               Print Invoice
-			</button>
-			 <button
+            </button>
+            <button
               type="button"
-			  class="btn btn-primary font-weight-bold"
-			  (click)="back()"
+              class="btn btn-primary font-weight-bold"
+              (click)="back()"
             >
               Back
             </button>
@@ -200,6 +203,72 @@
       </div>
       <!-- end: Invoice action-->
       <!-- end: Invoice-->
+    </div>
+    <div class="card-body p-0">
+      <div class="row">
+      <div class="col-6">
+        <div class="ticket text-center" style="padding-bottom: 60px">
+          <img src="../../../assets/media/logos/scan-kar-logo.png" alt="Logo" />
+          <p class="centered">
+            {{ bill.user.companyName }} <br />{{ bill.user.address1 }},
+            {{ bill.user.address2 }} - {{ bill.user.city }},
+            {{ bill.user.country }} {{ bill.user.zip }}
+          </p>
+          <p class="centered">ORDER ID: IV{{ generateID(bill.placed_time) }}</p>
+          <table style="table-layout: fixed">
+            <thead>
+              <tr>
+                <th class="price">RATE</th>
+                <th class="quantity">QTY</th>
+                <th class="gst">GST + SC</th>
+                <th class="description">DESC</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of bill.items">
+                <td class="price">{{ getFinalPrice(item) }}</td>
+                <td class="quantity">{{ item.quantity }}</td>
+                <td class="gst">
+                  {{ getGST(item) }} + {{ getServiceCharges(item) }}
+                </td>
+                <td class="description">
+                  {{ item.name }} |
+                  {{ item.config?.name ? item.config?.name : "Initial" }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="centered">
+            <i>Thanks for your purchase!</i> <br /><strong
+              >Connect with scankar @ </strong
+            ><br />www.scankar.com
+          </p>
+          <br />
+          <br />
+          <br />
+          <br />
+          <span style="color: #ffffff">end</span>
+        </div>
+      </div>
+      <div class="col-6 hidden-print">
+         <button
+              type="button"
+              style="width: 48%;margin-top:20px"
+              class="btn btn-primary font-weight-bold"
+              onclick="window.print();"
+            >
+              Print Invoice
+            </button>
+            <button
+              type="button"
+              style="width: 48%;margin-top: 20px;margin-left: 10px;"
+              class="btn btn-primary font-weight-bold"
+              (click)="back()"
+            >
+              Back
+            </button>
+      </div>
+      </div>
     </div>
   </div>
   <!-- end::Card-->

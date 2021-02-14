@@ -58,7 +58,7 @@
         </div>
         <div class="container p-0" style="margin-top:10px;">
           <div class="row">
-            <div class="col-6">
+            <div class="col-6" *ngIf="item.config !== undefined && item.config.length > 0">
               <span class="text-muted mr-1">Configuration</span>
               <div *ngFor="let con of item.config;let e = index">
                 <input type="checkbox" class="check" name="config{{e}}" [(ngModel)]="con.selected"/>
@@ -70,7 +70,7 @@
                 >
               </div>
             </div>
-            <div class="col-6">
+            <div class="col-6" *ngIf="item.addons !== undefined && item.addons.length > 0">
               <span class="text-muted mr-1">Addons</span>
 
               <div *ngFor="let con of item.addons;let f = index">

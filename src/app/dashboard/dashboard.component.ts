@@ -108,12 +108,6 @@ export class DashboardComponent implements OnInit {
       this.router.navigate(['dashboard/main']);
     }
     this.token = localStorage.getItem('id');
-    this.socket.on('emitcreateorderaction', (data: any) => {
-      if (data.user == localStorage.getItem('id')) {
-        console.log('emitted');
-        this.showOrderAlert(data);
-      }
-    });
   }
   showOrderAlert(data: any) {
     this.dashboardservice.showk(true);
@@ -126,6 +120,13 @@ export class DashboardComponent implements OnInit {
     sound.play();
   }
   ngOnInit(): void {
+    this.socket.ioSocket.on('connect', () => {
+      localStorage.setItem("socketid",this.socket.ioSocket.id);
+    });
+    this.socket.on('emitcreateorderaction', (data: any) => {
+      if(data.user == localStorage.getItem("id"))
+      this.showOrderAlert(data);
+    });
     this.detect();
   }
   quickactions() {
