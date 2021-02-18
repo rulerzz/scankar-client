@@ -54,4 +54,9 @@ img {
     .hidden-print * {
         display: none !important;
     }
+    *{
+        background: none !important;
+        background-color: none !important ;
+        background-image: none !important ;
+    }
 }

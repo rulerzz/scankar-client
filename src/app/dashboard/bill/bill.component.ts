@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { DashboardService } from '../dashboard.service';
@@ -9,19 +10,23 @@ import { DashboardService } from '../dashboard.service';
 })
 export class BillComponent implements OnInit {
   bill: any;
-  totalAmount:any;
-  constructor(private dashboardservice: DashboardService, private router: Router) {
+  totalAmount: any;
+  constructor(
+    private dashboardservice: DashboardService,
+    private router: Router,
+    private _location: Location
+  ) {
     this.totalAmount = 0;
   }
 
   ngOnInit(): void {
     this.bill = this.dashboardservice.getCurrentBill();
-    console.log(this.bill)
+    console.log(this.bill);
     this.bill.items.forEach((element: any) => {
-           this.totalAmount += Number(this.getFinalPrice(element));
+      this.totalAmount += Number(this.getFinalPrice(element));
     });
-     this.totalAmount -= this.bill.discount;
-     this.totalAmount.toFixed(2);
+    this.totalAmount -= this.bill.discount;
+    this.totalAmount.toFixed(2);
     setTimeout(() => {
       print();
     }, 2000);
@@ -89,12 +94,12 @@ export class BillComponent implements OnInit {
     }
     return (finalPrice * item.quantity).toFixed(2);
   }
-  getGST(item:any){
+  getGST(item: any) {
     let cgst = Number(this.getCgst(item));
     let sgst = Number(this.getSgst(item));
     return (cgst + sgst).toFixed(2);
   }
-  back(){
-    this.router.navigate(['dashboard/tables']);
+  back() {
+    this._location.back();
   }
 }
