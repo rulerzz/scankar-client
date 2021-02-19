@@ -138,7 +138,7 @@ img {
 $(document).ready(()=>{
     var id = GetUrlParameter('id');
     $.ajax({
-         url: "http://localhost:5000/api/v1/customer-order/getbill/"+id,
+         url: "http://18.222.183.220:5000/api/v1/customer-order/getbill/"+id,
          type: "GET",
          success: function(OBJ) { 
           //var data = JSON.parse(OBJ);  
