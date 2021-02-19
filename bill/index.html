@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Bill </title>
+
+        <style type="text/css">
+        	* {
+    font-size: 9pt;
+    font-family: 'Times New Roman';
+}
+
+td,
+th,
+tr,
+table {
+    border-top: 1px solid black;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td.description,
+th.description {
+    width: 75px;
+    max-width: 75px;
+    text-align: right;
+}
+
+td.quantity,
+th.quantity {
+    width: 40px;
+    max-width: 40px;
+    word-break: break-all;
+    text-align: left;
+}
+
+td.price,
+th.price {
+    width: 40px;
+    max-width: 40px;
+    word-break: break-all;
+}
+
+.centered {
+    text-align: center;
+    align-content: center;
+}
+
+.ticket {
+    width: 255px;
+    max-width: 255px;
+}
+.label{
+    text-align: right;
+}
+img {
+    max-width: inherit;
+    width: inherit;
+}
+
+@media print {
+    .hidden-print,
+    .hidden-print * {
+        display: none !important;
+    }
+}
+        </style>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+    function getPrice(item) {
+    if (item.hasOwnProperty('config') && item.config.hasOwnProperty('price'))
+      return item.config.price;
+    else return item.price;
+  }
+  function getName(item) {
+    if (item.hasOwnProperty('config')) return item.config.name;
+    else return 'Initial';
+  }
+  function getAddonAmount(item) {
+    let price = 0;
+    item.addons.forEach((element) => {
+      price += element.price;
+    });
+    return price;
+  }
+  function getCgst(item, user) {
+    let cgst = 0;
+    let price = getPrice(item);
+    let addon = getAddonAmount(item);
+    let total = price + addon;
+    cgst = (total / 100) * user.cgst;
+    return cgst.toFixed(2);
+  }
+  function getSgst(item, user) {
+    let sgst = 0;
+    let price = getPrice(item);
+    let addon = getAddonAmount(item);
+    let total = price + addon;
+    sgst = (total / 100) * user.sgst;
+    return sgst.toFixed(2);
+  }
+  function getServiceCharges(item, user) {
+    let service = 0;
+    let price = getPrice(item);
+    let addon = getAddonAmount(item);
+    let total = price + addon;
+    service = (total / 100) * user.servicecharge;
+    return service.toFixed(2);
+  }
+  function getFinalPrice(item, user) {
+    let finalPrice = 0;
+    let price = Number(getPrice(item));
+    let addon = Number(getAddonAmount(item));
+    let cgst = Number(getCgst(item, user));
+    let sgst = Number(getSgst(item, user));
+    let servicecharge = Number(getServiceCharges(item, user));
+    finalPrice = price + addon;
+    if (user.servicechargeenable) {
+      finalPrice += servicecharge;
+    }
+    if (user.enablecgst) {
+      finalPrice += cgst;
+    }
+    if (user.enablesgst) {
+      finalPrice += sgst;
+    }
+    return (finalPrice * item.quantity).toFixed(2);
+  }
+  function getTotalCost(items, user) {
+    let total = 0;
+    items.forEach((element) => {
+      total += Number(getFinalPrice(element, user));
+    });
+    return total.toFixed(2);
+  }
+$(document).ready(()=>{
+    var id = GetUrlParameter('id');
+    $.ajax({
+         url: "http://localhost:5000/api/v1/customer-order/getbill/"+id,
+         type: "GET",
+         success: function(OBJ) { 
+          //var data = JSON.parse(OBJ);  
+          $("#rname").html(OBJ.data.user.companyName);
+          $("#branchName").html(OBJ.data.user.companyName);
+          $("#orderId").html(OBJ.data.order._id);
+          $("#userName").html(OBJ.data.order.booker);
+
+         $("#address").html(OBJ.data.user.address1+', '+OBJ.data.user.address2+', '+OBJ.data.user.zip);
+          
+          if(OBJ.data.order.items.length >0)
+          {
+            $("#products").html("");
+            var totalamount = 0;
+            for(var i = 0;i < OBJ.data.order.items.length;i++ )
+            {
+                 var vv =  '<tr>\
+                    	<td>'+OBJ.data.order.items[i].name + ' ' + getName(OBJ.data.order.items[i])+ '</td>\
+                        <td>'+OBJ.data.order.items[i].quantity+'</td>\
+                    	<td>'+getCgst(OBJ.data.order.items[i], OBJ.data.user)+'</td>\
+                        <td>'+getSgst(OBJ.data.order.items[i], OBJ.data.user)+'</td>\
+                        <td>'+getServiceCharges(OBJ.data.order.items[i], OBJ.data.user)+'</td>\
+                        <td>'+getFinalPrice(OBJ.data.order.items[i], OBJ.data.user)+'</td></tr>';
+                 $("#products").append(vv);   
+            }
+              $("#totalcol").append('\
+                <tr><td colspan="5">Total</td><td class="label">'+getTotalCost(OBJ.data.order.items, OBJ.data.user)+'</td></tr>\
+              ');
+               $("#vat").append('\
+                <tr><td colspan="5">Discount</td><td class="label">'+OBJ.data.order.discount+'</td></tr>\
+              ');
+              $("#grandtotal").append('\
+                <tr><td colspan="5">Grand Total</td><td class="label">'+(OBJ.data.order.price)+'</td></tr>\
+              ');
+          }
+         
+          setTimeout(val=>{
+              print();
+          },2000)
+         
+          console.log(OBJ.data);
+        }
+      });
+})
+
+function GetUrlParameter(sParam)
+
+{
+    var sPageURL = window.location.search.substring(1);
+
+    var sURLVariables = sPageURL.split('&');
+
+    for (var i = 0; i < sURLVariables.length; i++)
+    {
+        var sParameterName = sURLVariables[i].split('=');
+
+        if (sParameterName[0] == sParam)
+
+        {
+            return sParameterName[1];
+        }
+    }
+}
+
+ </script>   
+    </head>
+    <body >
+        <div class="ticket" style="padding-bottom: 60px;">
+            <img src="./Scankar_footer.png" alt="Logo">
+            <p class="centered"><span id="rname"></span>
+                <br><span id="address"></span></p>
+                <h3 class="centered"> KOT - <span id="branchName"></span></h3>
+                <p class="centered">ORDER ID: <span id="orderId"></span>
+                <br><span id="userName"></span></p>
+            <table>
+                <thead>
+                    <tr>
+                        <th style="text-align:left">Item</th>
+                        <th>Qty</th>
+                        <th>CGST</th>
+                        <th>SGST</th>
+                        <th>SC</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody id="products">
+                </tbody>
+                <tbody id="totalcol">
+                </tbody>
+                <tbody id="vat">
+                </tbody>
+                 <tbody id="grandtotal">
+                </tbody>
+            </table>
+            <p class="centered"><i>Thanks for your purchase!</i>
+                <br><strong>Connect us @ </strong><br>www.scankar.com</p>
+                <br />
+                <br />
+                <br />
+                <br />
+                <span style="color:#ffffff;">end</span>
+        </div>
+    </body>
+</html>

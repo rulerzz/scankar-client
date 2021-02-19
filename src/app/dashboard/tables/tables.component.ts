@@ -212,9 +212,10 @@ export class TablesComponent implements OnInit {
     });
   }
   generateBill() {
-    this.selectedOder.user = this.user;
-    this.dashboardservice.setCurrentBill(this.selectedOder);
-    this.router.navigate(['dashboard/bill']);
+    window.open(
+      'http://admin.scankar.com/bill?id=' + this.selectedOder._id,
+      '_blank'
+    );
   }
   firePOS() {
     this.router.navigate(['dashboard/billing']);

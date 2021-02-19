@@ -17,6 +17,7 @@ import {
   trigger,
 } from '@angular/animations';
 import { DeviceDetectorService } from 'ngx-device-detector';
+import { config } from 'src/config/config';
 
 @Component({
   selector: 'app-main',
@@ -164,8 +165,6 @@ export class MainComponent implements OnInit {
     });
   }
   print(row:any){
-    row.user = this.user;
-    this.dashboardservice.setCurrentBill(row);
-    this.router.navigate(['dashboard/bill']);
+    window.open('http://admin.scankar.com/bill?id=' + row._id, '_blank');
   }
 }

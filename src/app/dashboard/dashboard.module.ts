@@ -25,7 +25,6 @@ import { LottieModule } from 'ngx-lottie';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { EdititemComponent } from './menu/edititem/edititem.component';
 import { TablesComponent } from './tables/tables.component';
-import { BillComponent } from './bill/bill.component';
 import { AdditemComponent } from './menu/additem/additem.component';
 import { AdditemComponentt } from './billing/additem/additem.component';
 import { BreakupComponent } from './billing/breakup/breakup.component';
@@ -91,10 +90,6 @@ const routes: Routes = [
         component: OtherordersComponent,
       },
       {
-        path: 'bill',
-        component: BillComponent,
-      },
-      {
         path: 'transactions',
         component: TransactionsComponent
       }
@@ -124,7 +119,6 @@ const routes: Routes = [
     CreatecategoryComponent,
     AdditemComponent,
     EdititemComponent,
-    BillComponent,
     AdditemComponentt,
     BreakupComponent,
     ShowaddonsComponent,
