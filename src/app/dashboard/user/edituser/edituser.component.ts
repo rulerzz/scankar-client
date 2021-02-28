@@ -28,6 +28,7 @@ export class EdituserComponent implements OnInit {
     ) {
       this.data.password = bcrypt.hashSync(this.data.password, 12);
     }
+    this.data.configuration = JSON.stringify(this.data.configuration);
     this.appservice.load();
     this.dashboardservice.updateuser(this.data).subscribe(
       (data) => {
