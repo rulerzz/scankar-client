@@ -234,7 +234,7 @@ export class TablesComponent implements OnInit {
   }
   generateBill() {
     window.open(
-      'http://admin.scankar.com/bill?id=' + this.selectedOder._id,
+      'https://admin.scankar.com/bill/index.html?id=' + this.selectedOder._id,
       '_blank'
     );
   }

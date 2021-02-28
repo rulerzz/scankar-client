@@ -161,7 +161,7 @@ export class MainComponent implements OnInit {
     });
   }
   print(row: any) {
-    window.open('http://admin.scankar.com/kot?id=' + row._id, '_blank');
+    window.open('https://admin.scankar.com/kot/index.html?id=' + row._id, '_blank');
   }
   view(order: any) {
     this.selectedOder = order;

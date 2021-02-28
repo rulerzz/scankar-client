@@ -92,6 +92,6 @@ export class OrderdetaildialogComponent implements OnInit {
     this.dialogRef.close({ message: 'closeorder' });
   }
   printbill(){
-    window.open('http://admin.scankar.com/bill?id=' + this.data._id, '_blank');
+    window.open('https://admin.scankar.com/bill/index.html?id=' + this.data._id, '_blank');
   }
 }
