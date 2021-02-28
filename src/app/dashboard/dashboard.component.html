@@ -161,7 +161,8 @@
 											</svg>
 											<!--end::Svg Icon-->
 										</span>
-										<span class="menu-text">Tables</span>
+										<span class="menu-text" *ngIf="user.ownerType === 'returantowner'">Tables</span>
+                    	<span class="menu-text" *ngIf="user.ownerType === 'hotelowner'">Rooms</span>
 									</a>
                 </li>
                 <li *ngIf="user.role !== 'superadmin'" class="menu-item menu-item-submenu" routerLinkActive="menu-item-active" aria-haspopup="true" data-menu-toggle="hover">

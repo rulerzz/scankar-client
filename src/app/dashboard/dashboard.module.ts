@@ -34,6 +34,7 @@ import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { config } from '../../config/config';
 import { BulkuploadComponent } from './menu/bulkupload/bulkupload.component';
 import { TransactionsComponent } from './transactions/transactions.component';
+import { OrderdetaildialogComponent } from './orderdetaildialog/orderdetaildialog.component';
 const configuration: SocketIoConfig = { url: config.socketUrl, options: {} };
 // Note we need a separate function as it's required
 // by the AOT compiler.
@@ -125,6 +126,7 @@ const routes: Routes = [
     OtherordersComponent,
     BulkuploadComponent,
     TransactionsComponent,
+    OrderdetaildialogComponent,
   ],
   imports: [
     CommonModule,

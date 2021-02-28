@@ -14,9 +14,10 @@ import { AppService } from 'src/app/app.service';
 import { DashboardService } from '../dashboard.service';
 import { ProcessdialogComponent } from '../main/processdialog/processdialog.component';
 import { StatusdialogComponent } from '../main/statusdialog/statusdialog.component';
+import { OrderdetaildialogComponent } from '../orderdetaildialog/orderdetaildialog.component';
 
 @Component({
- selector: 'app-transactions',
+  selector: 'app-transactions',
   templateUrl: './transactions.component.html',
   styleUrls: ['./transactions.component.css'],
   animations: [
@@ -36,12 +37,12 @@ export class TransactionsComponent implements OnInit {
   expandedElement: any | null;
   displayedColumns: string[] = [
     'userName',
-    'price',
+    'mobileNumber',
     'orderType',
     'noOfSeatsRequested',
     'process',
     'status',
-    'palced_time',
+    'action',
     'star',
   ];
   dataSource: any;
@@ -50,6 +51,8 @@ export class TransactionsComponent implements OnInit {
   isMobile: boolean = false;
   isTablet: boolean = false;
   isDesktopDevice: boolean = false;
+  selectedOder: any;
+  user: any;
   constructor(
     private dashboardservice: DashboardService,
     private appservice: AppService,
@@ -59,7 +62,9 @@ export class TransactionsComponent implements OnInit {
     private changeDetectorRefs: ChangeDetectorRef
   ) {
     this.dataSource = new MatTableDataSource([]);
-    this.load();
+    this.loadUser().then((result) => {
+      this.load();
+    });
     this.detect();
   }
   detect() {
@@ -68,29 +73,34 @@ export class TransactionsComponent implements OnInit {
     this.isTablet = this.deviceService.isTablet();
     this.isDesktopDevice = this.deviceService.isDesktop();
   }
-  ngOnInit(): void {
+  ngOnInit(): void {}
+  async loadUser() {
+    this.dashboardservice.getUser(localStorage.getItem('id')).subscribe(
+      (data) => {
+        this.user = data.body.data.user;
+      },
+      (err) => {
+        this.appservice.alert('Could not get user!', '');
+      }
+    );
   }
-
   getServerData(e: any) {
     let offset = 0;
     this.appservice.load();
     if (e.pageIndex !== undefined) {
       offset = e.pageIndex * 10;
     }
-    this.dashboardservice
-      .getAll(offset, localStorage.getItem('id'))
-      .subscribe(
-        (data) => {
-          this.appservice.unload();
-          console.log(data.body.data);
-          this.orders = data.body.data.orders;
-          this.dataSource = new MatTableDataSource(this.orders);
-        },
-        (err) => {
-          this.appservice.unload();
-          this.appservice.alert('Could not get users!', '');
-        }
-      );
+    this.dashboardservice.getAll(offset, localStorage.getItem('id')).subscribe(
+      (data) => {
+        this.appservice.unload();
+        this.orders = data.body.data.orders;
+        this.dataSource = new MatTableDataSource(this.orders);
+      },
+      (err) => {
+        this.appservice.unload();
+        this.appservice.alert('Could not get users!', '');
+      }
+    );
   }
   load() {
     this.appservice.load();
@@ -107,39 +117,49 @@ export class TransactionsComponent implements OnInit {
       }
     );
   }
-  refresh() {
-    this.dashboardservice.getAll(0, localStorage.getItem('id')).subscribe(
+  ngOnDestroy() {}
+  view(order: any) {
+    this.selectedOder = order;
+    this.openOrderDetailDialog();
+  }
+  closeorder() {
+    this.appservice.load();
+    if (this.selectedOder.process === 'Rejected') {
+      this.selectedOder.status = 'Rejected';
+    } else {
+      this.selectedOder.status = 'Billed';
+      this.selectedOder.process = 'Completed';
+    }
+    this.dashboardservice.UpdateOrderStatus(this.selectedOder).subscribe(
       (data) => {
-        console.log(data.body.data);
-        this.orders = data.body.data.orders;
-        this.dataSource = new MatTableDataSource(this.orders);
-        this.changeDetectorRefs.detectChanges();
-        this.resultsLength = data.body.count;
+        this.appservice.unload();
+        this.appservice.alert('Updated order status successfully!', '');
+        this.ngOnInit();
       },
       (err) => {
-        this.appservice.alert('Could not update orders!', '');
+        this.appservice.unload();
+        this.appservice.alert('Could not update order status!', '');
       }
     );
   }
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-  }
-  ngOnDestroy() {
-    if (this.interval) {
-      clearInterval(this.interval);
-    }
-  }
-  changeStatus(row: any): void {
-    this.dialog.open(StatusdialogComponent, {
-      width: '350px',
-      data: row,
+  openOrderDetailDialog() {
+    this.selectedOder.user = this.user;
+    this.selectedOder.kot = true;
+    const dialogRef = this.dialog.open(OrderdetaildialogComponent, {
+      width: '100%',
+      data: this.selectedOder,
     });
-  }
-  changeProcess(row: any): void {
-    this.dialog.open(ProcessdialogComponent, {
-      width: '350px',
-      data: row,
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result.message === 'close') {
+        // do nothing
+      }
+      if (result.message === 'edit') {
+        this.router.navigate(['dashboard/billing/' + result.id]);
+      }
+      if (result.message === 'closeorder') {
+        this.closeorder();
+      }
     });
   }
 }

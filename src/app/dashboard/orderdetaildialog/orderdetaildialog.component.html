@@ -1,0 +1,87 @@
+<h1 mat-dialog-title>{{ data.orderType }} Order by {{ data.booker }}</h1>
+<div mat-dialog-content>
+  <p>Order created at {{ data.placed_time | date: "medium" }}</p>
+</div>
+<div class="container p-0" style="max-height: 150px; overflow: auto">
+  <mat-accordion>
+    <mat-expansion-panel *ngFor="let item of data.items">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{ item.name }}
+          <span *ngIf="item.hasOwnProperty('config')"
+            >&nbsp;|&nbsp;{{ item.config.name }}</span
+          >
+        </mat-panel-title>
+        <mat-panel-description>
+          <span class="span">
+            <i class="fa fa-inr"></i>&nbsp;<span
+              *ngIf="item.hasOwnProperty('config')"
+              >{{ item.config.price }}</span
+            ><span *ngIf="!item.hasOwnProperty('config')">{{
+              item.price
+            }}</span>
+            x {{ item.quantity }}
+            <span class="desc cgst"
+              >CGST : <i class="fa fa-inr"></i>&nbsp;{{ getCgst(item) }}</span
+            >
+            <span class="desc sgst"
+              >SGST : <i class="fa fa-inr"></i>&nbsp;{{ getSgst(item) }}</span
+            >
+            <span class="desc servicecharge"
+              >SERVICE : <i class="fa fa-inr"></i>&nbsp;{{
+                getServiceCharges(item)
+              }}</span
+            >
+            <span class="desc finalprice"
+              >FINAL : <i class="fa fa-inr"></i>&nbsp;{{
+                getFinalPrice(item)
+              }}</span
+            >
+          </span>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <h5>Addons :</h5>
+      <mat-list>
+        <div *ngFor="let addon of item.addons">
+          <mat-list-item>{{addon.name}}</mat-list-item>
+          <mat-divider></mat-divider>
+        </div>
+      </mat-list>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>
+<div class="row" style="margin-top: 15px">
+  <div class="col-6">
+    <mat-form-field class="example-full-width">
+      <mat-label>Special instructions</mat-label>
+      <input matInput [value]="data.instruction" disabled />
+    </mat-form-field>
+  </div>
+  <div class="col-6">
+    <mat-form-field class="example-full-width">
+      <mat-label>Discount</mat-label>
+      <input matInput [value]="data.discount" disabled />
+      <span matPrefix><i class="fa fa-inr"></i>&nbsp;</span>
+    </mat-form-field>
+  </div>
+  <div class="col-6">
+    <mat-form-field class="example-full-width">
+      <mat-label>Address</mat-label>
+      <input matInput [value]="data.address" disabled />
+    </mat-form-field>
+  </div>
+  <div class="col-6">
+    <mat-form-field class="example-full-width">
+      <mat-label>Total</mat-label>
+      <input matInput [value]="data.price" disabled />
+      <span matPrefix><i class="fa fa-inr"></i>&nbsp;</span>
+    </mat-form-field>
+  </div>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Close</button>
+  <button mat-button *ngIf="data.kot === undefined" (click)="edit()" cdkFocusInitial>Edit</button>
+  <button mat-button *ngIf="data.kot === undefined" (click)="printbill()" cdkFocusInitial>Print Bill</button>
+  <button *ngIf="data.orderType === 'Dine In' && data.kot === undefined" mat-button (click)="closetable()" cdkFocusInitial>Close Table</button>
+  <button *ngIf="data.orderType !== 'Dine In' && data.kot === undefined" mat-button (click)="closeorder()" cdkFocusInitial>Close Order</button>
+</div>

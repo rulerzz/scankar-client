@@ -6,6 +6,7 @@
       >
     </h3>
   </div>
+  <div class="container p-0 tablecontainer">
   <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef>Item</th>
@@ -66,7 +67,8 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
   </table>
-  <div class="row" style="margin-top: 10px">
+  </div>
+  <div class="row form" style="margin-top: 10px">
     <div class="col-5 p-0">
       <select
         class="form-control"

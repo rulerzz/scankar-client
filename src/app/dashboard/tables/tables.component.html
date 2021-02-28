@@ -4,7 +4,8 @@
     <!--begin::Header-->
     <div class="card-header border-0 pt-5">
       <h3 class="card-title align-items-start flex-column">
-        <span class="card-label font-weight-bolder text-dark">Table Status</span>
+        	<span class="card-label font-weight-bolder text-dark" *ngIf="user.ownerType === 'returantowner'">Table Status</span>
+          <span class="card-label font-weight-bolder text-dark" *ngIf="user.ownerType === 'hotelowner'">Room Status</span>
         <span class="text-muted mt-3 font-weight-bold font-size-sm"></span>
       </h3>
     </div>
@@ -18,7 +19,7 @@
               <div class="col-2 tables" *ngFor="let table of numbers;let i = index">
                   <button type="button" class="btn" [ngClass]="check(i) ? 'btn-warning' : 'btn-primary'" (click)="start(i)">{{i+1}}</button>
               </div>
-              <div class="col-12 " *ngIf="checkOrder()">
+              <!--div class="col-12 " *ngIf="checkOrder()">
                     <div class="table-responsive">
 													<table class="table">
 														<thead>
@@ -57,10 +58,10 @@
                                 <td class="text-right pt-7"></td>
 																<td class="text-danger pr-0 pt-7 text-right">-&nbsp;<i class="fas fa-inr"></i>&nbsp;{{selectedOder.discount}}</td>
                               </tr>	
-                               <!--tr class="font-weight-boldest font-size-lg">
+                               <tr class="font-weight-boldest font-size-lg">
 																<td class="pl-0 pt-7">Address</td>
 																<td colspan="8" class="text-danger pr-0 pt-7 text-right">{{selectedOder.address}}</td>
-                              </tr-->	
+                              </tr>	
                               	<tr class="font-weight-boldest font-size-lg">
 																<td class="pl-0 pt-7">Total</td>
                                 <td class="text-right pt-7"></td>
@@ -76,7 +77,7 @@
 													</table>
                         </div>
                          <button class="btn btn-secondary" style="float:right;margin-left:15px;" (click)="edit()">Edit</button><button class="btn btn-secondary" style="float:right;margin-left:15px;" (click)="closetable()">Close Table</button><button class="btn btn-primary" style="float:right;" (click)="generateBill()">View Bill</button>
-              </div>
+              </div-->
           </div>
         </div>
       </div>

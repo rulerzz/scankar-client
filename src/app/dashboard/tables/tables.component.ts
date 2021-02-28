@@ -7,6 +7,7 @@ import { DashboardService } from '../dashboard.service';
 import { AnimationOptions } from 'ngx-lottie';
 import { MatDialog } from '@angular/material/dialog';
 import { ShowaddonsComponent } from './showaddons/showaddons.component';
+import { OrderdetaildialogComponent } from '../orderdetaildialog/orderdetaildialog.component';
 
 @Component({
   selector: 'app-tables',
@@ -53,15 +54,15 @@ export class TablesComponent implements OnInit {
     this.sgst = 0;
     this.servicecharge = 0;
     // LOAD USER
-     this.dashboardservice.kevents$.forEach((event) => {
-       this.refresh();
-     });
+    this.dashboardservice.kevents$.forEach((event) => {
+      this.refresh();
+    });
     this.appservice.load();
     this.loadUser().then((result) => {
       this.loadOrders();
     });
   }
-  refresh(){
+  refresh() {
     this.numbers = [];
     this.orders = [];
     this.appservice.load();
@@ -126,7 +127,7 @@ export class TablesComponent implements OnInit {
   }
   getName(item: any) {
     if (item.hasOwnProperty('config')) return item.config.name;
-    else return "Initial";
+    else return 'Initial';
   }
   getAddonAmount(item: any) {
     let price = 0;
@@ -196,6 +197,7 @@ export class TablesComponent implements OnInit {
       }
       this.totalAmount -= this.selectedOder.discount;
       this.totalAmount.toFixed(2);
+      this.openOrderDetailDialog();
     } else {
       // Order Does not exist
       this.selectedOder = {};
@@ -204,6 +206,25 @@ export class TablesComponent implements OnInit {
   }
   edit() {
     this.router.navigate(['dashboard/billing/' + this.selectedOder._id]);
+  }
+  openOrderDetailDialog() {
+    this.selectedOder.user = this.user;
+    const dialogRef = this.dialog.open(OrderdetaildialogComponent, {
+      width: '100%',
+      data: this.selectedOder
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result.message === 'close') {
+        // do nothing
+      }
+      if (result.message === 'edit') {
+        this.router.navigate(['dashboard/billing/' + result.id]);
+      }
+      if (result.message === 'closetable') {
+        this.closetable();
+      }
+    });
   }
   showaddons(item: any) {
     this.dialog.open(ShowaddonsComponent, {
@@ -222,8 +243,12 @@ export class TablesComponent implements OnInit {
   }
   closetable() {
     this.appservice.load();
-    this.selectedOder.status = 'Billed';
-    this.selectedOder.process = 'Completed';
+    if (this.selectedOder.process === 'Rejected') {
+      this.selectedOder.status = 'Rejected';
+    } else {
+      this.selectedOder.status = 'Billed';
+      this.selectedOder.process = 'Completed';
+    }
     this.dashboardservice.UpdateOrderStatus(this.selectedOder).subscribe(
       (data) => {
         this.appservice.unload();

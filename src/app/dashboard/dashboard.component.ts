@@ -122,9 +122,10 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.socket.ioSocket.on('connect', () => {
       localStorage.setItem("socketid",this.socket.ioSocket.id);
+      this.dashboardservice.updatesocketid(localStorage.getItem('id'),this.socket.ioSocket.id).subscribe((data)=> {
+      });
     });
     this.socket.on('emitcreateorderaction', (data: any) => {
-      if(data.user == localStorage.getItem("id"))
       this.showOrderAlert(data);
     });
     this.detect();

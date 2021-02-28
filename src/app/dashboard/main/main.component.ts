@@ -6,9 +6,6 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { AppService } from 'src/app/app.service';
 import { DashboardService } from '../dashboard.service';
-import { ChangeTablesComponent } from '../user/change-tables/change-tables.component';
-import { DeleteuserComponent } from '../user/deleteuser/deleteuser.component';
-import { EdituserComponent } from '../user/edituser/edituser.component';
 import {
   animate,
   state,
@@ -17,7 +14,7 @@ import {
   trigger,
 } from '@angular/animations';
 import { DeviceDetectorService } from 'ngx-device-detector';
-import { config } from 'src/config/config';
+import { OrderdetaildialogComponent } from '../orderdetaildialog/orderdetaildialog.component';
 
 @Component({
   selector: 'app-main',
@@ -40,11 +37,10 @@ export class MainComponent implements OnInit {
   expandedElement: any | null;
   displayedColumns: string[] = [
     'userName',
-    'price',
+    'mobileNumber',
     'orderType',
     'noOfSeatsRequested',
     'process',
-    'status',
     'palced_time',
     'action',
     'star',
@@ -57,6 +53,7 @@ export class MainComponent implements OnInit {
   isDesktopDevice: boolean = false;
   role: any;
   user: any;
+  selectedOder: any;
   constructor(
     private dashboardservice: DashboardService,
     private appservice: AppService,
@@ -66,9 +63,9 @@ export class MainComponent implements OnInit {
     private changeDetectorRefs: ChangeDetectorRef
   ) {
     this.role = localStorage.getItem('role');
-     if (this.role !== 'admin') {
-       this.router.navigate(['dashboard/users']);
-     }
+    if (this.role !== 'admin') {
+      this.router.navigate(['dashboard/users']);
+    }
     this.dataSource = new MatTableDataSource([]);
     this.load();
     this.detect();
@@ -132,7 +129,6 @@ export class MainComponent implements OnInit {
   refresh() {
     this.dashboardservice.getAllOrders(0, localStorage.getItem('id')).subscribe(
       (data) => {
-        console.log(data.body.data);
         this.orders = data.body.data.orders;
         this.dataSource = new MatTableDataSource(this.orders);
         this.changeDetectorRefs.detectChanges();
@@ -164,7 +160,51 @@ export class MainComponent implements OnInit {
       data: row,
     });
   }
-  print(row:any){
-    window.open('http://admin.scankar.com/bill?id=' + row._id, '_blank');
+  print(row: any) {
+    window.open('http://admin.scankar.com/kot?id=' + row._id, '_blank');
+  }
+  view(order: any) {
+    this.selectedOder = order;
+    this.openOrderDetailDialog();
+  }
+  closeorder() {
+    this.appservice.load();
+    if (this.selectedOder.process === 'Rejected') {
+      this.selectedOder.status = 'Rejected';
+    } else {
+      this.selectedOder.status = 'Billed';
+      this.selectedOder.process = 'Completed';
+    }
+    this.dashboardservice.UpdateOrderStatus(this.selectedOder).subscribe(
+      (data) => {
+        this.appservice.unload();
+        this.appservice.alert('Updated order status successfully!', '');
+        this.ngOnInit();
+      },
+      (err) => {
+        this.appservice.unload();
+        this.appservice.alert('Could not update order status!', '');
+      }
+    );
+  }
+  openOrderDetailDialog() {
+    this.selectedOder.user = this.user;
+    this.selectedOder.kot = true;
+    const dialogRef = this.dialog.open(OrderdetaildialogComponent, {
+      width: '100%',
+      data: this.selectedOder,
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result.message === 'close') {
+        // do nothing
+      }
+      if (result.message === 'edit') {
+        this.router.navigate(['dashboard/billing/' + result.id]);
+      }
+      if (result.message === 'closeorder') {
+        this.closeorder();
+      }
+    });
   }
 }

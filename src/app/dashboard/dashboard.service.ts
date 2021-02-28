@@ -76,11 +76,7 @@ export class DashboardService {
   }
   getAll(offset: any, user: any): Observable<any> {
     return this.http.get<any>(
-      config.serverUrl +
-        'customer-order/' +
-        offset +
-        '/' +
-        user,
+      config.serverUrl + 'customer-order/' + offset + '/' + user,
       {
         observe: 'response',
       }
@@ -289,7 +285,7 @@ export class DashboardService {
     });
   }
   completeorder(order: any): Observable<any> {
-   // order.socketid = localStorage.getItem('socketid');
+    // order.socketid = localStorage.getItem('socketid');
     return this.http.post<any>(
       config.serverUrl + 'customer-order/completeorder',
       order,
@@ -319,6 +315,14 @@ export class DashboardService {
     return this.http.post<any>(
       config.serverUrl + 'users/bulkupload/' + id,
       formData,
+      {
+        observe: 'response',
+      }
+    );
+  }
+  updatesocketid(userId: any, socketId : any) {
+    return this.http.get<any>(
+      config.serverUrl + 'users/setsocketid/' + userId + '/' + socketId,
       {
         observe: 'response',
       }
