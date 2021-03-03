@@ -14,7 +14,7 @@ export class ProcessdialogComponent implements OnInit {
     public dialogRef: MatDialogRef<ProcessdialogComponent>,
     private dashboardservice: DashboardService,
     private appservice: AppService,
-    @Inject(MAT_DIALOG_DATA) private data: any
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.status = this.data.process;
   }

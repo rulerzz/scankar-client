@@ -128,6 +128,26 @@ export class DashboardComponent implements OnInit {
     this.socket.on('emitcreateorderaction', (data: any) => {
       this.showOrderAlert(data);
     });
+    this.socket.on('emitorderupdate', (data: any) => {
+      this.dashboardservice.showk(true);
+      this.dashboardservice.showt(true);
+      this.dashboardservice.showo(true);
+      this.appservice.alert(
+        'An ' + data.orderType + ' type order has been updated by a user!',
+        ''
+      );
+      let sound = new Howl({
+        src: ['../../assets/the-little-dwarf-498.mp3'],
+      });
+      sound.play();
+    });
+    this.socket.on('callwaiterping', (data: any) => {
+      this.appservice.alert('Waiter has been requested on table ' + data,'');
+      let sound = new Howl({
+        src: ['../../assets/oringz-w436-320.mp3'],
+      });
+      sound.play();
+    });
     this.detect();
   }
   quickactions() {

@@ -21,6 +21,7 @@
      <option value="Pending" [selected]="status == 'Pending'">Pending</option>
      <option value="Running" [selected]="status == 'Running'">Running</option>
      <option value="Completed" [selected]="status == 'Completed'">Completed</option>
+     <option *ngIf="data.orderType === 'Delivery'" value="Delivered" [selected]="status == 'Delivered'">Delivered</option>
      <option value="Rejected" [selected]="status == 'Rejected'">Rejected</option>
     </select>
    </div>

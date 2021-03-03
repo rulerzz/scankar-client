@@ -1123,6 +1123,7 @@
             class="separator separator-dashed my-10"
             *ngIf="user.role == 'admin'"
           ></div>
+          <div *ngIf="user.role == 'admin'">
 			 <h3 class="text-dark font-weight-bold mb-10">Working hours configuration:</h3>
             <div
               class="form-group row"
@@ -1195,6 +1196,7 @@
                   Add Hours
                 </button>
               </div>
+            </div>
             </div>
             <div class="form-group row mt-10">
               <div class="col-12">

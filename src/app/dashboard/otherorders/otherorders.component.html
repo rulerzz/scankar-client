@@ -111,6 +111,11 @@
                   >
                   <span
                     class="label label-lg label-light-success label-inline"
+                    *ngIf="row.process === 'Delivered'"
+                    >Delivered</span
+                  >
+                  <span
+                    class="label label-lg label-light-success label-inline"
                     *ngIf="row.process === 'Rejected'"
                     >Rejected</span
                   >

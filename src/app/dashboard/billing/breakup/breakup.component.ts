@@ -152,16 +152,15 @@ export class BreakupComponent implements OnInit {
         this.appservice.alert('Please select a table!', '');
       } else {
         this.appservice.load();
-        let order = {
-          discount: this.discount,
-          items: this.cart,
-          price: this.total,
-          booker: this.username,
-          instruction: this.instruction,
-          orderType: this.orderType,
-          address: this.address,
-          _id: this.data.order._id,
-        };
+        let order = this.data.order; 
+          order.discount =  this.discount;
+          order.items = this.cart;
+          order.price = this.total;
+          order.booker = this.username;
+          order.instruction = this.instruction;
+          order.orderType = this.orderType;
+          order.address = this.address;
+        
         this.dashboardservice.UpdateOrder(order).subscribe(
           (data) => {
             this.appservice.unload();
@@ -183,16 +182,14 @@ export class BreakupComponent implements OnInit {
         this.appservice.alert('Please enter address!', '');
       } else {
         this.appservice.load();
-        let order = {
-          discount: this.discount,
-          items: this.cart,
-          price: this.total,
-          booker: this.username,
-          instruction: this.instruction,
-          orderType: this.orderType,
-          address: this.address,
-          _id: this.data.order._id,
-        };
+        let order = this.data.order;
+        order.discount = this.discount;
+        order.items = this.cart;
+        order.price = this.total;
+        order.booker = this.username;
+        order.instruction = this.instruction;
+        order.orderType = this.orderType;
+        order.address = this.address;
         this.dashboardservice.UpdateOrder(order).subscribe(
           (data) => {
             this.appservice.unload();
@@ -211,16 +208,16 @@ export class BreakupComponent implements OnInit {
         this.appservice.alert('Please enter user name!', '');
       } else {
         this.appservice.load();
-        let order = {
-          discount: this.discount,
-          items: this.cart,
-          price: this.total,
-          booker: this.username,
-          instruction: this.instruction,
-          orderType: this.orderType,
-          address: this.address,
-          _id: this.data.order._id,
-        };
+        
+        let order = this.data.order;
+        order.discount = this.discount;
+        order.items = this.cart;
+        order.price = this.total;
+        order.booker = this.username;
+        order.instruction = this.instruction;
+        order.orderType = this.orderType;
+        order.address = this.address;
+
         this.dashboardservice.UpdateOrder(order).subscribe(
           (data) => {
             this.appservice.unload();
