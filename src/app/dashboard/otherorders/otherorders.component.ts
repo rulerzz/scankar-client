@@ -45,6 +45,7 @@ export class OtherordersComponent implements OnInit {
   expandedElement: any | null;
   displayedColumns: string[] = [
     'userName',
+    'mobileNumber',
     'price',
     'orderType',
     'process',

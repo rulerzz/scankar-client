@@ -156,6 +156,7 @@
         style="width: 48%; margin-left: 10px"
         (click)="complete()"
         *ngIf="data.mode == 'create'"
+        [disabled]="loading"
       >
         Complete Order
       </button>
@@ -164,6 +165,7 @@
         style="width: 48%; margin-left: 10px"
         (click)="update()"
         *ngIf="data.mode == 'edit'"
+        [disabled]="loading"
       >
         Update Order
       </button>

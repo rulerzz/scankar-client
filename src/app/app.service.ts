@@ -22,10 +22,16 @@ export class AppService {
       duration: 5000,
     });
   }
-  load(){
+  alertnotime(message: string, action: string) {
+    if (action == '') {
+      action = 'close';
+    }
+    this._snackBar.open(message, action);
+  }
+  load() {
     this.spinner.show();
   }
-  unload(){
+  unload() {
     this.spinner.hide();
   }
 }

@@ -113,7 +113,7 @@ export class DashboardComponent implements OnInit {
     this.dashboardservice.showk(true);
     this.dashboardservice.showt(true);
     this.dashboardservice.showo(true);
-    this.appservice.alert("New " + data.orderType + " type order recieved!", "");
+    this.appservice.alertnotime("New " + data.orderType + " type order recieved!", "");
     let sound = new Howl({
       src: ['../../assets/definite-555.mp3'],
     });
@@ -132,7 +132,7 @@ export class DashboardComponent implements OnInit {
       this.dashboardservice.showk(true);
       this.dashboardservice.showt(true);
       this.dashboardservice.showo(true);
-      this.appservice.alert(
+      this.appservice.alertnotime(
         'An ' + data.orderType + ' type order has been updated by a user!',
         ''
       );
@@ -142,7 +142,7 @@ export class DashboardComponent implements OnInit {
       sound.play();
     });
     this.socket.on('callwaiterping', (data: any) => {
-      this.appservice.alert('Waiter has been requested on table ' + data,'');
+      this.appservice.alertnotime('Waiter has been requested on table ' + data,'');
       let sound = new Howl({
         src: ['../../assets/oringz-w436-320.mp3'],
       });

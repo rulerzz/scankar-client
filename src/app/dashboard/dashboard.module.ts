@@ -75,6 +75,10 @@ const routes: Routes = [
         component: BillingComponent,
       },
       {
+        path: 'billing/table/:number',
+        component: BillingComponent,
+      },
+      {
         path: 'reports',
         component: ReportsComponent,
       },
@@ -92,8 +96,8 @@ const routes: Routes = [
       },
       {
         path: 'transactions',
-        component: TransactionsComponent
-      }
+        component: TransactionsComponent,
+      },
     ],
   },
 ];

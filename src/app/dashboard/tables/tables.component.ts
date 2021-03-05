@@ -201,7 +201,7 @@ export class TablesComponent implements OnInit {
     } else {
       // Order Does not exist
       this.selectedOder = {};
-      this.firePOS();
+      this.firePOS(index);
     }
   }
   edit() {
@@ -238,8 +238,8 @@ export class TablesComponent implements OnInit {
       '_blank'
     );
   }
-  firePOS() {
-    this.router.navigate(['dashboard/billing']);
+  firePOS(index: any) {
+    this.router.navigate(['dashboard/billing/table/' + (index + 1)]);
   }
   closetable() {
     this.appservice.load();

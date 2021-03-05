@@ -31,18 +31,26 @@ export class BreakupComponent implements OnInit {
   total: any;
   instruction: any;
   address: any;
+  loading:boolean;
   constructor(
     public dialogRef: MatDialogRef<BreakupComponent>,
     private dashboardservice: DashboardService,
     private appservice: AppService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
+    this.loading = false;
     this.cart = [];
     this.numbers = [];
     this.username = '';
     this.discount = 0;
     this.orderType = '';
-    this.tableNo = 0;
+    if(this.data.number == 0 || this.data.number === null){
+      this.tableNo = 0;
+    }
+    else{
+      this.tableNo = this.data.number;
+      this.orderType = 'Dine In';
+    }
     this.total = 0;
     this.address = '';
     this.instruction = '';
@@ -137,6 +145,7 @@ export class BreakupComponent implements OnInit {
     this.total = total.toFixed(2);
   }
   update() {
+    this.loading = true;
     if (
       this.discount == '' ||
       this.discount == null ||
@@ -152,24 +161,26 @@ export class BreakupComponent implements OnInit {
         this.appservice.alert('Please select a table!', '');
       } else {
         this.appservice.load();
-        let order = this.data.order; 
-          order.discount =  this.discount;
-          order.items = this.cart;
-          order.price = this.total;
-          order.booker = this.username;
-          order.instruction = this.instruction;
-          order.orderType = this.orderType;
-          order.address = this.address;
-        
+        let order = this.data.order;
+        order.discount = this.discount;
+        order.items = this.cart;
+        order.price = this.total;
+        order.booker = this.username;
+        order.instruction = this.instruction;
+        order.orderType = this.orderType;
+        order.address = this.address;
+
         this.dashboardservice.UpdateOrder(order).subscribe(
           (data) => {
             this.appservice.unload();
+            this.loading = false;
             this.appservice.alert('Updated an order!', '');
             this.dialogRef.close(true);
           },
           (err) => {
             this.appservice.unload();
             this.appservice.alert('Error updating order!', '');
+            this.loading = false;
           }
         );
       }
@@ -193,11 +204,13 @@ export class BreakupComponent implements OnInit {
         this.dashboardservice.UpdateOrder(order).subscribe(
           (data) => {
             this.appservice.unload();
+            this.loading = false;
             this.appservice.alert('Updated an order!', '');
             this.dialogRef.close(true);
           },
           (err) => {
             this.appservice.unload();
+            this.loading = false;
             this.appservice.alert('Error updating order!', '');
           }
         );
@@ -208,7 +221,7 @@ export class BreakupComponent implements OnInit {
         this.appservice.alert('Please enter user name!', '');
       } else {
         this.appservice.load();
-        
+
         let order = this.data.order;
         order.discount = this.discount;
         order.items = this.cart;
@@ -221,11 +234,13 @@ export class BreakupComponent implements OnInit {
         this.dashboardservice.UpdateOrder(order).subscribe(
           (data) => {
             this.appservice.unload();
+            this.loading = false;
             this.appservice.alert('Updated an order!', '');
             this.dialogRef.close(true);
           },
           (err) => {
             this.appservice.unload();
+            this.loading = false;
             this.appservice.alert('Error updating order!', '');
           }
         );
@@ -235,6 +250,7 @@ export class BreakupComponent implements OnInit {
     }
   }
   complete() {
+    this.loading = true;
     if (
       this.discount == '' ||
       this.discount == null ||
@@ -246,9 +262,7 @@ export class BreakupComponent implements OnInit {
       // DINE IN
       this.dashboardservice.getorderattable(this.tableNo).subscribe((data) => {
         if (data.body.data.length == 0) {
-          if (this.username == '') {
-            this.appservice.alert('Please enter user name!', '');
-          } else if (this.tableNo == 0) {
+          if (this.tableNo == 0) {
             this.appservice.alert('Please select a table!', '');
           } else {
             this.appservice.load();
@@ -269,11 +283,13 @@ export class BreakupComponent implements OnInit {
             this.dashboardservice.completeorder(order).subscribe(
               (data) => {
                 this.appservice.unload();
+                this.loading = false;
                 this.appservice.alert('Completed an order!', '');
                 this.dialogRef.close(true);
               },
               (err) => {
                 this.appservice.unload();
+                this.loading = false;
                 this.appservice.alert('Error completing order!', '');
               }
             );
@@ -285,9 +301,7 @@ export class BreakupComponent implements OnInit {
     } else if (this.orderType == 'Delivery') {
       // TAKE AWAY / DELIVERY
       this.tableNo = 0;
-      if (this.username == '') {
-        this.appservice.alert('Please enter user name!', '');
-      } else if (this.address == '') {
+      if (this.address == '') {
         this.appservice.alert('Please enter address!', '');
       } else {
         this.appservice.load();
@@ -308,47 +322,47 @@ export class BreakupComponent implements OnInit {
         this.dashboardservice.completeorder(order).subscribe(
           (data) => {
             this.appservice.unload();
+            this.loading = false;
             this.appservice.alert('Completed an order!', '');
             this.dialogRef.close(true);
           },
           (err) => {
             this.appservice.unload();
+            this.loading = false;
             this.appservice.alert('Error completing order!', '');
           }
         );
       }
     } else if (this.orderType == 'Take Home') {
       this.tableNo = 0;
-      if (this.username == '') {
-        this.appservice.alert('Please enter user name!', '');
-      } else {
-        this.appservice.load();
-        let order = {
-          discount: this.discount,
-          items: this.cart,
-          price: this.total,
-          booker: this.username,
-          tableNo: this.tableNo,
-          user: localStorage.getItem('id'),
-          placed_time: new Date().toString(),
-          status: 'Placed',
-          process: 'Pending',
-          instruction: this.instruction,
-          orderType: this.orderType,
-          address: this.address,
-        };
-        this.dashboardservice.completeorder(order).subscribe(
-          (data) => {
-            this.appservice.unload();
-            this.appservice.alert('Completed an order!', '');
-            this.dialogRef.close(true);
-          },
-          (err) => {
-            this.appservice.unload();
-            this.appservice.alert('Error completing order!', '');
-          }
-        );
-      }
+      this.appservice.load();
+      let order = {
+        discount: this.discount,
+        items: this.cart,
+        price: this.total,
+        booker: this.username,
+        tableNo: this.tableNo,
+        user: localStorage.getItem('id'),
+        placed_time: new Date().toString(),
+        status: 'Placed',
+        process: 'Pending',
+        instruction: this.instruction,
+        orderType: this.orderType,
+        address: this.address,
+      };
+      this.dashboardservice.completeorder(order).subscribe(
+        (data) => {
+          this.appservice.unload();
+          this.loading = false;
+          this.appservice.alert('Completed an order!', '');
+          this.dialogRef.close(true);
+        },
+        (err) => {
+          this.appservice.unload();
+          this.loading = false;
+          this.appservice.alert('Error completing order!', '');
+        }
+      );
     } else {
       this.appservice.alert('Please select order type!', '');
     }

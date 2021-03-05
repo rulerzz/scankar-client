@@ -23,13 +23,13 @@
               <ng-container matColumnDef="userName">
                 <th mat-header-cell *matHeaderCellDef sticky>User Name</th>
                 <td mat-cell *matCellDef="let row">
-                    {{ row.booker }}
+                    {{ row?.booker ? row?.booker : "N/A" }}
                 </td>
               </ng-container>
               <ng-container matColumnDef="mobileNumber">
                 <th mat-header-cell *matHeaderCellDef sticky>Phone</th>
                 <td mat-cell *matCellDef="let row">
-                    {{ row.user.mobileNumber }}
+                    {{ row?.userId?.mobileNumber ? row?.userId?.mobileNumber : "N/A"}}
                 </td>
               </ng-container>
                <ng-container matColumnDef="noOfSeatsRequested">

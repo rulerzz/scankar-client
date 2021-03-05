@@ -21,6 +21,7 @@ export class BillingComponent implements OnInit {
   paramid: any;
   temp: {};
   role: any;
+  tablenumber: any;
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -39,6 +40,7 @@ export class BillingComponent implements OnInit {
     this.cart = [];
     this.paramid = null;
     this.temp = {};
+    this.tablenumber = 0;
   }
   options: AnimationOptions = {
     path: '../../../assets/empty1.json',
@@ -49,6 +51,7 @@ export class BillingComponent implements OnInit {
   animationCreated(animationItem: AnimationItem): void {}
   ngOnInit(): void {
     this.paramid = this.route.snapshot.paramMap.get('id');
+    this.tablenumber = this.route.snapshot.paramMap.get('number');
     if (this.paramid !== null) {
       this.appservice.load();
       this.dashboardservice.getOrderById(this.paramid).subscribe(
@@ -185,6 +188,7 @@ export class BillingComponent implements OnInit {
         data: {
           user: this.user,
           mode: 'create',
+          number: this.tablenumber
         },
       });
     } else {
