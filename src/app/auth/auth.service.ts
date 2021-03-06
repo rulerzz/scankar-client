@@ -10,7 +10,7 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   login(data: any): Observable<any> {
-    return this.http.post<any>(config.serverUrl + 'login', data, {
+    return this.http.post<any>(config.serverUrl + 'userlogin', data, {
       observe: 'response',
     });
   }

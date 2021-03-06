@@ -8,6 +8,7 @@ import { AnimationOptions } from 'ngx-lottie';
 import { MatDialog } from '@angular/material/dialog';
 import { ShowaddonsComponent } from './showaddons/showaddons.component';
 import { OrderdetaildialogComponent } from '../orderdetaildialog/orderdetaildialog.component';
+import { promise } from 'selenium-webdriver';
 
 @Component({
   selector: 'app-tables',
@@ -55,47 +56,65 @@ export class TablesComponent implements OnInit {
     this.servicecharge = 0;
     // LOAD USER
     this.dashboardservice.kevents$.forEach((event) => {
-      this.refresh();
+      this.refresh().then((result) => {
+        if(result)
+        this.load();
+      });
     });
-    this.appservice.load();
-    this.loadUser().then((result) => {
-      this.loadOrders();
-    });
+    this.load();
   }
   refresh() {
-    this.appservice.load();
-    this.loadUser().then((result) => {
-      this.loadOrders();
-    });
-  }
-  async loadUser() {
-    this.dashboardservice.getUser(localStorage.getItem('id')).subscribe(
-      (data) => {
-        this.user = data.body.data.user;
-        if (this.user.tableCount > 0) {
-          for (let i = 0; i < this.user.tableCount; i++) {
-            this.numbers.push(i + 1);
-          }
-        }
-      },
-      (err) => {
-        this.appservice.alert('Could not get user!', '');
-      }
-    );
-  }
-  async loadOrders() {
-    this.dashboardservice.getOrdersById(localStorage.getItem('id')).subscribe(
-      (data) => {
+    return new Promise((resolve) => {
         this.numbers = [];
         this.orders = [];
-        this.orders = data.body.data;
-        this.appservice.unload();
-      },
-      (err) => {
-        this.appservice.alert('Could not get table status!', '');
-        this.appservice.unload();
-      }
-    );
+        this.selectedOder = {};
+        this.items = [];
+        this.totalAmount = 0;
+        this.additionalCharge = 0;
+        this.cgst = 0;
+        this.sgst = 0;
+        this.servicecharge = 0;
+        resolve(true);
+    });
+  }
+  load(){
+    this.appservice.load();
+    this.loadUser().then((result) => {
+      if (result) this.loadOrders();
+    });
+  }
+  loadUser() {
+    return new Promise((resolve) => {
+      this.dashboardservice.getUser(localStorage.getItem('id')).subscribe(
+        (data) => {
+          this.user = data.body.data.user;
+          if (this.user.tableCount > 0) {
+            for (let i = 0; i < this.user.tableCount; i++) {
+              this.numbers.push(i + 1);
+            }
+          }
+          resolve(true);
+        },
+        (err) => {
+          this.appservice.alert('Could not get user!', '');
+        }
+      );
+    });
+  }
+  loadOrders() {
+    return new Promise((resolve) => {
+      this.dashboardservice.getOrdersById(localStorage.getItem('id')).subscribe(
+        (data) => {
+          this.orders = data.body.data;
+          this.appservice.unload();
+          resolve(true);
+        },
+        (err) => {
+          this.appservice.alert('Could not get table status!', '');
+          this.appservice.unload();
+        }
+      );
+    });
   }
   options: AnimationOptions = {
     path: '../../../assets/empty1.json',

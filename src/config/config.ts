@@ -1,8 +1,8 @@
 export const config = {
-  serverUrl: 'https://server.scankar.com/api/v1/',
-  socketUrl: 'https://server.scankar.com',
-  //serverUrl: 'http://localhost:5000/api/v1/',
-  //socketUrl: 'http://localhost:5000',
+  //serverUrl: 'https://server.scankar.com/api/v1/',
+  //socketUrl: 'https://server.scankar.com',
+  serverUrl: 'http://localhost:5000/api/v1/',
+  socketUrl: 'http://localhost:5000',
   scanUrl: 'http://user.scankar.com/',
   appTitle: 'Scankar',
   appDesc: 'The ultimate restaurant management system with PMS & POS.',
