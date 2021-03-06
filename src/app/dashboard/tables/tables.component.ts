@@ -63,8 +63,6 @@ export class TablesComponent implements OnInit {
     });
   }
   refresh() {
-    this.numbers = [];
-    this.orders = [];
     this.appservice.load();
     this.loadUser().then((result) => {
       this.loadOrders();
@@ -88,6 +86,8 @@ export class TablesComponent implements OnInit {
   async loadOrders() {
     this.dashboardservice.getOrdersById(localStorage.getItem('id')).subscribe(
       (data) => {
+        this.numbers = [];
+        this.orders = [];
         this.orders = data.body.data;
         this.appservice.unload();
       },
