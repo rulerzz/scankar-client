@@ -55,13 +55,13 @@ export class TablesComponent implements OnInit {
     this.sgst = 0;
     this.servicecharge = 0;
     // LOAD USER
-    this.dashboardservice.kevents$.forEach((event) => {
-      this.refresh().then((result) => {
-        if(result)
-        this.load();
+    this.load();
+    this.dashboardservice.tevents$.subscribe((data) => {
+      let currentUrl = this.router.url;
+      this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+        this.router.navigate([currentUrl]);
       });
     });
-    this.load();
   }
   refresh() {
     return new Promise((resolve) => {

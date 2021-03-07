@@ -82,7 +82,7 @@ export class OtherordersComponent implements OnInit {
     this.cgst = 0;
     this.sgst = 0;
     this.servicecharge = 0;
-    this.dashboardservice.kevents$.forEach((event) => {
+    this.dashboardservice.oevents$.forEach((event) => {
       this.refresh();
     });
     // LOAD USER

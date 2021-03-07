@@ -155,9 +155,7 @@ export class BreakupComponent implements OnInit {
     }
     if (this.orderType == 'Dine In') {
       // DINE IN
-      if (this.username == '') {
-        this.appservice.alert('Please enter user name!', '');
-      } else if (this.tableNo == 0) {
+      if (this.tableNo == 0) {
         this.appservice.alert('Please select a table!', '');
       } else {
         this.appservice.load();
@@ -187,9 +185,7 @@ export class BreakupComponent implements OnInit {
     } else if (this.orderType == 'Delivery') {
       // TAKE AWAY / DELIVERY
       this.tableNo = 0;
-      if (this.username == '') {
-        this.appservice.alert('Please enter user name!', '');
-      } else if (this.address == '') {
+      if (this.address == '') {
         this.appservice.alert('Please enter address!', '');
       } else {
         this.appservice.load();
@@ -217,9 +213,6 @@ export class BreakupComponent implements OnInit {
       }
     } else if (this.orderType == 'Take Home') {
       this.tableNo = 0;
-      if (this.username == '') {
-        this.appservice.alert('Please enter user name!', '');
-      } else {
         this.appservice.load();
 
         let order = this.data.order;
@@ -244,7 +237,6 @@ export class BreakupComponent implements OnInit {
             this.appservice.alert('Error updating order!', '');
           }
         );
-      }
     } else {
       this.appservice.alert('Please select order type!', '');
     }

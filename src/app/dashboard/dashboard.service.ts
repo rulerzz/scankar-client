@@ -1,16 +1,16 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { config } from 'src/config/config';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DashboardService {
-  private usersubject = new Subject<boolean>();
-  private kotsubject = new Subject<boolean>();
-  private tablesubject = new Subject<boolean>();
-  private othersubject = new Subject<boolean>();
+  private usersubject = new Subject();
+  private kotsubject = new Subject();
+  private tablesubject = new Subject();
+  private othersubject = new Subject();
   bill: any;
   cart: any[];
   constructor(private http: HttpClient) {
@@ -19,23 +19,21 @@ export class DashboardService {
   showk(event: any) {
     this.kotsubject.next(event);
   }
-
   get kevents$() {
-    return this.kotsubject.asObservable();
+    return this.kotsubject;
   }
   showt(event: any) {
     this.tablesubject.next(event);
   }
-
   get tevents$() {
-    return this.tablesubject.asObservable();
+    return this.tablesubject;
   }
   showo(event: any) {
     this.othersubject.next(event);
   }
 
   get oevents$() {
-    return this.othersubject.asObservable();
+    return this.othersubject;
   }
   setCart(cart: any) {
     this.cart = cart;
@@ -118,7 +116,7 @@ export class DashboardService {
   }
 
   get events$() {
-    return this.usersubject.asObservable();
+    return this.usersubject;
   }
   uploadPfp(id: any, image: any): Observable<any> {
     const formData = new FormData();
@@ -320,7 +318,7 @@ export class DashboardService {
       }
     );
   }
-  updatesocketid(userId: any, socketId : any) {
+  updatesocketid(userId: any, socketId: any) {
     return this.http.get<any>(
       config.serverUrl + 'users/setsocketid/' + userId + '/' + socketId,
       {
