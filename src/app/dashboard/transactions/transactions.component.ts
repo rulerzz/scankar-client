@@ -1,4 +1,9 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  OnInit,
+} from '@angular/core';
 import {
   animate,
   state,
@@ -6,6 +11,7 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
+import { take } from 'rxjs/operators';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
@@ -15,7 +21,7 @@ import { DashboardService } from '../dashboard.service';
 import { ProcessdialogComponent } from '../main/processdialog/processdialog.component';
 import { StatusdialogComponent } from '../main/statusdialog/statusdialog.component';
 import { OrderdetaildialogComponent } from '../orderdetaildialog/orderdetaildialog.component';
-
+import { Socket } from 'ngx-socket-io';
 @Component({
   selector: 'app-transactions',
   templateUrl: './transactions.component.html',
@@ -59,12 +65,11 @@ export class TransactionsComponent implements OnInit {
     private router: Router,
     public dialog: MatDialog,
     private deviceService: DeviceDetectorService,
-    private changeDetectorRefs: ChangeDetectorRef
+    private changeDetectorRefs: ChangeDetectorRef,
+    private socket: Socket,
+    private elementRef: ElementRef
   ) {
     this.dataSource = new MatTableDataSource([]);
-    this.loadUser().then((result) => {
-      this.load();
-    });
     this.detect();
   }
   detect() {
@@ -73,16 +78,17 @@ export class TransactionsComponent implements OnInit {
     this.isTablet = this.deviceService.isTablet();
     this.isDesktopDevice = this.deviceService.isDesktop();
   }
-  ngOnInit(): void {}
-  async loadUser() {
-    this.dashboardservice.getUser(localStorage.getItem('id')).subscribe(
-      (data) => {
-        this.user = data.body.data.user;
-      },
-      (err) => {
-        this.appservice.alert('Could not get user!', '');
+  ngOnInit(): void {
+    let refresher = this.dashboardservice.allevents$().pipe(take(1));
+    refresher.subscribe((data) => {
+      if (this.router.url === '/dashboard/transactions') {
+        console.log('refreshing transactions');
+        this.load();
       }
-    );
+    });
+    let userdata: any = localStorage.getItem('userdata');
+    this.user = JSON.parse(userdata);
+    this.load();
   }
   getServerData(e: any) {
     let offset = 0;
@@ -117,7 +123,9 @@ export class TransactionsComponent implements OnInit {
       }
     );
   }
-  ngOnDestroy() {}
+  ngOnDestroy() {
+    this.elementRef.nativeElement.remove();
+  }
   view(order: any) {
     this.selectedOder = order;
     this.openOrderDetailDialog();

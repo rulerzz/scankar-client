@@ -1,11 +1,12 @@
 import { StatusdialogComponent } from './statusdialog/statusdialog.component';
 import { ProcessdialogComponent } from './processdialog/processdialog.component';
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { AppService } from 'src/app/app.service';
 import { DashboardService } from '../dashboard.service';
+import { take } from 'rxjs/operators';
 import {
   animate,
   state,
@@ -15,7 +16,7 @@ import {
 } from '@angular/animations';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { OrderdetaildialogComponent } from '../orderdetaildialog/orderdetaildialog.component';
-
+import { Socket } from 'ngx-socket-io';
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
@@ -60,7 +61,9 @@ export class MainComponent implements OnInit {
     private router: Router,
     public dialog: MatDialog,
     private deviceService: DeviceDetectorService,
-    private changeDetectorRefs: ChangeDetectorRef
+    private changeDetectorRefs: ChangeDetectorRef,
+    private socket: Socket,
+    private elementRef: ElementRef
   ) {
     this.role = localStorage.getItem('role');
     if (this.role !== 'admin') {
@@ -77,17 +80,15 @@ export class MainComponent implements OnInit {
     this.isDesktopDevice = this.deviceService.isDesktop();
   }
   ngOnInit(): void {
-    this.dashboardservice.kevents$.forEach((event) => {
-      this.refresh();
-    });
-    this.dashboardservice.getUser(localStorage.getItem('id')).subscribe(
-      (data) => {
-        this.user = data.body.data.user;
-      },
-      (err) => {
-        this.appservice.alert('Could not get user!', '');
+    let refresher = this.dashboardservice.kevents$().pipe(take(1));
+    refresher.subscribe((data) => {
+      if (this.router.url === '/dashboard/otherorders') {
+        console.log('refreshing TA/TD');
+        this.refresh();
       }
-    );
+    });
+    let userdata: any = localStorage.getItem('userdata');
+    this.user = JSON.parse(userdata);
   }
 
   getServerData(e: any) {
@@ -147,6 +148,7 @@ export class MainComponent implements OnInit {
     if (this.interval) {
       clearInterval(this.interval);
     }
+    this.elementRef.nativeElement.remove();
   }
   changeStatus(row: any): void {
     this.dialog.open(StatusdialogComponent, {
@@ -161,7 +163,10 @@ export class MainComponent implements OnInit {
     });
   }
   print(row: any) {
-    window.open('https://admin.scankar.com/kot/index.html?id=' + row._id, '_blank');
+    window.open(
+      'https://admin.scankar.com/kot/index.html?id=' + row._id,
+      '_blank'
+    );
   }
   view(order: any) {
     this.selectedOder = order;

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AnimationItem } from 'lottie-web';
 import { DeviceDetectorService } from 'ngx-device-detector';
@@ -8,8 +8,8 @@ import { AnimationOptions } from 'ngx-lottie';
 import { MatDialog } from '@angular/material/dialog';
 import { ShowaddonsComponent } from './showaddons/showaddons.component';
 import { OrderdetaildialogComponent } from '../orderdetaildialog/orderdetaildialog.component';
-import { promise } from 'selenium-webdriver';
-
+import { Socket } from 'ngx-socket-io';
+import { take } from 'rxjs/operators';
 @Component({
   selector: 'app-tables',
   templateUrl: './tables.component.html',
@@ -31,7 +31,9 @@ export class TablesComponent implements OnInit {
     private deviceService: DeviceDetectorService,
     private dashboardservice: DashboardService,
     private appservice: AppService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    public socket: Socket,
+    private elementRef: ElementRef
   ) {
     this.numbers = [];
     this.orders = [];
@@ -56,28 +58,34 @@ export class TablesComponent implements OnInit {
     this.servicecharge = 0;
     // LOAD USER
     this.load();
-    this.dashboardservice.tevents$.subscribe((data) => {
-      let currentUrl = this.router.url;
-      this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-        this.router.navigate([currentUrl]);
-      });
+    let refresher = this.dashboardservice.tevents$().pipe(take(1));
+    refresher.subscribe((data) => {
+        this.refresh().then((resolve) => {
+          if (resolve && this.router.url === '/dashboard/tables') {
+            console.log('refreshing Tables');
+            this.load();
+          }
+        });
     });
+  }
+  ngOndestroy() {
+    this.elementRef.nativeElement.remove();
   }
   refresh() {
     return new Promise((resolve) => {
-        this.numbers = [];
-        this.orders = [];
-        this.selectedOder = {};
-        this.items = [];
-        this.totalAmount = 0;
-        this.additionalCharge = 0;
-        this.cgst = 0;
-        this.sgst = 0;
-        this.servicecharge = 0;
-        resolve(true);
+      this.numbers = [];
+      this.orders = [];
+      this.selectedOder = {};
+      this.items = [];
+      this.totalAmount = 0;
+      this.additionalCharge = 0;
+      this.cgst = 0;
+      this.sgst = 0;
+      this.servicecharge = 0;
+      resolve(true);
     });
   }
-  load(){
+  load() {
     this.appservice.load();
     this.loadUser().then((result) => {
       if (result) this.loadOrders();
@@ -85,20 +93,14 @@ export class TablesComponent implements OnInit {
   }
   loadUser() {
     return new Promise((resolve) => {
-      this.dashboardservice.getUser(localStorage.getItem('id')).subscribe(
-        (data) => {
-          this.user = data.body.data.user;
-          if (this.user.tableCount > 0) {
-            for (let i = 0; i < this.user.tableCount; i++) {
-              this.numbers.push(i + 1);
-            }
-          }
-          resolve(true);
-        },
-        (err) => {
-          this.appservice.alert('Could not get user!', '');
+      let localdata: any = localStorage.getItem('userdata');
+      this.user = JSON.parse(localdata);
+      if (this.user.tableCount > 0) {
+        for (let i = 0; i < this.user.tableCount; i++) {
+          this.numbers.push(i + 1);
         }
-      );
+      }
+      resolve(true);
     });
   }
   loadOrders() {
@@ -230,7 +232,7 @@ export class TablesComponent implements OnInit {
     this.selectedOder.user = this.user;
     const dialogRef = this.dialog.open(OrderdetaildialogComponent, {
       width: '100%',
-      data: this.selectedOder
+      data: this.selectedOder,
     });
 
     dialogRef.afterClosed().subscribe((result) => {

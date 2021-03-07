@@ -11,6 +11,7 @@ export class DashboardService {
   private kotsubject = new Subject();
   private tablesubject = new Subject();
   private othersubject = new Subject();
+  private allsubject = new Subject();
   bill: any;
   cart: any[];
   constructor(private http: HttpClient) {
@@ -19,21 +20,27 @@ export class DashboardService {
   showk(event: any) {
     this.kotsubject.next(event);
   }
-  get kevents$() {
-    return this.kotsubject;
+  kevents$(): Observable<any> {
+    return this.kotsubject.asObservable();
   }
   showt(event: any) {
     this.tablesubject.next(event);
   }
-  get tevents$() {
-    return this.tablesubject;
+  tevents$(): Observable<any> {
+    return this.tablesubject.asObservable();
+  }
+  showall(event: any) {
+    this.allsubject.next(event);
+  }
+  allevents$(): Observable<any> {
+    return this.allsubject.asObservable();
   }
   showo(event: any) {
     this.othersubject.next(event);
   }
 
-  get oevents$() {
-    return this.othersubject;
+  oevents$(): Observable<any> {
+    return this.othersubject.asObservable();
   }
   setCart(cart: any) {
     this.cart = cart;

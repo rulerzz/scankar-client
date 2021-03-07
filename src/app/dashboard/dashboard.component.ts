@@ -81,6 +81,10 @@ export class DashboardComponent implements OnInit {
         this.dashboardservice.getUser(localStorage.getItem('id')).subscribe(
           (data) => {
             this.user = data.body.data.user;
+            localStorage.setItem(
+              'userdata',
+              JSON.stringify(data.body.data.user)
+            );
           },
           (err) => {
             this.appservice.alert('Could not get user data!', '');
@@ -91,6 +95,7 @@ export class DashboardComponent implements OnInit {
     this.dashboardservice.getUser(localStorage.getItem('id')).subscribe(
       (data) => {
         this.user = data.body.data.user;
+        localStorage.setItem('userdata', JSON.stringify(data.body.data.user));
       },
       (err) => {
         this.appservice.alert('Could not get user data!', '');
@@ -113,6 +118,7 @@ export class DashboardComponent implements OnInit {
     this.dashboardservice.showk(true);
     this.dashboardservice.showt(true);
     this.dashboardservice.showo(true);
+    this.dashboardservice.showall(true);
     this.appservice.alertnotime("New " + data.orderType + " type order recieved!", "");
     let sound = new Howl({
       src: ['../../assets/definite-555.mp3'],
@@ -132,6 +138,7 @@ export class DashboardComponent implements OnInit {
       this.dashboardservice.showk(true);
       this.dashboardservice.showt(true);
       this.dashboardservice.showo(true);
+      this.dashboardservice.showall(true);
       this.appservice.alertnotime(
         'An ' + data.orderType + ' type order has been updated by a user!',
         ''

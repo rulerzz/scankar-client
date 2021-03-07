@@ -1,5 +1,5 @@
 import { AnimationOptions } from 'ngx-lottie';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { AnimationItem } from 'lottie-web';
@@ -8,6 +8,8 @@ import { AppService } from 'src/app/app.service';
 import { DashboardService } from '../dashboard.service';
 import { ShowaddonsComponent } from '../tables/showaddons/showaddons.component';
 import { MatTableDataSource } from '@angular/material/table';
+import { Socket } from 'ngx-socket-io';
+import { take } from 'rxjs/operators';
 import {
   animate,
   state,
@@ -60,7 +62,9 @@ export class OtherordersComponent implements OnInit {
     private deviceService: DeviceDetectorService,
     private dashboardservice: DashboardService,
     private appservice: AppService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private socket: Socket,
+    private elementRef: ElementRef
   ) {
     this.orders = [];
     this.selectedOder = {};
@@ -82,32 +86,26 @@ export class OtherordersComponent implements OnInit {
     this.cgst = 0;
     this.sgst = 0;
     this.servicecharge = 0;
-    this.dashboardservice.oevents$.forEach((event) => {
-      this.refresh();
-    });
     // LOAD USER
-    this.appservice.load();
-    this.loadUser().then((result) => {
-      this.loadOrders();
+    this.refresh();
+    let refresher = this.dashboardservice.oevents$().pipe(take(1));
+    refresher.subscribe((data) => {
+      if (this.router.url === '/dashboard/otherorders') {
+        console.log('refreshing TA/TD');
+        this.refresh();
+      }
     });
+    let userdata: any = localStorage.getItem('userdata');
+    this.user = JSON.parse(userdata);
+  }
+  ngOndestroy() {
+    this.elementRef.nativeElement.remove();
   }
   refresh() {
     this.appservice.load();
-    this.loadUser().then((result) => {
-      this.loadOrders();
-    });
+    this.loadOrders();
   }
-  async loadUser() {
-    this.dashboardservice.getUser(localStorage.getItem('id')).subscribe(
-      (data) => {
-        this.user = data.body.data.user;
-      },
-      (err) => {
-        this.appservice.alert('Could not get user!', '');
-      }
-    );
-  }
-  async loadOrders() {
+  loadOrders() {
     this.dashboardservice
       .getOtherOrdersById(localStorage.getItem('id'))
       .subscribe(
