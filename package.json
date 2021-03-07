@@ -31,6 +31,7 @@
     "lottie-web": "^5.7.5",
     "ngx-awesome-uploader": "^10.0.2",
     "ngx-device-detector": "^2.0.5",
+    "ngx-howler": "^11.0.0",
     "ngx-infi-toast": "^1.1.2",
     "ngx-kjua": "^1.12.1",
     "ngx-lottie": "^6.4.0",

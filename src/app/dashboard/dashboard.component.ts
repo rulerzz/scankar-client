@@ -6,6 +6,7 @@ import { DashboardService } from './dashboard.service';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { Socket } from 'ngx-socket-io';
 import { Howl } from 'howler';
+import { NgxHowlerService } from 'ngx-howler';
 
 export enum NgxNotificationStatusMsg {
   SUCCESS = 'SUCCESS',
@@ -72,6 +73,9 @@ export class DashboardComponent implements OnInit {
     private dashboardservice: DashboardService,
     private appservice: AppService,
     public socket: Socket,
+    public orderhowl: NgxHowlerService,
+    public updatehowl: NgxHowlerService,
+    public waiterhowl: NgxHowlerService,
   ) {
     this.user = {};
     this.user.firstName = '';
@@ -119,17 +123,42 @@ export class DashboardComponent implements OnInit {
     this.dashboardservice.showt(true);
     this.dashboardservice.showo(true);
     this.dashboardservice.showall(true);
-    this.appservice.alertnotime("New " + data.orderType + " type order recieved!", "");
-    let sound = new Howl({
-      src: ['../../assets/definite-555.mp3'],
-    });
-    sound.play();
+    this.appservice.alertnotime(
+      'New ' + data.orderType + ' type order recieved!',
+      ''
+    );
+    this.orderhowl.get('order').play();
   }
   ngOnInit(): void {
-    this.socket.ioSocket.on('connect', () => {
-      localStorage.setItem("socketid",this.socket.ioSocket.id);
-      this.dashboardservice.updatesocketid(localStorage.getItem('id'),this.socket.ioSocket.id).subscribe((data)=> {
+    this.orderhowl
+      .register('order', {
+        src: ['../../assets/definite-555.mp3'],
+        html5: true,
+      })
+      .subscribe((status) => {
+        // ok
       });
+    this.updatehowl
+      .register('update', {
+        src: ['../../assets/the-little-dwarf-498.mp3'],
+        html5: true,
+      })
+      .subscribe((status) => {
+        // ok
+      });
+    this.waiterhowl
+      .register('waiter', {
+        src: ['../../assets/oringz-w436-320.mp3'],
+        html5: true,
+      })
+      .subscribe((status) => {
+        // ok
+      });
+    this.socket.ioSocket.on('connect', () => {
+      localStorage.setItem('socketid', this.socket.ioSocket.id);
+      this.dashboardservice
+        .updatesocketid(localStorage.getItem('id'), this.socket.ioSocket.id)
+        .subscribe((data) => {});
     });
     this.socket.on('emitcreateorderaction', (data: any) => {
       this.showOrderAlert(data);
@@ -143,17 +172,14 @@ export class DashboardComponent implements OnInit {
         'An ' + data.orderType + ' type order has been updated by a user!',
         ''
       );
-      let sound = new Howl({
-        src: ['../../assets/the-little-dwarf-498.mp3'],
-      });
-      sound.play();
+      this.updatehowl.get('update').play();
     });
     this.socket.on('callwaiterping', (data: any) => {
-      this.appservice.alertnotime('Waiter has been requested on table ' + data,'');
-      let sound = new Howl({
-        src: ['../../assets/oringz-w436-320.mp3'],
-      });
-      sound.play();
+      this.appservice.alertnotime(
+        'Waiter has been requested on table ' + data,
+        ''
+      );
+      this.waiterhowl.get('waiter').play();
     });
     this.detect();
   }

@@ -82,7 +82,7 @@ export class MainComponent implements OnInit {
   ngOnInit(): void {
     let refresher = this.dashboardservice.kevents$().pipe(take(1));
     refresher.subscribe((data) => {
-      if (this.router.url === '/dashboard/otherorders') {
+      if (this.router.url === '/dashboard/main') {
         console.log('refreshing TA/TD');
         this.refresh();
       }

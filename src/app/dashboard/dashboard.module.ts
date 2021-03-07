@@ -35,6 +35,7 @@ import { config } from '../../config/config';
 import { BulkuploadComponent } from './menu/bulkupload/bulkupload.component';
 import { TransactionsComponent } from './transactions/transactions.component';
 import { OrderdetaildialogComponent } from './orderdetaildialog/orderdetaildialog.component';
+import { NgxHowlerService } from 'ngx-howler';
 const configuration: SocketIoConfig = { url: config.socketUrl, options: {} };
 // Note we need a separate function as it's required
 // by the AOT compiler.
@@ -139,7 +140,7 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     LottieModule.forRoot({ player: playerFactory }),
   ],
-  providers: [DashboardService],
+  providers: [DashboardService, NgxHowlerService],
   exports: [
     DashboardComponent,
     UserComponent,
@@ -163,4 +164,10 @@ const routes: Routes = [
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class DashboardModule {}
+export class DashboardModule {
+  constructor(ngxHowlerService: NgxHowlerService) {
+    ngxHowlerService.loadScript(
+      '../../assets/plugins/howler.min.js'
+    );
+  }
+}
