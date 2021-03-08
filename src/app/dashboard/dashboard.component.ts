@@ -5,35 +5,8 @@ import { config } from '../../config/config';
 import { DashboardService } from './dashboard.service';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { Socket } from 'ngx-socket-io';
-import { Howl } from 'howler';
 import { NgxHowlerService } from 'ngx-howler';
-
-export enum NgxNotificationStatusMsg {
-  SUCCESS = 'SUCCESS',
-  FAILURE = 'FAILURE',
-  INFO = 'INFO',
-  NONE = 'NONE',
-}
-
-export enum NgxNotificationDirection {
-  TOP = 'TOP',
-  TOP_RIGHT = 'TOP_RIGHT',
-  TOP_LEFT = 'TOP_LEFT',
-  BOTTOM = 'BOTTOM',
-  BOTTOM_RIGHT = 'BOTTOM_RIGHT',
-  BOTTOM_LEFT = 'BOTTOM_LEFT',
-}
-
-interface INgxNotificationMsgConfig {
-  status?: NgxNotificationStatusMsg;
-  direction?: NgxNotificationDirection;
-  header?: string;
-  messages: string[];
-  delay?: number;
-  displayIcon?: boolean;
-  displayProgressBar?: boolean;
-  closeable?: boolean;
-}
+import { ElementRef } from '@angular/core';
 
 @Component({
   selector: 'app-dashboard',
@@ -42,6 +15,7 @@ interface INgxNotificationMsgConfig {
 })
 export class DashboardComponent implements OnInit {
   config: any;
+  token: any;
   actions: any = false;
   monthNames = [
     'January',
@@ -59,7 +33,6 @@ export class DashboardComponent implements OnInit {
   ];
   quickuser: boolean = false;
   user: any;
-  token: any = '';
   status: boolean = false;
   header: any = false;
   nav: any = false;
@@ -76,110 +49,58 @@ export class DashboardComponent implements OnInit {
     public orderhowl: NgxHowlerService,
     public updatehowl: NgxHowlerService,
     public waiterhowl: NgxHowlerService,
+    private elementRef: ElementRef
   ) {
-    this.user = {};
-    this.user.firstName = '';
-    this.user.lastName = '';
-    this.dashboardservice.events$.forEach((event) => {
-      if (event) {
-        this.dashboardservice.getUser(localStorage.getItem('id')).subscribe(
-          (data) => {
-            this.user = data.body.data.user;
-            localStorage.setItem(
-              'userdata',
-              JSON.stringify(data.body.data.user)
-            );
-          },
-          (err) => {
-            this.appservice.alert('Could not get user data!', '');
-          }
-        );
-      }
-    });
-    this.dashboardservice.getUser(localStorage.getItem('id')).subscribe(
-      (data) => {
-        this.user = data.body.data.user;
-        localStorage.setItem('userdata', JSON.stringify(data.body.data.user));
-      },
-      (err) => {
-        this.appservice.alert('Could not get user data!', '');
-      }
-    );
     this.config = config;
+    let parse: any = localStorage.getItem('userdata');
+    this.user = JSON.parse(parse);
+    this.token = this.user._id;
     if (!localStorage.getItem('token')) {
       this.router.navigate(['login']);
-    }
-    if (localStorage.getItem('role') === 'superadmin') {
-      //for superadmin
-      this.router.navigate(['dashboard/users']);
     } else {
-      //for admin
-      this.router.navigate(['dashboard/main']);
+      this.registerpings();
+      if (localStorage.getItem('role') === 'superadmin') {
+        //for superadmin
+        this.router.navigate(['dashboard/users']);
+      } else {
+        //for admin
+        this.router.navigate(['dashboard/main']);
+      }
     }
-    this.token = localStorage.getItem('id');
   }
-  showOrderAlert(data: any) {
-    this.dashboardservice.showk(true);
-    this.dashboardservice.showt(true);
-    this.dashboardservice.showo(true);
-    this.dashboardservice.showall(true);
-    this.appservice.alertnotime(
-      'New ' + data.orderType + ' type order recieved!',
-      ''
-    );
-    this.orderhowl.get('order').play();
-  }
-  ngOnInit(): void {
-    this.orderhowl
-      .register('order', {
-        src: ['../../assets/definite-555.mp3'],
-        html5: true,
-      })
-      .subscribe((status) => {
-        // ok
-      });
-    this.updatehowl
-      .register('update', {
-        src: ['../../assets/the-little-dwarf-498.mp3'],
-        html5: true,
-      })
-      .subscribe((status) => {
-        // ok
-      });
-    this.waiterhowl
-      .register('waiter', {
-        src: ['../../assets/oringz-w436-320.mp3'],
-        html5: true,
-      })
-      .subscribe((status) => {
-        // ok
-      });
+
+  ngOnInit() {
     this.socket.ioSocket.on('connect', () => {
       localStorage.setItem('socketid', this.socket.ioSocket.id);
       this.dashboardservice
         .updatesocketid(localStorage.getItem('id'), this.socket.ioSocket.id)
-        .subscribe((data) => {});
+        .subscribe((data) => {
+          console.log('SOCKET ADDR UPDATED SOCKET DATA =>');
+          console.log(data);
+        });
     });
     this.socket.on('emitcreateorderaction', (data: any) => {
+      this.orderhowl.get('order').play();
+      this.appservice.alertnotime(
+        'New ' + data.orderType + ' type order recieved!',
+        ''
+      );
       this.showOrderAlert(data);
     });
     this.socket.on('emitorderupdate', (data: any) => {
-      this.dashboardservice.showk(true);
-      this.dashboardservice.showt(true);
-      this.dashboardservice.showo(true);
-      this.dashboardservice.showall(true);
+      this.updatehowl.get('update').play();
       this.appservice.alertnotime(
         'An ' + data.orderType + ' type order has been updated by a user!',
         ''
       );
-      this.updatehowl.get('update').play();
+      this.showOrderAlert(data);
     });
     this.socket.on('callwaiterping', (data: any) => {
+      this.waiterhowl.get('waiter').play();
       this.appservice.alertnotime(
         'Waiter has been requested on table ' + data,
         ''
       );
-      this.waiterhowl.get('waiter').play();
     });
     this.detect();
   }
@@ -224,5 +145,75 @@ export class DashboardComponent implements OnInit {
   }
   toggleNav() {
     this.nav = !this.nav;
+  }
+  registerRefresher() {
+    this.dashboardservice.events$.forEach((event) => {
+      if (event) {
+        this.dashboardservice.getUser(localStorage.getItem('id')).subscribe(
+          (data) => {
+            this.user = data.body.data.user;
+            localStorage.setItem(
+              'userdata',
+              JSON.stringify(data.body.data.user)
+            );
+          },
+          (err) => {
+            this.appservice.alert('Could not get user data!', '');
+          }
+        );
+      }
+    });
+  }
+  registerpings() {
+    this.orderhowl
+      .register('order', {
+        src: ['../../assets/definite-555.mp3'],
+        preload: true,
+      })
+      .subscribe((status) => {
+        console.log('ORDER HOWL STATUS IS ' + status);
+      });
+    this.updatehowl
+      .register('update', {
+        src: ['../../assets/the-little-dwarf-498.mp3'],
+        preload: true,
+      })
+      .subscribe((status) => {
+        console.log('UPDATE HOWL STATUS IS ' + status);
+      });
+    this.waiterhowl
+      .register('waiter', {
+        src: ['../../assets/oringz-w436-320.mp3'],
+        preload: true,
+      })
+      .subscribe((status) => {
+        console.log('WAITER HOWL STATUS IS ' + status);
+      });
+  }
+  showOrderAlert(data: any) {
+    if (this.router.url === '/dashboard/tables') {
+      this.redirectTo('/dashboard/tables');
+    }
+    if (this.router.url === '/dashboard/main') {
+      this.redirectTo('/dashboard/main');
+    }
+    if (this.router.url === '/dashboard/otherorders') {
+      this.redirectTo('/dashboard/otherorders');
+    }
+    if (this.router.url === '/dashboard/transactions') {
+      this.redirectTo('/dashboard/transactions');
+    }
+  }
+  redirectTo(uri: string) {
+    this.router
+      .navigateByUrl('dashboard/reload', { skipLocationChange: true })
+      .then(() => this.router.navigate([uri]));
+  }
+  ngOnDestroy() {
+    this.socket.removeListener('emitcreateorderaction');
+    this.socket.removeListener('emitorderupdate');
+    this.socket.removeListener('callwaiterping');
+    console.log(this.socket.subscribersCounter);
+    this.elementRef.nativeElement.remove();
   }
 }

@@ -7,11 +7,11 @@ import { config } from 'src/config/config';
   providedIn: 'root',
 })
 export class DashboardService {
-  private usersubject = new Subject();
-  private kotsubject = new Subject();
-  private tablesubject = new Subject();
-  private othersubject = new Subject();
-  private allsubject = new Subject();
+  private usersubject = new Subject<boolean>();
+  private kotsubject = new Subject<boolean>();
+  private tablesubject = new Subject<boolean>();
+  private othersubject = new Subject<boolean>();
+  private allsubject = new Subject<boolean>();
   bill: any;
   cart: any[];
   constructor(private http: HttpClient) {
@@ -20,19 +20,19 @@ export class DashboardService {
   showk(event: any) {
     this.kotsubject.next(event);
   }
-  kevents$(): Observable<any> {
+  kevents$(): Observable<boolean> {
     return this.kotsubject.asObservable();
   }
   showt(event: any) {
     this.tablesubject.next(event);
   }
-  tevents$(): Observable<any> {
-    return this.tablesubject.asObservable();
+  tevents$(): Observable<boolean> {
+    return this.tablesubject;
   }
   showall(event: any) {
     this.allsubject.next(event);
   }
-  allevents$(): Observable<any> {
+  allevents$(): Observable<boolean> {
     return this.allsubject.asObservable();
   }
   showo(event: any) {
@@ -122,8 +122,8 @@ export class DashboardService {
     this.usersubject.next(event);
   }
 
-  get events$() {
-    return this.usersubject;
+  get events$() : Observable<boolean> {
+    return this.usersubject.asObservable();
   }
   uploadPfp(id: any, image: any): Observable<any> {
     const formData = new FormData();

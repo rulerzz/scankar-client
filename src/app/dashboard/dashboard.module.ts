@@ -36,6 +36,7 @@ import { BulkuploadComponent } from './menu/bulkupload/bulkupload.component';
 import { TransactionsComponent } from './transactions/transactions.component';
 import { OrderdetaildialogComponent } from './orderdetaildialog/orderdetaildialog.component';
 import { NgxHowlerService } from 'ngx-howler';
+import { ReloadComponent } from './reload/reload.component';
 const configuration: SocketIoConfig = { url: config.socketUrl, options: {} };
 // Note we need a separate function as it's required
 // by the AOT compiler.
@@ -99,6 +100,10 @@ const routes: Routes = [
         path: 'transactions',
         component: TransactionsComponent,
       },
+      {
+        path: 'reload',
+        component: ReloadComponent,
+      },
     ],
   },
 ];
@@ -132,6 +137,7 @@ const routes: Routes = [
     BulkuploadComponent,
     TransactionsComponent,
     OrderdetaildialogComponent,
+    ReloadComponent,
   ],
   imports: [
     CommonModule,

@@ -79,12 +79,9 @@ export class TransactionsComponent implements OnInit {
     this.isDesktopDevice = this.deviceService.isDesktop();
   }
   ngOnInit(): void {
-    let refresher = this.dashboardservice.allevents$().pipe(take(1));
+    let refresher = this.dashboardservice.allevents$();
     refresher.subscribe((data) => {
-      if (this.router.url === '/dashboard/transactions') {
-        console.log('refreshing transactions');
-        this.load();
-      }
+      this.ngOnInit();
     });
     let userdata: any = localStorage.getItem('userdata');
     this.user = JSON.parse(userdata);

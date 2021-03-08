@@ -9,7 +9,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ShowaddonsComponent } from './showaddons/showaddons.component';
 import { OrderdetaildialogComponent } from '../orderdetaildialog/orderdetaildialog.component';
 import { Socket } from 'ngx-socket-io';
-import { take } from 'rxjs/operators';
+import { take,last } from 'rxjs/operators';
 @Component({
   selector: 'app-tables',
   templateUrl: './tables.component.html',
@@ -26,6 +26,7 @@ export class TablesComponent implements OnInit {
   cgst: number;
   sgst: number;
   servicecharge: number;
+  i = 0;
   constructor(
     private router: Router,
     private deviceService: DeviceDetectorService,
@@ -58,22 +59,25 @@ export class TablesComponent implements OnInit {
     this.servicecharge = 0;
     // LOAD USER
     this.load();
-    let refresher = this.dashboardservice.tevents$().pipe(take(1));
-    refresher.subscribe((data) => {
+    /*let refresher = this.dashboardservice.tevents$().pipe(take(this.i++));
+    refresher.subscribe((data) =>{
+      console.log(data);
+    });*/
+    /*refresher.subscribe((data) => {
         this.refresh().then((resolve) => {
           if (resolve && this.router.url === '/dashboard/tables') {
             console.log('refreshing Tables');
             this.load();
           }
         });
-    });
+    });*/
   }
-  ngOndestroy() {
+  ngOnDestroy() {
     this.elementRef.nativeElement.remove();
   }
   refresh() {
     return new Promise((resolve) => {
-      this.numbers = [];
+      this.numbers = new Array();
       this.orders = [];
       this.selectedOder = {};
       this.items = [];

@@ -88,17 +88,10 @@ export class OtherordersComponent implements OnInit {
     this.servicecharge = 0;
     // LOAD USER
     this.refresh();
-    let refresher = this.dashboardservice.oevents$().pipe(take(1));
-    refresher.subscribe((data) => {
-      if (this.router.url === '/dashboard/otherorders') {
-        console.log('refreshing TA/TD');
-        this.refresh();
-      }
-    });
     let userdata: any = localStorage.getItem('userdata');
     this.user = JSON.parse(userdata);
   }
-  ngOndestroy() {
+  ngOndDestroy() {
     this.elementRef.nativeElement.remove();
   }
   refresh() {

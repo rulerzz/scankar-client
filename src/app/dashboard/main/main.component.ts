@@ -70,8 +70,6 @@ export class MainComponent implements OnInit {
       this.router.navigate(['dashboard/users']);
     }
     this.dataSource = new MatTableDataSource([]);
-    this.load();
-    this.detect();
   }
   detect() {
     this.deviceInfo = this.deviceService.getDeviceInfo();
@@ -80,15 +78,10 @@ export class MainComponent implements OnInit {
     this.isDesktopDevice = this.deviceService.isDesktop();
   }
   ngOnInit(): void {
-    let refresher = this.dashboardservice.kevents$().pipe(take(1));
-    refresher.subscribe((data) => {
-      if (this.router.url === '/dashboard/main') {
-        console.log('refreshing TA/TD');
-        this.refresh();
-      }
-    });
     let userdata: any = localStorage.getItem('userdata');
     this.user = JSON.parse(userdata);
+    this.load();
+    this.detect();
   }
 
   getServerData(e: any) {
