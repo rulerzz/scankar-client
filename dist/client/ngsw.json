@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1615314250604,
+  "timestamp": 1615314732152,
   "index": "/index.html",
   "assetGroups": [
     {
@@ -17,7 +17,7 @@
         "/favicon.ico",
         "/index.html",
         "/lottie-web.f17e17cf5221b7dd89d6.js",
-        "/main.3faa7fe58584cbe1f50e.js",
+        "/main.45e59ed7371954d0bf81.js",
         "/manifest.webmanifest",
         "/polyfills.4300ecb4c58dda561c28.js",
         "/runtime.d63240c99bb0d7a2263e.js",
@@ -3000,7 +3000,7 @@
     "/fontawesome-webfont.8b43027f47b20503057d.eot": "d980c2ce873dc43af460d4d572d441304499f400",
     "/fontawesome-webfont.c1e38fd9e0e74ba58f7a.svg": "98a8aa5cf7d62c2eff5f07ede8d844b874ef06ed",
     "/fontawesome-webfont.f691f37e57f04c152e23.woff": "28b782240b3e76db824e12c02754a9731a167527",
-    "/index.html": "55e2be1232e84be40cebea9737f1ab5200c722ce",
+    "/index.html": "88827fcdae80b4df94c6d8164319a705f4cf2b59",
     "/la-brands-400.3a8109c4ac75662f8355.woff2": "89f4f0d9ee3a2bde5fa250bbe6dc4a4804e1a863",
     "/la-brands-400.6ecea4826b87fafb97be.ttf": "10a04af3d80f9a83ef2412dedd6b76be7a0c0a66",
     "/la-brands-400.908ce19d18187969b32f.eot": "61e3ed8012597b290fb64922dd742218e3910c71",
@@ -3017,7 +3017,7 @@
     "/la-solid-900.893634871a6cbff72157.woff": "ef62110ef84b45b9f583793f294128b06afca6d4",
     "/la-solid-900.a813034654b4ff0a0bac.svg": "e8aff2133506e1e2ed5e37b0819dd35cf2e9044b",
     "/lottie-web.f17e17cf5221b7dd89d6.js": "9be231900140d89784f8ea6337de925798f88f2d",
-    "/main.3faa7fe58584cbe1f50e.js": "8578e14d5132e7be999e13061f46e683dd94a244",
+    "/main.45e59ed7371954d0bf81.js": "994d172a507f5ee63922f928a49014c083714c1f",
     "/manifest.webmanifest": "e9518944b11dc1ab5d672364e6f7472dcfe27a1c",
     "/polyfills.4300ecb4c58dda561c28.js": "7a4d611a1accb9abffbd0797f621158c7310e44f",
     "/runtime.d63240c99bb0d7a2263e.js": "d7726bd32ae0da78a94b1be848c0d99899a454c8",
