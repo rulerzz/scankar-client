@@ -1,2 +1,10 @@
 <router-outlet></router-outlet>
 <ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#fff" type = "square-loader" [fullScreen] = "true"><p style="color: white" > Loading... </p></ngx-spinner>
+<div class="pwa">
+<button *ngIf="Pwa.promptEvent" (click)="installPwa()"
+        class="btn btn-primary font-weight-bold px-9 py-4 my-3"
+        style="width: 100%"
+      >
+        Add to home screen
+      </button>
+</div>
