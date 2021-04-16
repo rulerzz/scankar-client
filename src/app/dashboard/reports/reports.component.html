@@ -1,1 +1,55 @@
-<p>reports works!</p>
+<div class="col-12">
+  <!--begin::Advance Table Widget 2-->
+  <div class="card card-custom card-stretch gutter-b">
+    <!--begin::Header-->
+    <div class="card-header border-0 pt-5">
+      <h3 class="card-title align-items-start flex-column">
+        	<span class="card-label font-weight-bolder text-dark">Report</span>
+        <span class="text-muted mt-3 font-weight-bold font-size-sm"></span>
+      </h3>
+    </div>
+    <!--end::Header-->
+    <!--begin::Body-->
+    <div class="card-body pt-2 pb-20 mt-n3">
+      <div class="tab-content mt-5" id="myTabTables11">
+        <div class="container">
+          <div class="row">
+              <div class="col-3 tables">
+                  <button type="button" class="btn btn-primary"><span>Total Sale</span><p>{{totalSale}}</p></button>
+              </div>
+              <div class="col-3 tables">
+                <button type="button" class="btn btn-primary"><span>Today Sale</span><p>{{todaySale}}</p></button>
+            </div>
+            <div class="col-3 tables">
+              <button type="button" class="btn btn-primary"><span>Total Customers</span><p>{{totalCustomers}}</p></button>
+          </div>
+          <div class="col-3 tables">
+            <button type="button" class="btn btn-primary"><span>Today Customers</span><p>{{todayCustomers}}</p></button>
+        </div>
+        <div class="col-4 tables">
+          <button type="button" class="btn btn-primary"><span>Monthly Sale</span><p>{{monthly}}</p></button>
+      </div>
+      <div class="col-4 tables">
+        <button type="button" class="btn btn-primary"><span>Monthly Avg Sale</span><p>{{monthlyavg}}</p></button>
+    </div>
+    <div class="col-4 tables">
+      <button type="button" class="btn btn-primary"><span>Monthly Count</span><p>{{monthlycount}}</p></button>
+  </div>
+          <div class="col-12">
+            <ngx-chartjs [data]="datax" type="bar"></ngx-chartjs>
+          </div>
+          <div class="col-12">
+            <ngx-chartjs [data]="datay" type="line"></ngx-chartjs>
+          </div>
+          <div class="col-12">
+            <ngx-chartjs [data]="dataz" type="bar"></ngx-chartjs>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--end::Body-->
+  </div>
+  <!--end::Advance Table Widget 2-->
+</div>
+

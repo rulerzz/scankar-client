@@ -43,6 +43,7 @@ const configuration: SocketIoConfig = { url: config.socketUrl, options: {} };
 export function playerFactory() {
   return import(/* webpackChunkName: 'lottie-web' */ 'lottie-web');
 }
+import { ChartjsModule } from '@ctrl/ngx-chartjs';
 const routes: Routes = [
   {
     path: '',
@@ -145,6 +146,7 @@ const routes: Routes = [
     SocketIoModule.forRoot(configuration),
     RouterModule.forChild(routes),
     LottieModule.forRoot({ player: playerFactory }),
+    ChartjsModule
   ],
   providers: [DashboardService, NgxHowlerService],
   exports: [
