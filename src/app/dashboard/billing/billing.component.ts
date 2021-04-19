@@ -22,6 +22,8 @@ export class BillingComponent implements OnInit {
   temp: {};
   role: any;
   tablenumber: any;
+  search: any;
+  results: any;
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -41,6 +43,7 @@ export class BillingComponent implements OnInit {
     this.paramid = null;
     this.temp = {};
     this.tablenumber = 0;
+    this.results = [];
   }
   options: AnimationOptions = {
     path: '../../../assets/empty1.json',
@@ -208,5 +211,17 @@ export class BillingComponent implements OnInit {
         this.ngOnInit();
       }
     });
+  }
+  changed(search: any) {
+    this.appservice.load();
+    if (search.length > 2) {
+      this.dashboardservice.search(search).subscribe((data) => {
+        this.results = data.body.item;
+        this.appservice.unload();
+      });
+    } else {
+      this.results = [];
+      this.appservice.unload();
+    }
   }
 }

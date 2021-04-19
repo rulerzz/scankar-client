@@ -13,7 +13,6 @@ import { config } from '../../../config/config';
 })
 export class LoginComponent implements OnInit {
   public userLoginForm: FormGroup;
-  public formErrors = DOMError;
   public formErrorMsg = '';
   config: {
     serverUrl: string;

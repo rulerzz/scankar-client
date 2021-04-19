@@ -333,4 +333,16 @@ export class DashboardService {
       }
     );
   }
+  search(name: any): Observable<any> {
+    return this.http.get<any>(
+      config.serverUrl +
+        'customer-order/searchitems/' +
+        localStorage.getItem('id') +
+        '/' +
+        name,
+      {
+        observe: 'response',
+      }
+    );
+  }
 }

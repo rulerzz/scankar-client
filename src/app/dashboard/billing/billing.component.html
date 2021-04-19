@@ -23,13 +23,28 @@
                   <div class="input-icon">
                     <input
                       type="text"
-                      class="form-control form-control-solid"
-                      placeholder="Search..."
-                      id="kt_datatable_search_query"
+                      name="search"
+                      class="shadow-none border-0 form-control"
+                      placeholder="Search for dishes"
+                      [(ngModel)]="search"
+                      (ngModelChange)="changed(search)"
                     />
                     <span>
                       <i class="flaticon2-search-1 text-muted"></i>
                     </span>
+
+                  </div>
+                  <div class="results" *ngIf="results.length > 0">
+                    <div class="listitem" *ngFor="let item of results">
+                      <img *ngIf="item.image !== undefined" [src]="item.image" />
+                      <p>{{ item.name }}</p>
+                      <div class="float-right"
+                        ><a (click)="selectItem(item.category)"
+                          class="btn btn-outline-secondary btn-sm"
+                          >ADD</a
+                        ></div
+                      >
+                    </div>
                   </div>
                 </div>
               </div>
