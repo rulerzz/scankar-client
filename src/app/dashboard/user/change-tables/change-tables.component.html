@@ -7,6 +7,11 @@
    <input type="number" [(ngModel)]="data.tableCount" class="form-control form-control-solid" placeholder="Enter Table Count" name="count"/>
    <span class="form-text text-muted">Please enter table count for this user</span>
   </div>
+  <div class="form-group">
+    <label>Enter Rooms Count:</label>
+    <input type="number" [(ngModel)]="data.roomsCount" class="form-control form-control-solid" placeholder="Enter Rooms Count" name="roomscount"/>
+    <span class="form-text text-muted">Please enter rooms count for this user</span>
+   </div>
  <div class="card-footer p-0" >
   <button type="reset" class="btn btn-primary mr-2" style="display:inline-block;width:48%;margin-bottom:15px;margin-top:15px;" (click)="change()">Update</button>
   <button type="reset" class="btn btn-secondary"style="display:inline-block;width:48%;" (click)="onNoClick()">Cancel</button>

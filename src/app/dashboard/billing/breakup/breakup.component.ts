@@ -32,6 +32,8 @@ export class BreakupComponent implements OnInit {
   instruction: any;
   address: any;
   loading:boolean;
+  mode:any;
+  roomNo: any;
   constructor(
     public dialogRef: MatDialogRef<BreakupComponent>,
     private dashboardservice: DashboardService,
@@ -44,12 +46,21 @@ export class BreakupComponent implements OnInit {
     this.username = '';
     this.discount = 0;
     this.orderType = '';
+    this.mode = this.data.mode;
     if(this.data.number == 0 || this.data.number === null){
       this.tableNo = 0;
     }
     else{
-      this.tableNo = this.data.number;
-      this.orderType = 'Dine In';
+      if(this.mode == 'createtable')
+      {
+        this.tableNo = this.data.number;
+        this.orderType = 'Dine In';
+      }
+      else
+      {
+        this.roomNo = this.data.number;
+        this.orderType = 'Room';
+      }
     }
     this.total = 0;
     this.address = '';
@@ -60,6 +71,7 @@ export class BreakupComponent implements OnInit {
     if (this.data.order !== undefined) {
       this.orderType = this.data.order.orderType;
       this.tableNo = this.data.order.tableNo;
+      this.roomNo = this.data.order.roomNo;
       this.username = this.data.order.booker;
       this.address = this.data.order.address;
       this.instruction = this.data.order.instruction;
@@ -70,8 +82,13 @@ export class BreakupComponent implements OnInit {
     }
     this.cart = this.dashboardservice.getCart();
     this.dataSource = this.cart;
-    if (this.data.user.tableCount > 0) {
+    if (this.data.user.tableCount > 0 && (this.mode === 'createtable' || this.mode === 'edit')) {
       for (let i = 0; i < this.data.user.tableCount; i++) {
+        this.numbers.push(i + 1);
+      }
+    }
+    if (this.data.user.roomsCount > 0 && (this.mode === 'createroom' || this.mode === 'edit')) {
+      for (let i = 0; i < this.data.user.roomsCount; i++) {
         this.numbers.push(i + 1);
       }
     }
@@ -264,6 +281,7 @@ export class BreakupComponent implements OnInit {
               price: this.total,
               booker: this.username,
               tableNo: this.tableNo,
+              roomNo: 0,
               user: localStorage.getItem('id'),
               placed_time: new Date().toString(),
               status: 'Placed',
@@ -303,6 +321,7 @@ export class BreakupComponent implements OnInit {
           price: this.total,
           booker: this.username,
           tableNo: this.tableNo,
+          roomNo: 0,
           user: localStorage.getItem('id'),
           placed_time: new Date().toString(),
           status: 'Placed',
@@ -334,6 +353,7 @@ export class BreakupComponent implements OnInit {
         price: this.total,
         booker: this.username,
         tableNo: this.tableNo,
+        roomNo: 0,
         user: localStorage.getItem('id'),
         placed_time: new Date().toString(),
         status: 'Placed',
@@ -355,7 +375,50 @@ export class BreakupComponent implements OnInit {
           this.appservice.alert('Error completing order!', '');
         }
       );
-    } else {
+    }
+    else if(this.orderType == 'Room') {
+      // Room
+      this.dashboardservice.getorderatroom(this.roomNo).subscribe((data) => {
+        if (data.body.data.length == 0) {
+          if (this.roomNo == 0) {
+            this.appservice.alert('Please select a room!', '');
+          } else {
+            this.appservice.load();
+            let order = {
+              discount: this.discount,
+              items: this.cart,
+              price: this.total,
+              booker: this.username,
+              tableNo: 0,
+              roomNo: this.roomNo,
+              user: localStorage.getItem('id'),
+              placed_time: new Date().toString(),
+              status: 'Placed',
+              process: 'Pending',
+              instruction: this.instruction,
+              orderType: this.orderType,
+              address: this.address,
+            };
+            this.dashboardservice.completeorder(order).subscribe(
+              (data) => {
+                this.appservice.unload();
+                this.loading = false;
+                this.appservice.alert('Completed an order!', '');
+                this.dialogRef.close(true);
+              },
+              (err) => {
+                this.appservice.unload();
+                this.loading = false;
+                this.appservice.alert('Error completing order!', '');
+              }
+            );
+          }
+        } else {
+          this.appservice.alert('This table already has an order running!', '');
+        }
+      });
+    }
+    else {
       this.appservice.alert('Please select order type!', '');
     }
   }

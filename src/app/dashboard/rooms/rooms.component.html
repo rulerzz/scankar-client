@@ -4,7 +4,7 @@
     <!--begin::Header-->
     <div class="card-header border-0 pt-5">
       <h3 class="card-title align-items-start flex-column">
-        	<span class="card-label font-weight-bolder text-dark">Table Status</span>
+        	<span class="card-label font-weight-bolder text-dark">Room Status</span>
         <span class="text-muted mt-3 font-weight-bold font-size-sm"></span>
       </h3>
     </div>
@@ -13,10 +13,10 @@
     <div class="card-body pt-2 pb-20 mt-n3">
       <div class="tab-content mt-5" id="myTabTables11">
         <div class="container">
-          <ng-lottie *ngIf="user.tableCount === undefined"  height="500" width="500" [options]="options" (animationCreated)="animationCreated($event)"></ng-lottie>
+          <ng-lottie *ngIf="user.roomsCount === undefined"  height="500" width="500" [options]="options" (animationCreated)="animationCreated($event)"></ng-lottie>
           <div class="row">
-              <div class="col-2 tables" *ngFor="let table of numbers;let i = index">
-                  <button type="button" class="btn" [ngClass]="check(i) ? 'btn-warning' : 'btn-primary'" (click)="start(i)">{{i+1}}</button>
+              <div class="col-2 tables" *ngFor="let rooms of numbers;let i = index">
+                  <button type="button" class="btn" class="{{check(i)}}" (click)="allot(i)">{{i+1}}</button>
               </div>
           </div>
         </div>

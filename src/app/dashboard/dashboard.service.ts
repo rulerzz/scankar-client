@@ -122,7 +122,7 @@ export class DashboardService {
     this.usersubject.next(event);
   }
 
-  get events$() : Observable<boolean> {
+  get events$() {
     return this.usersubject.asObservable();
   }
   uploadPfp(id: any, image: any): Observable<any> {
@@ -143,14 +143,14 @@ export class DashboardService {
     formData.append('photo', image);
     return this.http.post<any>(
       config.serverUrl +
-        'users/category/' +
-        id +
-        '/' +
-        name +
-        '/' +
-        description +
-        '/' +
-        cuisine,
+      'users/category/' +
+      id +
+      '/' +
+      name +
+      '/' +
+      description +
+      '/' +
+      cuisine,
       formData,
       {
         observe: 'response',
@@ -165,14 +165,14 @@ export class DashboardService {
     formData.append('category', JSON.stringify(category));
     return this.http.put<any>(
       config.serverUrl +
-        'users/category/' +
-        category._id +
-        '/' +
-        category.name +
-        '/' +
-        category.description +
-        '/' +
-        category.cuisine,
+      'users/category/' +
+      category._id +
+      '/' +
+      category.name +
+      '/' +
+      category.description +
+      '/' +
+      category.cuisine,
       formData,
       {
         observe: 'response',
@@ -308,6 +308,15 @@ export class DashboardService {
       }
     );
   }
+  getorderatroom(roomno: any): Observable<any> {
+    return this.http.post<any>(
+      config.serverUrl + 'customer-order/checkroom',
+      { roomno: roomno, user: localStorage.getItem('id') },
+      {
+        observe: 'response',
+      }
+    );
+  }
   getCurrentBill() {
     return this.bill;
   }
@@ -336,10 +345,71 @@ export class DashboardService {
   search(name: any): Observable<any> {
     return this.http.get<any>(
       config.serverUrl +
-        'customer-order/searchitems/' +
-        localStorage.getItem('id') +
-        '/' +
-        name,
+      'customer-order/searchitems/' +
+      localStorage.getItem('id') +
+      '/' +
+      name,
+      {
+        observe: 'response',
+      }
+    );
+  }
+  searchuser(name: any): Observable<any> {
+    return this.http.get<any>(
+      config.serverUrl +
+      'users/query/' + name,
+      {
+        observe: 'response',
+      }
+    );
+  }
+  roomstatus(user:any, room: any, status: any): Observable<any> {
+    return this.http.post<any>(
+      config.serverUrl +
+      'room/status', {
+        user : user,
+        room : room,
+        status : status
+      },
+      {
+        observe: 'response',
+      }
+    );
+  }
+  roomstatusupdate(roomid: any, status: any): Observable<any> {
+    return this.http.put<any>(
+      config.serverUrl +
+      'room/status', {
+        roomid : roomid,
+        status : status
+      },
+      {
+        observe: 'response',
+      }
+    );
+  }
+  getroomstatus(user:any, room: any): Observable<any> {
+    return this.http.get<any>(
+      config.serverUrl +
+      'room/status?user=' + user + '&room=' + room,
+      {
+        observe: 'response',
+      }
+    );
+  }
+  rooms(user:any): Observable<any> {
+    return this.http.get<any>(
+      config.serverUrl +
+      'room/' + user,
+      {
+        observe: 'response',
+      }
+    );
+  }
+  roomorders(user:any): Observable<any> {
+    return this.http.get<any>(
+      config.serverUrl +
+      'room/orders/' + user,
       {
         observe: 'response',
       }

@@ -80,11 +80,13 @@
         <option value="Dine In">Dine - In</option>
         <option value="Take Home">Take Home</option>
         <option value="Delivery">Delivery</option>
+        <option value="Room">Room</option>
       </select>
       <select
         class="form-control"
         style="width: 48%;margin-left:5px;display: inline-block;"
         [(ngModel)]="tableNo"
+        *ngIf="orderType == 'Dine In'"
         [disabled]="orderType !== 'Dine In' || data.mode == 'edit'"
       >
       <option value="0" selected disabled>Select Table Number</option>
@@ -92,6 +94,18 @@
           T - {{ i + 1 }}
         </option>
       </select>
+      <select
+      class="form-control"
+      style="width: 48%;margin-left:5px;display: inline-block;"
+      [(ngModel)]="roomNo"
+      *ngIf="orderType == 'Room'"
+      [disabled]="orderType !== 'Room' || data.mode == 'edit'"
+    >
+    <option value="0" selected disabled>Select Room Number</option>
+      <option value="{{ i + 1 }}" *ngFor="let num of numbers; let i = index">
+        R - {{ i + 1 }}
+      </option>
+    </select>
     </div>
     <div class="col-5 p-0">
       <input
@@ -155,7 +169,7 @@
         class="btn btn-primary"
         style="width: 48%; margin-left: 10px"
         (click)="complete()"
-        *ngIf="data.mode == 'create'"
+        *ngIf="data.mode == 'createtable' || data.mode == 'createroom'"
         [disabled]="loading"
       >
         Complete Order

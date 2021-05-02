@@ -5,9 +5,6 @@
     <div class="card-header border-0 pt-5">
       <h3 class="card-title align-items-start flex-column">
         <span class="card-label font-weight-bolder text-dark">Users</span>
-        <span class="text-muted mt-3 font-weight-bold font-size-sm"
-          >{{ resultsLength }} users exist</span
-        >
       </h3>
 
       <a (click)="createUser()" class="btn btn-primary font-weight-bolder" style="height:40px">
@@ -37,9 +34,8 @@
               type="text"
               class="form-control"
               matInput
-              (keyup)="applyFilter($event)"
-              #input
-              placeholder="Search..."
+              #filter
+              placeholder="Search by firstname"
             />
             <div class="input-group-append">
               <span class="input-group-text">

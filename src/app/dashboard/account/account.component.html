@@ -1039,7 +1039,7 @@
 																<button type="button" class="btn btn-light-danger font-weight-bold btn-sm">Deactivate your account ?</button>
 															</div>
 							</div>-->
-							 <h3 class="text-dark font-weight-bold mb-10">Tax Details:</h3>
+							 <h3 *ngIf="user.role == 'admin'" class="text-dark font-weight-bold mb-10">Tax Details:</h3>
             <div class="form-group row" *ngIf="user.role == 'admin'">
               <label class="col-3">GSTIN Number</label>
               <div class="col-9">

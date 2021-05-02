@@ -23,6 +23,7 @@
     "@angular/router": "~11.0.1",
     "@angular/service-worker": "~11.0.1",
     "@ctrl/ngx-chartjs": "^5.0.0",
+    "angular-search": "^0.2.1",
     "bcryptjs": "^2.4.3",
     "chart.js": "^2.9.4",
     "classlist.js": "^1.1.20150312",

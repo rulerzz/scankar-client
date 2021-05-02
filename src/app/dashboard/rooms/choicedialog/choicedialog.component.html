@@ -1,0 +1,15 @@
+<div class="form p-0" id="form">
+  <span class="font-weight-bolder text-dark" style="font-size: 20px;
+    margin-bottom: 20px;
+    display: block;">Please select choice</span>
+  <div class="form-group">
+    <span class="form-text text-muted">Go to orders, or update status</span>
+   </div>
+ <div class="card-footer p-0" >
+  <button type="reset" class="btn btn-primary mr-2" style="display:inline-block;width:48%;margin-bottom:15px;margin-top:15px;" (click)="orders()">Goto Orders</button>
+  <button type="reset" class="btn btn-warning"style="display:inline-block;width:48%;" (click)="change()">Change Status</button>
+  <button type="reset" class="btn btn-secondary"style="display:block;width:100%;" (click)="dialogRef.close(null)">Close</button>
+ </div>
+</div>
+
+

@@ -1,0 +1,20 @@
+<div class="form p-0" id="form">
+  <span class="font-weight-bolder text-dark" style="font-size: 20px;
+    margin-bottom: 20px;
+    display: block;">Change Room Status</span>
+  <div class="form-group">
+    <label>Status:</label>
+    <select class="form-control" name="status" [(ngModel)]="status">
+      <option value="" selected disabled>Select</option>
+      <option value="true" [selected]="status === true">on</option>
+      <option value="false" [selected]="status === false">off</option>
+    </select>
+    <span class="form-text text-muted">Please select room status</span>
+   </div>
+ <div class="card-footer p-0" >
+  <button type="reset" class="btn btn-primary mr-2" style="display:inline-block;width:48%;margin-bottom:15px;margin-top:15px;" (click)="changestatus()">Update</button>
+  <button type="reset" class="btn btn-secondary"style="display:inline-block;width:48%;" (click)="onNoClick()">Cancel</button>
+ </div>
+</div>
+
+

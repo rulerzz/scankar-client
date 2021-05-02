@@ -4,17 +4,20 @@ import { DeviceDetectorService } from 'ngx-device-detector';
 import { AppService } from 'src/app/app.service';
 import { DashboardService } from '../dashboard.service';
 import { MatDialog } from '@angular/material/dialog';
-import { ShowaddonsComponent } from './showaddons/showaddons.component';
 import { OrderdetaildialogComponent } from '../orderdetaildialog/orderdetaildialog.component';
 import { Socket } from 'ngx-socket-io';
 import { AnimationItem } from 'lottie-web';
 import { AnimationOptions } from 'ngx-lottie';
+import { ShowaddonsComponent } from '../tables/showaddons/showaddons.component';
+import { ConfirmationdialogComponent } from './confirmationdialog/confirmationdialog.component';
+import { ChoicedialogComponent } from './choicedialog/choicedialog.component';
+
 @Component({
-  selector: 'app-tables',
-  templateUrl: './tables.component.html',
-  styleUrls: ['./tables.component.css'],
+  selector: 'app-rooms',
+  templateUrl: './rooms.component.html',
+  styleUrls: ['./rooms.component.css']
 })
-export class TablesComponent implements OnInit {
+export class RoomsComponent implements OnInit {
   user: any = {};
   numbers: any;
   orders: any;
@@ -25,10 +28,10 @@ export class TablesComponent implements OnInit {
   cgst: number;
   sgst: number;
   servicecharge: number;
+  rooms: any;
   i = 0;
   constructor(
     private router: Router,
-    private deviceService: DeviceDetectorService,
     private dashboardservice: DashboardService,
     private appservice: AppService,
     public dialog: MatDialog,
@@ -37,6 +40,7 @@ export class TablesComponent implements OnInit {
   ) {
     this.numbers = [];
     this.orders = [];
+    this.rooms = [];
     this.selectedOder = {};
     this.items = [];
     this.totalAmount = 0;
@@ -51,10 +55,11 @@ export class TablesComponent implements OnInit {
   options2: AnimationOptions = {
     path: '../../../assets/empty3.json',
   };
-  animationCreated(animationItem: AnimationItem): void {}
+  animationCreated(animationItem: AnimationItem): void { }
   ngOnInit(): void {
     this.numbers = [];
     this.orders = [];
+    this.rooms = [];
     this.selectedOder = {};
     this.items = [];
     this.totalAmount = 0;
@@ -64,18 +69,6 @@ export class TablesComponent implements OnInit {
     this.servicecharge = 0;
     // LOAD USER
     this.load();
-    /*let refresher = this.dashboardservice.tevents$().pipe(take(this.i++));
-    refresher.subscribe((data) =>{
-      console.log(data);
-    });*/
-    /*refresher.subscribe((data) => {
-        this.refresh().then((resolve) => {
-          if (resolve && this.router.url === '/dashboard/tables') {
-            console.log('refreshing Tables');
-            this.load();
-          }
-        });
-    });*/
   }
   ngOnDestroy() {
     this.elementRef.nativeElement.remove();
@@ -85,6 +78,7 @@ export class TablesComponent implements OnInit {
     return new Promise((resolve) => {
       this.numbers = new Array();
       this.orders = [];
+      this.rooms = [];
       this.selectedOder = {};
       this.items = [];
       this.totalAmount = 0;
@@ -96,52 +90,56 @@ export class TablesComponent implements OnInit {
     });
   }
   load() {
-    this.appservice.load();
     this.loadUser().then((result) => {
-      if (result) this.loadOrders();
+      if (result) {
+        this.loadrooms();
+        this.loadorders();
+      }
     });
   }
   loadUser() {
     return new Promise((resolve) => {
       let localdata: any = localStorage.getItem('userdata');
       this.user = JSON.parse(localdata);
-      if (this.user.tableCount > 0) {
-        for (let i = 0; i < this.user.tableCount; i++) {
+      if (this.user.roomsCount > 0) {
+        for (let i = 0; i < this.user.roomsCount; i++) {
           this.numbers.push(i + 1);
         }
       }
       resolve(true);
     });
   }
-  loadOrders() {
-    return new Promise((resolve) => {
-      this.dashboardservice.getOrdersById(localStorage.getItem('id')).subscribe(
-        (data) => {
-          this.orders = data.body.data;
-          this.appservice.unload();
-          resolve(true);
-        },
-        (err) => {
-          this.appservice.alert('Could not get table status!', '');
-          this.appservice.unload();
-        }
-      );
-    });
+  loadrooms() {
+    this.dashboardservice.rooms(localStorage.getItem('id')).subscribe(
+      (data) => {
+        this.rooms = data.body.rooms;
+      },
+      (err) => {
+        this.appservice.alert('Could not get room status!', '');
+      }
+    );
+  }
+  loadorders() {
+    this.dashboardservice.roomorders(localStorage.getItem('id')).subscribe(
+      (data) => {
+        this.orders = data.body.orders;
+      },
+      (err) => {
+        this.appservice.alert('Could not get room orders!', '');
+      }
+    );
   }
   check(index: any) {
-    for (let i = 0; i < this.orders.length; i++) {
-      if (this.orders[i].tableNo == index + 1) {
-        return true;
+    for (let i = 0; i < this.rooms.length; i++) {
+      let order = this.orders.find((o: { roomNo: any; }) => o.roomNo == (index + 1));
+      if (this.rooms[i].room == index && this.rooms[i].status && order === undefined) {
+        return "btn-success";
+      }
+      if (this.rooms[i].room == index && this.rooms[i].status && order !== undefined) {
+        return "btn-warning";
       }
     }
-    return false;
-  }
-  checkOrder() {
-    if (Object.keys(this.selectedOder).length == 0) {
-      return false;
-    } else {
-      return true;
-    }
+    return "btn-primary";
   }
   getPrice(item: any) {
     if (item.hasOwnProperty('config')) return item.config.price;
@@ -201,30 +199,63 @@ export class TablesComponent implements OnInit {
     }
     return (finalPrice * Number(item.quantity)).toFixed(2);
   }
-  start(index: any) {
+  allot(index: any) {
+    let order = this.orders.find((o: { roomNo: any; }) => o.roomNo == (index + 1));
+    let status = false;
+    for (let i = 0; i < this.rooms.length; i++) {
+      if (this.rooms[i].room == index && this.rooms[i].status) {
+        status = true;
+        break;
+      }
+    }
+    if (status) {
+      if (order !== undefined) {
+        this.start(order);
+      }
+      else {
+        const dialogRef = this.dialog.open(ChoicedialogComponent, {
+          width: '350px'
+        });
+        dialogRef.afterClosed().subscribe((result) => {
+          if (result) {
+            this.firePOS(index);
+          }
+          if (!result) {
+            const dialogRef = this.dialog.open(ConfirmationdialogComponent, {
+              width: '100%',
+              data: index,
+            });
+            dialogRef.afterClosed().subscribe((result) => {
+              if (result)
+                this.ngOnInit();
+            });
+          }
+        });
+      }
+    } else {
+      const dialogRef = this.dialog.open(ConfirmationdialogComponent, {
+        width: '100%',
+        data: index,
+      });
+      dialogRef.afterClosed().subscribe((result) => {
+        if (result)
+          this.ngOnInit();
+      });
+    }
+  }
+  start(order: any) {
     this.totalAmount = 0;
     this.cgst = 0;
     this.sgst = 0;
     this.servicecharge = 0;
     this.additionalCharge = 0;
-    if (this.check(index)) {
-      // Order Exists
-      for (let i = 0; i < this.orders.length; i++) {
-        if (this.orders[i].tableNo == index + 1) {
-          this.selectedOder = this.orders[i];
-          this.selectedOder.items.forEach((element: any) => {
-            this.totalAmount += Number(this.getFinalPrice(element));
-          });
-        }
-      }
-      this.totalAmount -= this.selectedOder.discount;
-      this.totalAmount.toFixed(2);
-      this.openOrderDetailDialog();
-    } else {
-      // Order Does not exist
-      this.selectedOder = {};
-      this.firePOS(index);
-    }
+    this.selectedOder = order;
+    this.selectedOder.items.forEach((element: any) => {
+      this.totalAmount += Number(this.getFinalPrice(element));
+    });
+    this.totalAmount -= this.selectedOder.discount;
+    this.totalAmount.toFixed(2);
+    this.openOrderDetailDialog();
   }
   edit() {
     this.router.navigate(['dashboard/billing/' + this.selectedOder._id]);
@@ -248,12 +279,6 @@ export class TablesComponent implements OnInit {
       }
     });
   }
-  showaddons(item: any) {
-    this.dialog.open(ShowaddonsComponent, {
-      width: '350px',
-      data: item.addons,
-    });
-  }
   generateBill() {
     window.open(
       'https://admin.scankar.com/bill/index.html?id=' + this.selectedOder._id,
@@ -261,7 +286,7 @@ export class TablesComponent implements OnInit {
     );
   }
   firePOS(index: any) {
-    this.router.navigate(['dashboard/billing/table/' + (index + 1)]);
+    this.router.navigate(['dashboard/billing/room/' + (index + 1)]);
   }
   closetable() {
     this.appservice.load();

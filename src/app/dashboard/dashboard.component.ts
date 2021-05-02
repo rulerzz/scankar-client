@@ -67,6 +67,7 @@ export class DashboardComponent implements OnInit {
         this.router.navigate(['dashboard/main']);
       }
     }
+    this.dashboardservice.events$.subscribe((data) => { this.getuserandupdatelocal() });
   }
 
   ngOnInit() {
@@ -215,5 +216,26 @@ export class DashboardComponent implements OnInit {
     this.socket.removeListener('callwaiterping');
     console.log(this.socket.subscribersCounter);
     this.elementRef.nativeElement.remove();
+  }
+  update(){
+    if(this.user.configuration !== undefined)
+    this.user.configuration = JSON.stringify(this.user.configuration);
+    this.dashboardservice.updateuser(this.user).subscribe(
+      (data) => {
+        this.appservice.unload();
+        this.appservice.alert('Successfully Updated!', '');
+        this.getuserandupdatelocal();
+      },
+      (err) => {
+        this.appservice.alert('Could not update!', '');
+        this.appservice.unload();
+      }
+    );
+  }
+  getuserandupdatelocal(){
+    this.dashboardservice.getUser(this.user._id).subscribe((data) => {
+      this.user = data.body.data.user;
+      localStorage.setItem('userdata',JSON.stringify(data.body.data.user));
+      });
   }
 }

@@ -21,17 +21,26 @@ export class ChangeTablesComponent implements OnInit {
   }
   change() {
     this.appservice.load();
-    this.dashboardservice.updateuser(this.data).subscribe(
-      (data) => {
-        this.appservice.alert('Table count changed successfully!', '');
-        this.appservice.unload();
-        this.dialogRef.close();
-      },
-      (err) => {
-        this.appservice.alert('Error changing table count!', '');
-        this.appservice.unload();
-      }
-    );
+    if(this.data.configuration !== undefined){
+      this.data.configuration = JSON.stringify(this.data.configuration);
+    }
+    if(this.data.tableCount === undefined){
+      this.data.tableCount = 0;
+    }
+    if(this.data.roomsCount === undefined){
+      this.data.roomsCount = 0;
+    }
+      this.dashboardservice.updateuser(this.data).subscribe(
+        (data) => {
+          this.appservice.alert('Table / Room count changed successfully!', '');
+          this.appservice.unload();
+          this.dialogRef.close();
+        },
+        (err) => {
+          this.appservice.alert('Error changing table count!', '');
+          this.appservice.unload();
+        }
+      );
   }
   onNoClick() {
     this.dialogRef.close();

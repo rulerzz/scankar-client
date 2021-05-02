@@ -2,26 +2,26 @@ import { config } from './../../../config/config';
 import { CreateuserComponent } from './createuser/createuser.component';
 import { Router } from '@angular/router';
 import { ChangeTablesComponent } from './change-tables/change-tables.component';
-import { User } from './usermodel';
 import { DeleteuserComponent } from './deleteuser/deleteuser.component';
 import { EdituserComponent } from './edituser/edituser.component';
 import { AppService } from './../../app.service';
 import { DashboardService } from './../dashboard.service';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import jsPDF from 'jspdf';
 import * as kjua from 'kjua-svg';
-
+import { fromEvent } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.css'],
 })
-export class UserComponent implements OnInit {
+export class UserComponent implements AfterViewInit {
   users: any = [];
+  @ViewChild("filter")
+  filterelement!: ElementRef;
   displayedColumns: string[] = [
     'firstName',
     'email',
@@ -49,7 +49,13 @@ export class UserComponent implements OnInit {
     this.dataSource = new MatTableDataSource([]);
   }
 
-  ngOnInit(): void {}
+  ngAfterViewInit(): void {
+    fromEvent(this.filterelement.nativeElement, 'input')
+    .pipe(map((event : any) => (event.target as HTMLInputElement).value))
+    .pipe(debounceTime(700))
+    .pipe(distinctUntilChanged())
+    .subscribe((data:any) => this.applyFilter(data));
+  }
 
   openEditDialog(user: any): void {
     this.dialog.open(EdituserComponent, {
@@ -117,9 +123,20 @@ export class UserComponent implements OnInit {
       }
     );
   }
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+  applyFilter(str : string) {
+    if(str.length > 3){
+    this.appservice.load();
+      this.dashboardservice.searchuser(str).subscribe((data) => {
+        this.dataSource = new MatTableDataSource(data.body.users);
+        this.appservice.unload();
+      }, (err) => {
+        this.dataSource = new MatTableDataSource([]);
+        this.appservice.unload();
+      });
+    }
+    if(str.length == 0){
+      this.load();
+    }
   }
   printqr(row: any) {
     if (

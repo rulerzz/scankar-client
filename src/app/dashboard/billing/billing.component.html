@@ -39,7 +39,7 @@
                       <img *ngIf="item.image !== undefined" [src]="item.image" />
                       <p>{{ item.name }}</p>
                       <div class="float-right"
-                        ><a (click)="selectItem(item.category)"
+                        ><a (click)="selectItem(item)"
                           class="btn btn-outline-secondary btn-sm"
                           >ADD</a
                         ></div
@@ -58,7 +58,7 @@
             class="col-lg-4 col-md-4 col-sm-12 col-xs-12"
             *ngFor="let category of user.categories"
           >
-            <button class="btn btn-primary" (click)="selectItem(category)" style="width:100%;margin-bottom: 10px;">
+            <button class="btn btn-primary" (click)="selectCategory(category)" style="width:100%;margin-bottom: 10px;">
               {{ category.name }}
             </button>
           </div>

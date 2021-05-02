@@ -1,65 +1,68 @@
-.card:hover >  div.overlay {
-    display:block;
-    cursor: pointer;
+.card:hover > div.overlay {
+  display: block;
+  cursor: pointer;
 }
-.overlay{
-  display:none;
+.overlay {
+  display: none;
 }
-.nell .card{
-    margin-bottom: 5px;
+.nell .card {
+  margin-bottom: 5px;
 }
 @media screen and (max-width: 1024px) {
-.nell .card{
+  .nell .card {
     height: 139px;
-}
+  }
 }
 @media screen and (min-width: 1024px) {
-.nell .card{
-  height:210px;
+  .nell .card {
+    height: 210px;
+  }
 }
-}@media screen and (min-width: 1600px) {
-.nell .card{
-  height:220px;
-}
+@media screen and (min-width: 1600px) {
+  .nell .card {
+    height: 220px;
+  }
 }
 @media screen and (max-width: 425px) {
-.nell .card{
-  height:300px;
-}
-.card-toolbar button{
-  width:100%;
-  margin-bottom:5px;
-  margin-right:0px !important;
-}
+  .nell .card {
+    height: 300px;
+  }
+  .card-toolbar button {
+    width: 100%;
+    margin-bottom: 5px;
+    margin-right: 0px !important;
+  }
 }
 @media screen and (max-width: 375px) {
-.nell .card{
-  height:245px;
-}
+  .nell .card {
+    height: 245px;
+  }
 }
 @media screen and (max-width: 325px) {
-.nell .card{
-  height:190px;
+  .nell .card {
+    height: 190px;
+  }
 }
-}
-.results{
+.results {
   display: block;
+  position: absolute;
   width: 100%;
   background: white;
+  z-index: 100;
   padding: 10px;
 }
 .results span {
   position: absolute;
   right: 20px !important;
 }
-.listitem{
+.listitem {
   width: 100%;
   height: 50px;
 }
-.listitem:hover{
-      background: #fbccdb;
+.listitem:hover {
+  background: #eef0f8;
 }
-.listitem img{
+.listitem img {
   max-width: 50px;
   max-height: 50px;
   margin-right: 15px;
@@ -67,4 +70,8 @@
 .listitem p {
   display: inline-block;
   margin-top: 15px;
+}
+.float-right {
+  padding-top: 10px;
+  float: right !important;
 }

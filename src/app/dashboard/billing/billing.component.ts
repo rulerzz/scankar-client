@@ -8,6 +8,7 @@ import { AnimationOptions } from 'ngx-lottie';
 import { AdditemComponentt } from './additem/additem.component';
 import { MatDialog } from '@angular/material/dialog';
 import { BreakupComponent } from './breakup/breakup.component';
+import { AddsingleitemComponent } from './addsingleitem/addsingleitem.component';
 @Component({
   selector: 'app-billing',
   templateUrl: './billing.component.html',
@@ -24,6 +25,8 @@ export class BillingComponent implements OnInit {
   tablenumber: any;
   search: any;
   results: any;
+  urlmap: any;
+  roomnumber: any;
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -43,6 +46,7 @@ export class BillingComponent implements OnInit {
     this.paramid = null;
     this.temp = {};
     this.tablenumber = 0;
+    this.roomnumber = 0;
     this.results = [];
   }
   options: AnimationOptions = {
@@ -53,11 +57,25 @@ export class BillingComponent implements OnInit {
   };
   animationCreated(animationItem: AnimationItem): void {}
   ngOnInit(): void {
-    this.paramid = this.route.snapshot.paramMap.get('id');
-    this.tablenumber = this.route.snapshot.paramMap.get('number');
-    if (this.paramid !== null) {
-      this.appservice.load();
-      this.dashboardservice.getOrderById(this.paramid).subscribe(
+    console.log(this.route.snapshot.url.join().split(','))
+    this.urlmap = this.route.snapshot.url.join().split(',');
+    if(this.urlmap.length == 2){
+      // EDIT MODE
+      this.loadorderdata(this.urlmap[1]);
+    }else{
+      if(this.urlmap[1] == 'table'){
+        this.tablenumber = this.urlmap[2];
+        this.loadMenu();
+      }
+      else{
+        this.roomnumber = this.urlmap[2];
+        this.loadMenu();
+      }
+    }
+  }
+  loadorderdata(id:any){
+    this.appservice.load();
+      this.dashboardservice.getOrderById(id).subscribe(
         (data) => {
           this.temp = data.body.data.order;
           this.dashboardservice.setCart(data.body.data.order.items);
@@ -70,9 +88,6 @@ export class BillingComponent implements OnInit {
           this.appservice.alert('Could not get order data!', '');
         }
       );
-    } else {
-      this.loadMenu();
-    }
   }
   ngOnDestroy() {
     this.cart = [];
@@ -93,13 +108,20 @@ export class BillingComponent implements OnInit {
       }
     );
   }
-  selectItem(category: any) {
+  selectCategory(category: any) {
     this.dialog.open(AdditemComponentt, {
       width: '350px',
       height: '450px',
       data: {
         category: category,
       },
+    });
+  }
+  selectItem(item: any) {
+    this.dialog.open(AddsingleitemComponent, {
+      width: '350px',
+      height: '450px',
+      data: item
     });
   }
   increase(item: any) {
@@ -186,14 +208,26 @@ export class BillingComponent implements OnInit {
   showBreakup() {
     let dialog;
     if (this.mode == 'create') {
-      dialog = this.dialog.open(BreakupComponent, {
-        width: '100%',
-        data: {
-          user: this.user,
-          mode: 'create',
-          number: this.tablenumber
-        },
-      });
+      if(this.tablenumber != 0){
+        dialog = this.dialog.open(BreakupComponent, {
+          width: '100%',
+          data: {
+            user: this.user,
+            mode: 'createtable',
+            number: this.tablenumber
+          },
+        });
+      }else{
+        dialog = this.dialog.open(BreakupComponent, {
+          width: '100%',
+          data: {
+            user: this.user,
+            mode: 'createroom',
+            number: this.roomnumber
+          },
+        });
+      }
+
     } else {
       dialog = this.dialog.open(BreakupComponent, {
         width: '100%',

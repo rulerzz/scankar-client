@@ -44,6 +44,10 @@ export function playerFactory() {
   return import(/* webpackChunkName: 'lottie-web' */ 'lottie-web');
 }
 import { ChartjsModule } from '@ctrl/ngx-chartjs';
+import { AddsingleitemComponent } from './billing/addsingleitem/addsingleitem.component';
+import { RoomsComponent } from './rooms/rooms.component';
+import { ConfirmationdialogComponent } from './rooms/confirmationdialog/confirmationdialog.component';
+import { ChoicedialogComponent } from './rooms/choicedialog/choicedialog.component';
 const routes: Routes = [
   {
     path: '',
@@ -82,6 +86,10 @@ const routes: Routes = [
         component: BillingComponent,
       },
       {
+        path: 'billing/room/:number',
+        component: BillingComponent,
+      },
+      {
         path: 'reports',
         component: ReportsComponent,
       },
@@ -104,6 +112,10 @@ const routes: Routes = [
       {
         path: 'reload',
         component: ReloadComponent,
+      },
+      {
+        path: 'rooms',
+        component: RoomsComponent,
       },
     ],
   },
@@ -139,6 +151,10 @@ const routes: Routes = [
     TransactionsComponent,
     OrderdetaildialogComponent,
     ReloadComponent,
+    AddsingleitemComponent,
+    RoomsComponent,
+    ConfirmationdialogComponent,
+    ChoicedialogComponent
   ],
   imports: [
     CommonModule,
@@ -156,6 +172,7 @@ const routes: Routes = [
     CreateuserComponent,
     DeleteuserComponent,
     ChangeTablesComponent,
+    TablesComponent,
     MainComponent,
     ProcessdialogComponent,
     StatusdialogComponent,
@@ -166,9 +183,21 @@ const routes: Routes = [
     ReportsComponent,
     MenuComponent,
     BillingComponent,
-    TablesComponent,
+    CreatecategoryComponent,
     AdditemComponent,
+    EdititemComponent,
     AdditemComponentt,
+    BreakupComponent,
+    ShowaddonsComponent,
+    OtherordersComponent,
+    BulkuploadComponent,
+    TransactionsComponent,
+    OrderdetaildialogComponent,
+    ReloadComponent,
+    AddsingleitemComponent,
+    RoomsComponent,
+    ConfirmationdialogComponent,
+    ChoicedialogComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
