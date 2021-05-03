@@ -15,10 +15,10 @@ export class ChoicedialogComponent implements OnInit {
   ngOnInit(): void {
   }
   change(){
-    this.dialogRef.close(false);
+    this.dialogRef.close({ message : 'change'});
   }
   orders(){
-    this.dialogRef.close(true);
+    this.dialogRef.close({ message : 'orders'});
   }
 
 }

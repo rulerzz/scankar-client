@@ -56,6 +56,11 @@
                     *ngIf="row.orderType === 'Delivery'"
                     >Delivery</span
                   >
+                  <span
+                    class="label label-lg label-light-primary label-inline"
+                    *ngIf="row.orderType === 'Room'"
+                    >Room</span
+                  >
                 </td>
               </ng-container>
               <ng-container matColumnDef="expandedDetail">

@@ -83,5 +83,6 @@
   <button mat-button *ngIf="data.kot === undefined" (click)="edit()" cdkFocusInitial>Edit</button>
   <button mat-button *ngIf="data.kot === undefined" (click)="printbill()" cdkFocusInitial>Print Bill</button>
   <button *ngIf="data.orderType === 'Dine In' && data.kot === undefined" mat-button (click)="closetable()" cdkFocusInitial>Close Table</button>
-  <button *ngIf="data.orderType !== 'Dine In' && data.kot === undefined" mat-button (click)="closeorder()" cdkFocusInitial>Close Order</button>
+  <button *ngIf="data.orderType === 'Room' && data.kot === undefined" mat-button (click)="closeroom()" cdkFocusInitial>Close Room</button>
+  <button *ngIf="(data.orderType === 'Take Away' ||  data.orderType === 'Delivery') && data.kot === undefined" mat-button (click)="closeorder()" cdkFocusInitial>Close Order</button>
 </div>

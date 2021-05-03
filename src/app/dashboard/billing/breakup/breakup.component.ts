@@ -31,8 +31,8 @@ export class BreakupComponent implements OnInit {
   total: any;
   instruction: any;
   address: any;
-  loading:boolean;
-  mode:any;
+  loading: boolean;
+  mode: any;
   roomNo: any;
   constructor(
     public dialogRef: MatDialogRef<BreakupComponent>,
@@ -47,17 +47,15 @@ export class BreakupComponent implements OnInit {
     this.discount = 0;
     this.orderType = '';
     this.mode = this.data.mode;
-    if(this.data.number == 0 || this.data.number === null){
+    if (this.data.number == 0 || this.data.number === null) {
       this.tableNo = 0;
     }
-    else{
-      if(this.mode == 'createtable')
-      {
+    else {
+      if (this.mode == 'createtable') {
         this.tableNo = this.data.number;
         this.orderType = 'Dine In';
       }
-      else
-      {
+      else {
         this.roomNo = this.data.number;
         this.orderType = 'Room';
       }
@@ -230,31 +228,58 @@ export class BreakupComponent implements OnInit {
       }
     } else if (this.orderType == 'Take Home') {
       this.tableNo = 0;
-        this.appservice.load();
+      this.appservice.load();
 
-        let order = this.data.order;
-        order.discount = this.discount;
-        order.items = this.cart;
-        order.price = this.total;
-        order.booker = this.username;
-        order.instruction = this.instruction;
-        order.orderType = this.orderType;
-        order.address = this.address;
+      let order = this.data.order;
+      order.discount = this.discount;
+      order.items = this.cart;
+      order.price = this.total;
+      order.booker = this.username;
+      order.instruction = this.instruction;
+      order.orderType = this.orderType;
+      order.address = this.address;
 
-        this.dashboardservice.UpdateOrder(order).subscribe(
-          (data) => {
-            this.appservice.unload();
-            this.loading = false;
-            this.appservice.alert('Updated an order!', '');
-            this.dialogRef.close(true);
-          },
-          (err) => {
-            this.appservice.unload();
-            this.loading = false;
-            this.appservice.alert('Error updating order!', '');
-          }
-        );
-    } else {
+      this.dashboardservice.UpdateOrder(order).subscribe(
+        (data) => {
+          this.appservice.unload();
+          this.loading = false;
+          this.appservice.alert('Updated an order!', '');
+          this.dialogRef.close(true);
+        },
+        (err) => {
+          this.appservice.unload();
+          this.loading = false;
+          this.appservice.alert('Error updating order!', '');
+        }
+      );
+    } else if (this.orderType == 'Room') {
+      this.tableNo = 0;
+      this.appservice.load();
+
+      let order = this.data.order;
+      order.discount = this.discount;
+      order.items = this.cart;
+      order.price = this.total;
+      order.booker = this.username;
+      order.instruction = this.instruction;
+      order.orderType = this.orderType;
+      order.address = this.address;
+
+      this.dashboardservice.UpdateOrder(order).subscribe(
+        (data) => {
+          this.appservice.unload();
+          this.loading = false;
+          this.appservice.alert('Updated an order!', '');
+          this.dialogRef.close(true);
+        },
+        (err) => {
+          this.appservice.unload();
+          this.loading = false;
+          this.appservice.alert('Error updating order!', '');
+        }
+      );
+    }
+    else {
       this.appservice.alert('Please select order type!', '');
     }
   }
@@ -273,6 +298,7 @@ export class BreakupComponent implements OnInit {
         if (data.body.data.length == 0) {
           if (this.tableNo == 0) {
             this.appservice.alert('Please select a table!', '');
+            this.loading = false;
           } else {
             this.appservice.load();
             let order = {
@@ -306,6 +332,7 @@ export class BreakupComponent implements OnInit {
           }
         } else {
           this.appservice.alert('This table already has an order running!', '');
+          this.loading = false;
         }
       });
     } else if (this.orderType == 'Delivery') {
@@ -313,6 +340,7 @@ export class BreakupComponent implements OnInit {
       this.tableNo = 0;
       if (this.address == '') {
         this.appservice.alert('Please enter address!', '');
+        this.loading = false;
       } else {
         this.appservice.load();
         let order = {
@@ -376,12 +404,13 @@ export class BreakupComponent implements OnInit {
         }
       );
     }
-    else if(this.orderType == 'Room') {
+    else if (this.orderType == 'Room') {
       // Room
       this.dashboardservice.getorderatroom(this.roomNo).subscribe((data) => {
         if (data.body.data.length == 0) {
           if (this.roomNo == 0) {
             this.appservice.alert('Please select a room!', '');
+            this.loading = false;
           } else {
             this.appservice.load();
             let order = {
@@ -414,12 +443,14 @@ export class BreakupComponent implements OnInit {
             );
           }
         } else {
-          this.appservice.alert('This table already has an order running!', '');
+          this.appservice.alert('This room already has an order running!', '');
+          this.loading = false;
         }
       });
     }
     else {
       this.appservice.alert('Please select order type!', '');
+      this.loading = false;
     }
   }
   applydiscount() {

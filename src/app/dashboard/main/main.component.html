@@ -35,7 +35,7 @@
                <ng-container matColumnDef="noOfSeatsRequested">
                 <th mat-header-cell *matHeaderCellDef sticky>No</th>
                 <td mat-cell *matCellDef="let row">
-                    <span *ngIf="row.tableNo == 0">N / A</span><span *ngIf="row.tableNo !== 0">{{ row.tableNo }}</span>
+                    <span *ngIf="row.tableNo == 0 && row.roomNo == 0">N / A</span><span *ngIf="row.tableNo !== 0">{{ row.tableNo }}</span><span *ngIf="row.roomNo !== 0">{{ row.roomNo }}</span>
                 </td>
               </ng-container>
               <ng-container matColumnDef="orderType">
@@ -56,6 +56,11 @@
                     *ngIf="row.orderType === 'Delivery'"
                     >Delivery</span
                   >
+                  <span
+                  class="label label-lg label-light-primary label-inline"
+                  *ngIf="row.orderType === 'Room'"
+                  >Room</span
+                >
                 </td>
               </ng-container>
               <ng-container matColumnDef="expandedDetail">

@@ -48,6 +48,8 @@ import { AddsingleitemComponent } from './billing/addsingleitem/addsingleitem.co
 import { RoomsComponent } from './rooms/rooms.component';
 import { ConfirmationdialogComponent } from './rooms/confirmationdialog/confirmationdialog.component';
 import { ChoicedialogComponent } from './rooms/choicedialog/choicedialog.component';
+import { OffersComponent } from './offers/offers.component';
+import { CreateoffercomponentComponent } from './offers/createoffercomponent/createoffercomponent.component';
 const routes: Routes = [
   {
     path: '',
@@ -117,6 +119,10 @@ const routes: Routes = [
         path: 'rooms',
         component: RoomsComponent,
       },
+      {
+        path: 'offers',
+        component: OffersComponent,
+      },
     ],
   },
 ];
@@ -154,7 +160,9 @@ const routes: Routes = [
     AddsingleitemComponent,
     RoomsComponent,
     ConfirmationdialogComponent,
-    ChoicedialogComponent
+    ChoicedialogComponent,
+    OffersComponent,
+    CreateoffercomponentComponent
   ],
   imports: [
     CommonModule,
@@ -197,7 +205,8 @@ const routes: Routes = [
     AddsingleitemComponent,
     RoomsComponent,
     ConfirmationdialogComponent,
-    ChoicedialogComponent
+    ChoicedialogComponent,
+    OffersComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

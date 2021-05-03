@@ -1,0 +1,103 @@
+<div class="container">
+    <h3 class="card-title" *ngIf="data.mode === 'create'">Create Offer</h3>
+    <h3 class="card-title" *ngIf="data.mode === 'edit'">Update Offer</h3>
+    <div class="form-group row">
+      <div class="col-lg-12">
+        <label>Name:</label>
+        <input type="text" class="form-control" name="name" placeholder="Enter category name" [(ngModel)]="name" />
+      </div>
+      <div class="col-lg-12">
+        <label>Description:</label>
+        <input type="text" class="form-control" name="description" placeholder="Enter description" [(ngModel)]="description" />
+      </div>
+      <div class="col-lg-12">
+        <label>Price:</label>
+        <input type="number" class="form-control" name="price" placeholder="Enter price" [(ngModel)]="price" />
+      </div>
+      <div class="col-lg-12" style="margin-top:5px">
+        <div class="form-group">
+          <label>Image:</label>
+          <div></div>
+          <div class="custom-file">
+            <input type="file" class="custom-file-input" id="customFile" (change)="changed($event)"/>
+            <label class="custom-file-label" for="customFile">Choose file</label>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 " *ngIf="image !== undefined">
+        <div class="form-group">
+             <label>Preview:</label>
+        </div>
+          <img [src]="image" class="text-center" style="height:150px;width:150px;">
+      </div>
+      <div class="col-12">
+        <div class="form-group">
+          <label>Category:</label>
+          <div></div>
+          <select class="form-control" [(ngModel)]="category" (ngModelChange)="changeselected()">
+            <option value="" selected disabled>Select Category</option>
+            <option value="{{ category._id }}" *ngFor="let category of categories">
+              {{ category.name }} | {{category.description}}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="col-8" *ngIf="selectedcategory !== undefined">
+        <div class="form-group ">
+          <label>Item:</label>
+          <div></div>
+          <select class="form-control" [(ngModel)]="item">
+            <option value="" selected disabled>Select Item</option>
+            <option value="{{ item._id }}" *ngFor="let item of selectedcategory.items">
+              {{ item.name }} | {{item.price}}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="col-4" *ngIf="selectedcategory !== undefined">
+        <button style="position: relative;
+        top: 26px;
+        width: 100%;" class="btn btn-primary" (click)="add()"><i class="fas fa-plus"></i></button>
+      </div>
+      <div class="row p-0" *ngFor="let item of itemlist; let i = index">
+        <div class="col-6">
+          <label>Name</label>
+          <input
+            type="text"
+            class="form-control"
+            name="config{{ i }}"
+            [(ngModel)]="item.name"
+          />
+        </div>
+        <div class="col-6">
+          <label>Price</label>
+          <input
+            type="number"
+            class="form-control"
+            name="price{{ i }}"
+            [(ngModel)]="item.price"
+          />
+          <button
+            class="btn btn-warning"
+            style="position: relative; top: -38px; right: -92px;z-index:10"
+            (click)="remove(item)"
+          >
+            <i class="fas fa-trash-alt"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <button type="reset" class="btn btn-success mr-2 col-12" (click)="createCategory()" *ngIf="data.mode === 'create'">
+        Create Offer
+      </button>
+      <button type="reset" class="btn btn-success mr-2 col-12" (click)="updateCategory()" *ngIf="data.mode === 'edit'">
+        Update Offer
+      </button>
+       <button type="reset" class="btn btn-primary mr-2 col-12" style="margin-top:15px" (click)="close()">
+        Revert
+      </button>
+    </div>
+  </div>
+  

@@ -186,4 +186,12 @@ export class MenuComponent implements OnInit {
     }
     return false;
   }
+  makebestsell(item:any){
+        this.dashboardservice
+        .bestselling(item._id,item.bestselling)
+        .subscribe((data) => {
+          this.appservice.alert('Successfully changed best selling status.', '');
+          this.ngOnInit();
+        });
+  }
 }

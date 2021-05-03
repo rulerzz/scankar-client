@@ -157,6 +157,30 @@ export class DashboardService {
       }
     );
   }
+  createOffer(
+    id: any,
+    name: any,
+    image: any,
+    description: any,
+    price: any,
+    items: any
+  ): Observable<any> {
+    const formData = new FormData();
+    formData.append('id', id);
+    formData.append('name', name);
+    formData.append('description', description);
+    formData.append('price', price);
+    formData.append('items', JSON.stringify(items));
+    formData.append('photo', image);
+    return this.http.post<any>(
+      config.serverUrl +
+      'users/createoffer',
+      formData,
+      {
+        observe: 'response',
+      }
+    );
+  }
   updateCategory(category: any, image: any): Observable<any> {
     const formData = new FormData();
     if (image !== null || image !== undefined) {
@@ -173,6 +197,25 @@ export class DashboardService {
       category.description +
       '/' +
       category.cuisine,
+      formData,
+      {
+        observe: 'response',
+      }
+    );
+  }
+  updateOffer(offer: any, image: any): Observable<any> {
+    const formData = new FormData();
+    if (image !== null || image !== undefined) {
+      formData.append('photo', image);
+    }
+    formData.append('items', JSON.stringify(offer.items));
+    formData.append('name', offer.name);
+    formData.append('description', offer.description);
+    formData.append('price', offer.price);
+    formData.append('id', offer._id);
+    return this.http.put<any>(
+      config.serverUrl +
+      'users/updateoffer',
       formData,
       {
         observe: 'response',
@@ -363,14 +406,14 @@ export class DashboardService {
       }
     );
   }
-  roomstatus(user:any, room: any, status: any): Observable<any> {
+  roomstatus(user: any, room: any, status: any): Observable<any> {
     return this.http.post<any>(
       config.serverUrl +
       'room/status', {
-        user : user,
-        room : room,
-        status : status
-      },
+      user: user,
+      room: room,
+      status: status
+    },
       {
         observe: 'response',
       }
@@ -380,15 +423,15 @@ export class DashboardService {
     return this.http.put<any>(
       config.serverUrl +
       'room/status', {
-        roomid : roomid,
-        status : status
-      },
+      roomid: roomid,
+      status: status
+    },
       {
         observe: 'response',
       }
     );
   }
-  getroomstatus(user:any, room: any): Observable<any> {
+  getroomstatus(user: any, room: any): Observable<any> {
     return this.http.get<any>(
       config.serverUrl +
       'room/status?user=' + user + '&room=' + room,
@@ -397,7 +440,7 @@ export class DashboardService {
       }
     );
   }
-  rooms(user:any): Observable<any> {
+  rooms(user: any): Observable<any> {
     return this.http.get<any>(
       config.serverUrl +
       'room/' + user,
@@ -406,10 +449,30 @@ export class DashboardService {
       }
     );
   }
-  roomorders(user:any): Observable<any> {
+  roomorders(user: any): Observable<any> {
     return this.http.get<any>(
       config.serverUrl +
       'room/orders/' + user,
+      {
+        observe: 'response',
+      }
+    );
+  }
+  bestselling(itemid: any, status: any): Observable<any> {
+    return this.http.post<any>(
+      config.serverUrl + 'customer-order/changebestsellingstatus',
+      {
+        itemid: itemid,
+        status: status
+      },
+      {
+        observe: 'response',
+      }
+    );
+  }
+  loadoffers(id: any): Observable<any> {
+    return this.http.get<any>(
+      config.serverUrl + 'users/getoffers/' + id,
       {
         observe: 'response',
       }

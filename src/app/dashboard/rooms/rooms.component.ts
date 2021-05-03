@@ -90,6 +90,7 @@ export class RoomsComponent implements OnInit {
     });
   }
   load() {
+    this.appservice.load();
     this.loadUser().then((result) => {
       if (result) {
         this.loadrooms();
@@ -113,6 +114,7 @@ export class RoomsComponent implements OnInit {
     this.dashboardservice.rooms(localStorage.getItem('id')).subscribe(
       (data) => {
         this.rooms = data.body.rooms;
+        this.appservice.unload();
       },
       (err) => {
         this.appservice.alert('Could not get room status!', '');
@@ -217,10 +219,11 @@ export class RoomsComponent implements OnInit {
           width: '350px'
         });
         dialogRef.afterClosed().subscribe((result) => {
-          if (result) {
+          console.log(result);
+          if (result.message === 'orders') {
             this.firePOS(index);
           }
-          if (!result) {
+          if (result.message === 'change') {
             const dialogRef = this.dialog.open(ConfirmationdialogComponent, {
               width: '100%',
               data: index,
@@ -274,8 +277,8 @@ export class RoomsComponent implements OnInit {
       if (result.message === 'edit') {
         this.router.navigate(['dashboard/billing/' + result.id]);
       }
-      if (result.message === 'closetable') {
-        this.closetable();
+      if (result.message === 'closeroom') {
+        this.closeroom();
       }
     });
   }
@@ -288,7 +291,7 @@ export class RoomsComponent implements OnInit {
   firePOS(index: any) {
     this.router.navigate(['dashboard/billing/room/' + (index + 1)]);
   }
-  closetable() {
+  closeroom() {
     this.appservice.load();
     if (this.selectedOder.process === 'Rejected') {
       this.selectedOder.status = 'Rejected';
