@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { SwUpdate } from '@angular/service-worker';
 import { AskupdateComponent } from './askupdate/askupdate.component';
+
 @Injectable()
 export class PwaService {
   promptEvent: any;
@@ -13,7 +14,6 @@ export class PwaService {
       const dialogRef = this.dialog.open(AskupdateComponent, {
         width: '250px',
       });
-
       dialogRef.afterClosed().subscribe((result) => {
         if (result) {
           window.location.reload();

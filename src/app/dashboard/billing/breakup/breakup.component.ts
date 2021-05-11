@@ -26,7 +26,8 @@ export class BreakupComponent implements OnInit {
   dataSource: any;
   username: any;
   tableNo: any;
-  numbers: any;
+  tablenumbers: any;
+  roomnumbers: any;
   orderType: any;
   total: any;
   instruction: any;
@@ -42,23 +43,31 @@ export class BreakupComponent implements OnInit {
   ) {
     this.loading = false;
     this.cart = [];
-    this.numbers = [];
+    this.roomnumbers = [];
+    this.tablenumbers = [];
     this.username = '';
     this.discount = 0;
     this.orderType = '';
     this.mode = this.data.mode;
-    if (this.data.number == 0 || this.data.number === null) {
+    console.log(this.data)
+
+    if (this.mode == 'create') {
       this.tableNo = 0;
+      this.roomNo = 0;
+      this.orderType = 'Dine In';
+    }
+    else if (this.mode == 'createtable') {
+      this.tableNo = this.data.number;
+      this.orderType = 'Dine In';
+    }
+    else if (this.mode == 'createroom') {
+      this.roomNo = this.data.number;
+      this.orderType = 'Room';
     }
     else {
-      if (this.mode == 'createtable') {
-        this.tableNo = this.data.number;
-        this.orderType = 'Dine In';
-      }
-      else {
-        this.roomNo = this.data.number;
-        this.orderType = 'Room';
-      }
+      this.tableNo = 0;
+      this.roomNo = 0;
+      this.orderType = 'Dine In';
     }
     this.total = 0;
     this.address = '';
@@ -80,14 +89,14 @@ export class BreakupComponent implements OnInit {
     }
     this.cart = this.dashboardservice.getCart();
     this.dataSource = this.cart;
-    if (this.data.user.tableCount > 0 && (this.mode === 'createtable' || this.mode === 'edit')) {
+    if (this.data.user.tableCount > 0 && (this.mode === 'createtable' || this.mode === 'create' || this.mode === 'edit')) {
       for (let i = 0; i < this.data.user.tableCount; i++) {
-        this.numbers.push(i + 1);
+        this.tablenumbers.push(i + 1);
       }
     }
-    if (this.data.user.roomsCount > 0 && (this.mode === 'createroom' || this.mode === 'edit')) {
+    if (this.data.user.roomsCount > 0 && (this.mode === 'createroom' || this.mode === 'create' || this.mode === 'edit')) {
       for (let i = 0; i < this.data.user.roomsCount; i++) {
-        this.numbers.push(i + 1);
+        this.roomnumbers.push(i + 1);
       }
     }
     this.getTotalCost();

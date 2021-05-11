@@ -51,10 +51,10 @@ export class UserComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     fromEvent(this.filterelement.nativeElement, 'input')
-    .pipe(map((event : any) => (event.target as HTMLInputElement).value))
-    .pipe(debounceTime(700))
-    .pipe(distinctUntilChanged())
-    .subscribe((data:any) => this.applyFilter(data));
+      .pipe(map((event: any) => (event.target as HTMLInputElement).value))
+      .pipe(debounceTime(700))
+      .pipe(distinctUntilChanged())
+      .subscribe((data: any) => this.applyFilter(data));
   }
 
   openEditDialog(user: any): void {
@@ -123,9 +123,9 @@ export class UserComponent implements AfterViewInit {
       }
     );
   }
-  applyFilter(str : string) {
-    if(str.length > 3){
-    this.appservice.load();
+  applyFilter(str: string) {
+    if (str.length > 3) {
+      this.appservice.load();
       this.dashboardservice.searchuser(str).subscribe((data) => {
         this.dataSource = new MatTableDataSource(data.body.users);
         this.appservice.unload();
@@ -134,7 +134,7 @@ export class UserComponent implements AfterViewInit {
         this.appservice.unload();
       });
     }
-    if(str.length == 0){
+    if (str.length == 0) {
       this.load();
     }
   }
@@ -161,7 +161,7 @@ export class UserComponent implements AfterViewInit {
       var pageWidth =
         doc.internal.pageSize.width || doc.internal.pageSize.getWidth();
       doc.setFontSize(50);
-      for (let i = 0; i < row.tableCount; ) {
+      for (let i = 0; i < row.tableCount;) {
         doc.text(row.companyName, pageWidth / 2, pageHeight - 70, {
           align: 'center',
         });
@@ -174,6 +174,47 @@ export class UserComponent implements AfterViewInit {
         doc.addPage();
       }
       doc.save('DineIn - ' + row.companyName + '.pdf');
+      if(row.ownerType === 'hotelowner'){
+        this.generateroomqr(row);
+      }
+    }
+  }
+  generateroomqr(row: any) {
+    if (
+      row.roomsCount === null ||
+      row.roomsCount === undefined ||
+      row.roomsCount == 0
+    ) {
+      this.appservice.alert(
+        "This user's room count is not set! Please set it first!",
+        ''
+      );
+    } else if (row.companyName == undefined) {
+      this.appservice.alert(
+        "This user's company name is not set! Please set it first!",
+        ''
+      );
+    }
+    else {
+      let doc = new jsPDF();
+      var pageHeight =
+        doc.internal.pageSize.height || doc.internal.pageSize.getHeight();
+      var pageWidth =
+        doc.internal.pageSize.width || doc.internal.pageSize.getWidth();
+      doc.setFontSize(50);
+      for (let i = 0; i < row.roomsCount;) {
+        doc.text(row.companyName, pageWidth / 2, pageHeight - 70, {
+          align: 'center',
+        });
+        doc.text('Room : ' + (i + 1), pageWidth / 2, pageHeight - 40, {
+          align: 'center',
+        });
+        this.myAngularxQrCode = config.scanUrl + row._id + 'TR' + ++i;
+        let barcodeData = this.getBarcodeData(this.myAngularxQrCode);
+        doc.addImage(barcodeData, 'JPG', 5, 0, 200, 200);
+        doc.addPage();
+      }
+      doc.save('Room - ' + row.companyName + '.pdf');
     }
   }
   getBarcodeData(text: string, size = 500) {

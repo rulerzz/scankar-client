@@ -122,7 +122,7 @@
               <i class="menu-icon ki ki-bold-more-hor icon-md"></i>
             </li>
             <li
-              *ngIf="user.role !== 'superadmin'"
+            *ngIf="user.role === 'admin'"
               class="menu-item menu-item-submenu"
               routerLinkActive="menu-item-active"
               aria-haspopup="true"
@@ -257,7 +257,7 @@
               routerLinkActive="menu-item-active"
               aria-haspopup="true"
               data-menu-toggle="hover"
-              *ngIf="user.role !== 'superadmin'"
+              *ngIf="user.role === 'admin'"
             >
               <a [routerLink]="['tables']" class="menu-link menu-toggle">
                 <span class="svg-icon menu-icon">
@@ -297,7 +297,7 @@
               routerLinkActive="menu-item-active"
               aria-haspopup="true"
               data-menu-toggle="hover"
-              *ngIf="user.role !== 'superadmin' && user.ownerType === 'hotelowner'"
+              *ngIf="user.role === 'admin' && user.ownerType === 'hotelowner'"
             >
               <a [routerLink]="['rooms']" class="menu-link menu-toggle">
                 <span class="svg-icon menu-icon">
@@ -342,7 +342,7 @@
               </a>
             </li>
             <li
-              *ngIf="user.role !== 'superadmin'"
+            *ngIf="user.role === 'admin'"
               class="menu-item menu-item-submenu"
               routerLinkActive="menu-item-active"
               aria-haspopup="true"
@@ -391,7 +391,7 @@
               routerLinkActive="menu-item-active"
               aria-haspopup="true"
               data-menu-toggle="hover"
-              *ngIf="user.role !== 'superadmin'"
+              *ngIf="user.role === 'admin'"
             >
               <a [routerLink]="['code']" class="menu-link menu-toggle">
                 <span class="svg-icon menu-icon">
@@ -436,6 +436,7 @@
               </a>
             </li>
             <li
+            *ngIf="user.role === 'admin'"
               class="menu-item menu-item-submenu"
               routerLinkActive="menu-item-active"
               aria-haspopup="true"
@@ -482,7 +483,7 @@
               routerLinkActive="menu-item-active"
               aria-haspopup="true"
               data-menu-toggle="hover"
-              *ngIf="user.role == 'superadmin'"
+              *ngIf="user.role === 'superadmin'"
             >
               <a [routerLink]="['users']" class="menu-link menu-toggle">
                 <span class="svg-icon menu-icon">
@@ -578,7 +579,7 @@
             aria-haspopup="true"
             data-menu-toggle="hover"
           >
-            <a [routerLink]="['offers']" class="menu-link menu-toggle">
+            <a *ngIf="user.role === 'admin'" [routerLink]="['offers']" class="menu-link menu-toggle">
               <span class="svg-icon menu-icon">
                 <!--begin::Svg Icon | path:assets/media/svg/icons/General/Attachment2.svg-->
                 <svg
@@ -631,7 +632,7 @@
               routerLinkActive="menu-item-active"
               aria-haspopup="true"
               data-menu-toggle="hover"
-              *ngIf="user.role !== 'superadmin'"
+              *ngIf="user.role === 'admin'"
             >
               <a [routerLink]="['menu']" class="menu-link menu-toggle">
                 <span class="svg-icon menu-icon">
@@ -668,7 +669,7 @@
               </a>
             </li>
             <li
-              *ngIf="user.role !== 'superadmin'"
+            *ngIf="user.role === 'admin'"
               class="menu-item menu-item-submenu"
               routerLinkActive="menu-item-active"
               aria-haspopup="true"
@@ -735,7 +736,7 @@
               <!--begin::Header Nav-->
               <ul class="menu-nav">
                 <li
-                  *ngIf="user.role !== 'superadmin'"
+                *ngIf="user.role === 'admin'"
                   class="menu-item menu-item-open"
                   data-menu-toggle="click"
                   aria-haspopup="true"
@@ -750,7 +751,7 @@
                   </a>
                 </li>
                 <li
-                  *ngIf="user.role !== 'superadmin'"
+                *ngIf="user.role === 'admin'"
                   class="menu-item menu-item-submenu"
                   data-menu-toggle="click"
                   aria-haspopup="true"
@@ -770,6 +771,7 @@
                   aria-haspopup="true"
                 >
                   <a
+                    *ngIf="user.role === 'admin'"
                     class="menu-link menu-toggle"
                     [routerLink]="['reports']"
                     [routerLinkActive]="['is-active']"
@@ -783,8 +785,38 @@
                   data-menu-toggle="click"
                   aria-haspopup="true"
                 >
+                  <a
+                    *ngIf="user.role === 'superadmin'"
+                    class="menu-link menu-toggle"
+                    [routerLink]="['users']"
+                    [routerLinkActive]="['is-active']"
+                  >
+                    <span class="menu-text">Users</span>
+                    <i class="menu-arrow"></i>
+                  </a>
+                </li>
+                <li
+                  class="menu-item menu-item-submenu menu-item-rel"
+                  data-menu-toggle="click"
+                  aria-haspopup="true"
+                >
+                  <a
+                    *ngIf="user.role === 'superadmin'"
+                    class="menu-link menu-toggle"
+                    [routerLink]="['transactions']"
+                    [routerLinkActive]="['is-active']"
+                  >
+                    <span class="menu-text">All Orders</span>
+                    <i class="menu-arrow"></i>
+                  </a>
+                </li>
+                <li
+                  class="menu-item menu-item-submenu menu-item-rel"
+                  data-menu-toggle="click"
+                  aria-haspopup="true"
+                >
                   <mat-slide-toggle
-                    *ngIf="user.role !== 'superadmin'"
+                  *ngIf="user.role === 'admin'"
                     name="config"
                     class="example-margin"
                     [color]="'primary'"
@@ -795,7 +827,7 @@
                     <span *ngIf="!user.takeawaystatus">Take away closed!</span>
                   </mat-slide-toggle>
                   <mat-slide-toggle
-                    *ngIf="user.role !== 'superadmin'"
+                  *ngIf="user.role === 'admin'"
                     name="config"
                     class="example-margin"
                     style="margin-left: 5px"

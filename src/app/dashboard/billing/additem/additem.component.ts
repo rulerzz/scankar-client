@@ -100,7 +100,6 @@ export class AdditemComponentt implements OnInit {
         data.addons = addons;
       }
       this.dashboardservice.addToCart(data);
-      console.log(data);
     }
   }
 }

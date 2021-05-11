@@ -60,7 +60,10 @@ export class OffersComponent implements OnInit {
 
   }
   deleteOffer(offer:any){
-
+    this.appservice.load();
+    this.dashboardservice.deleteoffer(offer._id).subscribe((data) => this.ngOnInit());
+    this.appservice.unload();
+    this.appservice.alert('Deleted offer!','');
   }
   editOffer(offer:any){
     const dialogRef = this.dialog.open(CreateoffercomponentComponent, {

@@ -7,7 +7,7 @@ import { PwaService } from './pwa-service.service';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  constructor(public Pwa: PwaService) {}
+  constructor(public Pwa: PwaService) { }
   installPwa() {
     this.Pwa.promptEvent.prompt();
   }

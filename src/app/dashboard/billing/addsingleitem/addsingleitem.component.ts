@@ -16,17 +16,16 @@ export class AddsingleitemComponent implements OnInit {
     private dashboardservice: DashboardService,
     private appservice: AppService,
     @Inject(MAT_DIALOG_DATA) public data: any
-  ) {}
+  ) { }
 
   ngOnInit(): void {
-    console.log(this.data)
     this.data.quantity = 0;
     this.data.config.forEach((con: any) => {
-        con.selected = false;
-      });
+      con.selected = false;
+    });
     this.data.addons.forEach((add: any) => {
-        add.selected = false;
-      });
+      add.selected = false;
+    });
   }
   options: AnimationOptions = {
     path: '../../../../assets/empty1.json',
@@ -34,7 +33,7 @@ export class AddsingleitemComponent implements OnInit {
   options2: AnimationOptions = {
     path: '../../../../assets/empty3.json',
   };
-  animationCreated(animationItem: AnimationItem): void {}
+  animationCreated(animationItem: AnimationItem): void { }
   close() {
     this.dialogRef.close();
   }
@@ -99,7 +98,6 @@ export class AddsingleitemComponent implements OnInit {
         data.addons = addons;
       }
       this.dashboardservice.addToCart(data);
-      console.log(data);
     }
   }
 }

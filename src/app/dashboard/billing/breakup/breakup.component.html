@@ -90,7 +90,7 @@
         [disabled]="orderType !== 'Dine In' || data.mode == 'edit'"
       >
       <option value="0" selected disabled>Select Table Number</option>
-        <option value="{{ i + 1 }}" *ngFor="let num of numbers; let i = index">
+        <option value="{{ i + 1 }}" *ngFor="let num of tablenumbers; let i = index">
           T - {{ i + 1 }}
         </option>
       </select>
@@ -102,7 +102,7 @@
       [disabled]="orderType !== 'Room' || data.mode == 'edit'"
     >
     <option value="0" selected disabled>Select Room Number</option>
-      <option value="{{ i + 1 }}" *ngFor="let num of numbers; let i = index">
+      <option value="{{ i + 1 }}" *ngFor="let num of roomnumbers; let i = index">
         R - {{ i + 1 }}
       </option>
     </select>
@@ -169,7 +169,7 @@
         class="btn btn-primary"
         style="width: 48%; margin-left: 10px"
         (click)="complete()"
-        *ngIf="data.mode == 'createtable' || data.mode == 'createroom'"
+        *ngIf="data.mode == 'createtable' || data.mode == 'createroom' || data.mode == 'create'"
         [disabled]="loading"
       >
         Complete Order

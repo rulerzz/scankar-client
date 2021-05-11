@@ -6,7 +6,6 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { AppService } from 'src/app/app.service';
 import { DashboardService } from '../dashboard.service';
-import { take } from 'rxjs/operators';
 import {
   animate,
   state,
@@ -17,6 +16,7 @@ import {
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { OrderdetaildialogComponent } from '../orderdetaildialog/orderdetaildialog.component';
 import { Socket } from 'ngx-socket-io';
+
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
@@ -66,7 +66,7 @@ export class MainComponent implements OnInit {
     private elementRef: ElementRef
   ) {
     this.role = localStorage.getItem('role');
-    if (this.role !== 'admin') {
+    if (this.role == 'superadmin') {
       this.router.navigate(['dashboard/users']);
     }
     this.dataSource = new MatTableDataSource([]);

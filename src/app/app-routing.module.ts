@@ -2,6 +2,8 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ErrorComponent } from './dashboard/error/error.component';
+import { AuthGuard } from './interceptors/auth.guard';
+import { Role } from './models/user.model';
 
 const routes: Routes = [
   {
@@ -12,6 +14,7 @@ const routes: Routes = [
     path: 'dashboard',
     loadChildren: () =>
       import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
+    canActivate: [AuthGuard], data: { roles: [Role.admin, Role.superadmin]}
   },
   { path: '404', component: ErrorComponent },
   { path: '**', redirectTo: '/404' },

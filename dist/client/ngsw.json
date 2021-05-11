@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1620047582176,
+  "timestamp": 1620760564719,
   "index": "/index.html",
   "assetGroups": [
     {
@@ -11,16 +11,16 @@
         "ignoreVary": true
       },
       "urls": [
+        "/1.d3ed004963e2d6e529ed.js",
         "/5.2c8ca8ee665fa65f3d0f.js",
         "/6.0b31092894e21e597980.js",
         "/7.004f8237f3fba7b54031.js",
         "/favicon.ico",
         "/index.html",
-        "/lottie-web.f17e17cf5221b7dd89d6.js",
-        "/main.9543cdee4cf4e36351ee.js",
+        "/main.3986a308563216ae0561.js",
         "/manifest.webmanifest",
         "/polyfills.9a5b59816ae4ae90da0f.js",
-        "/runtime.d63240c99bb0d7a2263e.js",
+        "/runtime.8d321106c822beb719f0.js",
         "/styles.ccf07219a3fed4ab0533.css"
       ],
       "patterns": []
@@ -1530,6 +1530,7 @@
   ],
   "dataGroups": [],
   "hashTable": {
+    "/1.d3ed004963e2d6e529ed.js": "9be231900140d89784f8ea6337de925798f88f2d",
     "/5.2c8ca8ee665fa65f3d0f.js": "77e7e24072a019400eb611a7e9a1f44b5ea47166",
     "/6.0b31092894e21e597980.js": "4c40d27542333883aff7b5aee80c8ca8701da3a3",
     "/7.004f8237f3fba7b54031.js": "5158514fbfffe8d513a8f871d8d891d0ff048df8",
@@ -3002,7 +3003,7 @@
     "/fontawesome-webfont.8b43027f47b20503057d.eot": "d980c2ce873dc43af460d4d572d441304499f400",
     "/fontawesome-webfont.c1e38fd9e0e74ba58f7a.svg": "98a8aa5cf7d62c2eff5f07ede8d844b874ef06ed",
     "/fontawesome-webfont.f691f37e57f04c152e23.woff": "28b782240b3e76db824e12c02754a9731a167527",
-    "/index.html": "f1bffd723f58f0cc44e7d13dfbec6c35f43a90c6",
+    "/index.html": "5a202d37eacac8cebf038a772ef5f0437b0a6e03",
     "/la-brands-400.3a8109c4ac75662f8355.woff2": "89f4f0d9ee3a2bde5fa250bbe6dc4a4804e1a863",
     "/la-brands-400.6ecea4826b87fafb97be.ttf": "10a04af3d80f9a83ef2412dedd6b76be7a0c0a66",
     "/la-brands-400.908ce19d18187969b32f.eot": "61e3ed8012597b290fb64922dd742218e3910c71",
@@ -3018,11 +3019,10 @@
     "/la-solid-900.4184d740eae2fb727bfe.eot": "ce4d112e98802c4f44f72017e4c41227c707aa8b",
     "/la-solid-900.893634871a6cbff72157.woff": "ef62110ef84b45b9f583793f294128b06afca6d4",
     "/la-solid-900.a813034654b4ff0a0bac.svg": "e8aff2133506e1e2ed5e37b0819dd35cf2e9044b",
-    "/lottie-web.f17e17cf5221b7dd89d6.js": "9be231900140d89784f8ea6337de925798f88f2d",
-    "/main.9543cdee4cf4e36351ee.js": "f1f46d07db7c2231f688200cdc13b6d5c00026db",
+    "/main.3986a308563216ae0561.js": "16a89178af10464ea003ff0a2896c792aee619fb",
     "/manifest.webmanifest": "e9518944b11dc1ab5d672364e6f7472dcfe27a1c",
     "/polyfills.9a5b59816ae4ae90da0f.js": "8736cd972a5c8961c27b6489e9f01b2c9deed4c7",
-    "/runtime.d63240c99bb0d7a2263e.js": "d7726bd32ae0da78a94b1be848c0d99899a454c8",
+    "/runtime.8d321106c822beb719f0.js": "3ab333a769cfe898862a3eba4e31f070b06021fd",
     "/socicon.578ecee55f406ce82f5b.ttf": "75ab624aee5ff7c32420d705587517e22256e6a0",
     "/socicon.d1edd88f5dd84572d00d.svg": "8497253952c4f8d99af684982902912f15a079f0",
     "/socicon.ec23f2c6ea40d7043ca8.eot": "429c29604881ba53ea1a314c564278afebb37404",

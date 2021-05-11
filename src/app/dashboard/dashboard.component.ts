@@ -55,18 +55,7 @@ export class DashboardComponent implements OnInit {
     let parse: any = localStorage.getItem('userdata');
     this.user = JSON.parse(parse);
     this.token = this.user._id;
-    if (!localStorage.getItem('token')) {
-      this.router.navigate(['login']);
-    } else {
-      this.registerpings();
-      if (localStorage.getItem('role') === 'superadmin') {
-        //for superadmin
-        this.router.navigate(['dashboard/users']);
-      } else {
-        //for admin
-        this.router.navigate(['dashboard/main']);
-      }
-    }
+    this.registerpings();
     this.dashboardservice.events$.subscribe((data) => { this.getuserandupdatelocal() });
   }
 
@@ -76,8 +65,7 @@ export class DashboardComponent implements OnInit {
       this.dashboardservice
         .updatesocketid(localStorage.getItem('id'), this.socket.ioSocket.id)
         .subscribe((data) => {
-          console.log('SOCKET ADDR UPDATED SOCKET DATA =>');
-          console.log(data);
+          console.log('SOCKET ADDR UPDATED SOCKET DATA => ' + data);
         });
     });
     this.socket.on('emitcreateorderaction', (data: any) => {
@@ -214,7 +202,6 @@ export class DashboardComponent implements OnInit {
     this.socket.removeListener('emitcreateorderaction');
     this.socket.removeListener('emitorderupdate');
     this.socket.removeListener('callwaiterping');
-    console.log(this.socket.subscribersCounter);
     this.elementRef.nativeElement.remove();
   }
   update(){

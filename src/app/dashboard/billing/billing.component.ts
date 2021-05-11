@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DeviceDetectorService } from 'ngx-device-detector';
 import { AppService } from 'src/app/app.service';
 import { DashboardService } from '../dashboard.service';
 import { AnimationItem } from 'lottie-web';
@@ -30,7 +29,6 @@ export class BillingComponent implements OnInit {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private deviceService: DeviceDetectorService,
     private dashboardservice: DashboardService,
     private appservice: AppService,
     public dialog: MatDialog
@@ -57,12 +55,15 @@ export class BillingComponent implements OnInit {
   };
   animationCreated(animationItem: AnimationItem): void {}
   ngOnInit(): void {
-    console.log(this.route.snapshot.url.join().split(','))
     this.urlmap = this.route.snapshot.url.join().split(',');
     if(this.urlmap.length == 2){
       // EDIT MODE
       this.loadorderdata(this.urlmap[1]);
-    }else{
+    }
+    else if(this.urlmap.length == 1){
+      this.loadMenu();
+    }
+    else{
       if(this.urlmap[1] == 'table'){
         this.tablenumber = this.urlmap[2];
         this.loadMenu();
@@ -208,7 +209,16 @@ export class BillingComponent implements OnInit {
   showBreakup() {
     let dialog;
     if (this.mode == 'create') {
-      if(this.tablenumber != 0){
+      if(this.tablenumber == 0 && this.roomnumber == 0){
+        dialog = this.dialog.open(BreakupComponent, {
+          width: '100%',
+          data: {
+            user: this.user,
+            mode: 'create',
+          },
+        });
+      }
+      else if(this.tablenumber > 0){
         dialog = this.dialog.open(BreakupComponent, {
           width: '100%',
           data: {
@@ -217,7 +227,7 @@ export class BillingComponent implements OnInit {
             number: this.tablenumber
           },
         });
-      }else{
+      }else {
         dialog = this.dialog.open(BreakupComponent, {
           width: '100%',
           data: {

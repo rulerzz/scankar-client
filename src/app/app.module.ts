@@ -3,27 +3,26 @@ import { DashboardModule } from './dashboard/dashboard.module';
 import { AppService } from './app.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthModule } from './auth/auth.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-// Import library module
 import { NgxSpinnerModule } from "ngx-spinner";
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { AppInterceptor } from './app.interceptor';
+import { AppInterceptor } from './interceptors/app.interceptor';
 import { LottieModule } from 'ngx-lottie';
-import player from 'lottie-web';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { AskupdateComponent } from './askupdate/askupdate.component';
 import { PwaService } from './pwa-service.service';
-// Note we need a separate function as it's required
-// by the AOT compiler.
+import { Urlnterceptor } from './interceptors/urlnterceptor.interceptor';
+import { ErrorInterceptor } from './interceptors/error.interceptor';
+import { JwtInterceptor } from './interceptors/jwt.interceptor';
 export function playerFactory() {
-  return import(/* webpackChunkName: 'lottie-web' */ 'lottie-web');
+  return import('lottie-web');
 }
+
 @NgModule({
   declarations: [AppComponent, AskupdateComponent],
   imports: [
@@ -42,8 +41,11 @@ export function playerFactory() {
     AppService,
     PwaService,
     { provide: HTTP_INTERCEPTORS, useClass: AppInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: Urlnterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class AppModule {}
+export class AppModule { }

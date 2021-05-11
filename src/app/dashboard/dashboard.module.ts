@@ -20,7 +20,6 @@ import { StatusdialogComponent } from './main/statusdialog/statusdialog.componen
 import { AccountComponent } from './account/account.component';
 import { MenuComponent } from './menu/menu.component';
 import { CreatecategoryComponent } from './menu/createcategory/createcategory.component';
-import player from 'lottie-web';
 import { LottieModule } from 'ngx-lottie';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { EdititemComponent } from './menu/edititem/edititem.component';
@@ -38,10 +37,8 @@ import { OrderdetaildialogComponent } from './orderdetaildialog/orderdetaildialo
 import { NgxHowlerService } from 'ngx-howler';
 import { ReloadComponent } from './reload/reload.component';
 const configuration: SocketIoConfig = { url: config.socketUrl, options: {} };
-// Note we need a separate function as it's required
-// by the AOT compiler.
 export function playerFactory() {
-  return import(/* webpackChunkName: 'lottie-web' */ 'lottie-web');
+  return import('lottie-web');
 }
 import { ChartjsModule } from '@ctrl/ngx-chartjs';
 import { AddsingleitemComponent } from './billing/addsingleitem/addsingleitem.component';
@@ -50,11 +47,16 @@ import { ConfirmationdialogComponent } from './rooms/confirmationdialog/confirma
 import { ChoicedialogComponent } from './rooms/choicedialog/choicedialog.component';
 import { OffersComponent } from './offers/offers.component';
 import { CreateoffercomponentComponent } from './offers/createoffercomponent/createoffercomponent.component';
+
 const routes: Routes = [
   {
     path: '',
     component: DashboardComponent,
     children: [
+      {
+        path: '',
+        redirectTo: '/dashboard/main', pathMatch: 'full'
+      },
       {
         path: 'users',
         component: UserComponent,

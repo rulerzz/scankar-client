@@ -1,7 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { config } from 'src/config/config';
 
 @Injectable({
   providedIn: 'root',
@@ -55,33 +54,33 @@ export class DashboardService {
     this.cart = [];
   }
   createUser(user: any): Observable<any> {
-    return this.http.post<any>(config.serverUrl + 'users', user, {
+    return this.http.post<any>('users', user, {
       observe: 'response',
     });
   }
   getUser(id: any): Observable<any> {
-    return this.http.get<any>(config.serverUrl + 'users/' + id, {
+    return this.http.get<any>('users/' + id, {
       observe: 'response',
     });
   }
   getAllUsers(offset: any): Observable<any> {
-    return this.http.get<any>(config.serverUrl + 'users?offset=' + offset, {
+    return this.http.get<any>('users?offset=' + offset, {
       observe: 'response',
     });
   }
   updateuser(user: any): Observable<any> {
-    return this.http.put<any>(config.serverUrl + 'users/update', user, {
+    return this.http.put<any>('users/update', user, {
       observe: 'response',
     });
   }
   deleteUser(id: any): Observable<any> {
-    return this.http.delete<any>(config.serverUrl + 'users/' + id, {
+    return this.http.delete<any>('users/' + id, {
       observe: 'response',
     });
   }
   getAll(offset: any, user: any): Observable<any> {
     return this.http.get<any>(
-      config.serverUrl + 'customer-order/' + offset + '/' + user,
+      'customer-order/' + offset + '/' + user,
       {
         observe: 'response',
       }
@@ -89,20 +88,20 @@ export class DashboardService {
   }
   getAllOrders(offset: any, user: any): Observable<any> {
     return this.http.get<any>(
-      config.serverUrl + 'customer-order?offset=' + offset + '&user=' + user,
+      'customer-order?offset=' + offset + '&user=' + user,
       {
         observe: 'response',
       }
     );
   }
   getOrderById(id: any): Observable<any> {
-    return this.http.get<any>(config.serverUrl + 'customer-order/' + id, {
+    return this.http.get<any>('customer-order/' + id, {
       observe: 'response',
     });
   }
   UpdateOrder(data: any): Observable<any> {
     return this.http.patch<any>(
-      config.serverUrl + 'customer-order/update-order/' + data._id,
+      'customer-order/update-order/' + data._id,
       data,
       {
         observe: 'response',
@@ -111,7 +110,7 @@ export class DashboardService {
   }
   UpdateOrderStatus(data: any): Observable<any> {
     return this.http.patch<any>(
-      config.serverUrl + 'customer-order/update-status/' + data._id,
+      'customer-order/update-status/' + data._id,
       data,
       {
         observe: 'response',
@@ -128,7 +127,7 @@ export class DashboardService {
   uploadPfp(id: any, image: any): Observable<any> {
     const formData = new FormData();
     formData.append('photo', image);
-    return this.http.post<any>(config.serverUrl + 'users/' + id, formData, {
+    return this.http.post<any>('users/' + id, formData, {
       observe: 'response',
     });
   }
@@ -142,7 +141,7 @@ export class DashboardService {
     const formData = new FormData();
     formData.append('photo', image);
     return this.http.post<any>(
-      config.serverUrl +
+
       'users/category/' +
       id +
       '/' +
@@ -173,7 +172,7 @@ export class DashboardService {
     formData.append('items', JSON.stringify(items));
     formData.append('photo', image);
     return this.http.post<any>(
-      config.serverUrl +
+
       'users/createoffer',
       formData,
       {
@@ -188,7 +187,7 @@ export class DashboardService {
     }
     formData.append('category', JSON.stringify(category));
     return this.http.put<any>(
-      config.serverUrl +
+
       'users/category/' +
       category._id +
       '/' +
@@ -214,7 +213,7 @@ export class DashboardService {
     formData.append('price', offer.price);
     formData.append('id', offer._id);
     return this.http.put<any>(
-      config.serverUrl +
+
       'users/updateoffer',
       formData,
       {
@@ -224,7 +223,7 @@ export class DashboardService {
   }
   deleteCategory(userid: any, categoryid: any): Observable<any> {
     return this.http.get<any>(
-      config.serverUrl + 'users/deletecategory/' + userid + '/' + categoryid,
+      'users/deletecategory/' + userid + '/' + categoryid,
       {
         observe: 'response',
       }
@@ -250,7 +249,7 @@ export class DashboardService {
     formData.append('addon', JSON.stringify(addon));
     formData.append('description', description);
     return this.http.post<any>(
-      config.serverUrl + 'users/insertuseritem/' + id,
+      'users/insertuseritem/' + id,
       formData,
       {
         observe: 'response',
@@ -277,7 +276,7 @@ export class DashboardService {
     formData.append('config', JSON.stringify(configg));
     formData.append('addons', JSON.stringify(addons));
     return this.http.post<any>(
-      config.serverUrl + 'users/updatepictureitemroute',
+      'users/updatepictureitemroute',
       formData,
       {
         observe: 'response',
@@ -286,7 +285,7 @@ export class DashboardService {
   }
   updateItem(item: any): Observable<any> {
     return this.http.post<any>(
-      config.serverUrl + 'users/updateitemrouter',
+      'users/updateitemrouter',
       item,
       {
         observe: 'response',
@@ -294,26 +293,26 @@ export class DashboardService {
     );
   }
   getalldata(id: any): Observable<any> {
-    return this.http.get<any>(config.serverUrl + 'users/insertuseritem/' + id, {
+    return this.http.get<any>('users/insertuseritem/' + id, {
       observe: 'response',
     });
   }
   deleteItem(id: any, categoryid: any): Observable<any> {
     return this.http.get<any>(
-      config.serverUrl + 'users/deleteuseritem/' + id + '/' + categoryid,
+      'users/deleteuseritem/' + id + '/' + categoryid,
       {
         observe: 'response',
       }
     );
   }
   getAllUserData(): Observable<any> {
-    return this.http.get<any>(config.serverUrl + 'users/search', {
+    return this.http.get<any>('users/search', {
       observe: 'response',
     });
   }
   getOrdersById(id: any): Observable<any> {
     return this.http.get<any>(
-      config.serverUrl + 'customer-order/orderinfo/' + id,
+      'customer-order/orderinfo/' + id,
       {
         observe: 'response',
       }
@@ -321,21 +320,21 @@ export class DashboardService {
   }
   getOtherOrdersById(id: any): Observable<any> {
     return this.http.get<any>(
-      config.serverUrl + 'customer-order/otherorders/' + id,
+      'customer-order/otherorders/' + id,
       {
         observe: 'response',
       }
     );
   }
   itemInfo(itemid: any): Observable<any> {
-    return this.http.get<any>(config.serverUrl + 'item/' + itemid, {
+    return this.http.get<any>('item/' + itemid, {
       observe: 'response',
     });
   }
   completeorder(order: any): Observable<any> {
     // order.socketid = localStorage.getItem('socketid');
     return this.http.post<any>(
-      config.serverUrl + 'customer-order/completeorder',
+      'customer-order/completeorder',
       order,
       {
         observe: 'response',
@@ -344,7 +343,7 @@ export class DashboardService {
   }
   getorderattable(tableno: any): Observable<any> {
     return this.http.post<any>(
-      config.serverUrl + 'customer-order/checktable',
+      'customer-order/checktable',
       { tableno: tableno, user: localStorage.getItem('id') },
       {
         observe: 'response',
@@ -353,7 +352,7 @@ export class DashboardService {
   }
   getorderatroom(roomno: any): Observable<any> {
     return this.http.post<any>(
-      config.serverUrl + 'customer-order/checkroom',
+      'customer-order/checkroom',
       { roomno: roomno, user: localStorage.getItem('id') },
       {
         observe: 'response',
@@ -370,7 +369,7 @@ export class DashboardService {
     const formData = new FormData();
     formData.append('file', file);
     return this.http.post<any>(
-      config.serverUrl + 'users/bulkupload/' + id,
+      'users/bulkupload/' + id,
       formData,
       {
         observe: 'response',
@@ -379,7 +378,7 @@ export class DashboardService {
   }
   updatesocketid(userId: any, socketId: any) {
     return this.http.get<any>(
-      config.serverUrl + 'users/setsocketid/' + userId + '/' + socketId,
+      'users/setsocketid/' + userId + '/' + socketId,
       {
         observe: 'response',
       }
@@ -387,7 +386,6 @@ export class DashboardService {
   }
   search(name: any): Observable<any> {
     return this.http.get<any>(
-      config.serverUrl +
       'customer-order/searchitems/' +
       localStorage.getItem('id') +
       '/' +
@@ -399,7 +397,6 @@ export class DashboardService {
   }
   searchuser(name: any): Observable<any> {
     return this.http.get<any>(
-      config.serverUrl +
       'users/query/' + name,
       {
         observe: 'response',
@@ -408,7 +405,6 @@ export class DashboardService {
   }
   roomstatus(user: any, room: any, status: any): Observable<any> {
     return this.http.post<any>(
-      config.serverUrl +
       'room/status', {
       user: user,
       room: room,
@@ -421,7 +417,6 @@ export class DashboardService {
   }
   roomstatusupdate(roomid: any, status: any): Observable<any> {
     return this.http.put<any>(
-      config.serverUrl +
       'room/status', {
       roomid: roomid,
       status: status
@@ -433,7 +428,6 @@ export class DashboardService {
   }
   getroomstatus(user: any, room: any): Observable<any> {
     return this.http.get<any>(
-      config.serverUrl +
       'room/status?user=' + user + '&room=' + room,
       {
         observe: 'response',
@@ -442,7 +436,6 @@ export class DashboardService {
   }
   rooms(user: any): Observable<any> {
     return this.http.get<any>(
-      config.serverUrl +
       'room/' + user,
       {
         observe: 'response',
@@ -451,7 +444,6 @@ export class DashboardService {
   }
   roomorders(user: any): Observable<any> {
     return this.http.get<any>(
-      config.serverUrl +
       'room/orders/' + user,
       {
         observe: 'response',
@@ -460,7 +452,7 @@ export class DashboardService {
   }
   bestselling(itemid: any, status: any): Observable<any> {
     return this.http.post<any>(
-      config.serverUrl + 'customer-order/changebestsellingstatus',
+      'customer-order/changebestsellingstatus',
       {
         itemid: itemid,
         status: status
@@ -472,7 +464,15 @@ export class DashboardService {
   }
   loadoffers(id: any): Observable<any> {
     return this.http.get<any>(
-      config.serverUrl + 'users/getoffers/' + id,
+      'users/getoffers/' + id,
+      {
+        observe: 'response',
+      }
+    );
+  }
+  deleteoffer(id: any): Observable<any> {
+    return this.http.get<any>(
+      'users/removeoffer/' + id,
       {
         observe: 'response',
       }
